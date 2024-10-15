@@ -1,0 +1,368 @@
+/* Tailwind base */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --button-color: #000000;
+  --my-chat-bubble-color: #F0F0F0;
+  --my-chat-text-color: #000000;
+  --other-chat-bubble-color: #DCF8C6;
+  --other-chat-text-color: #000000;
+  --chat-container-bg-color: #FFFFFF;
+  --chat-bubble-bold: normal;
+  --chat-bubble-shadow: none;
+  --time-bold: normal;
+  --chatbox-bg-color: #f0f0f0; /* 기본 ChatBox 배경 색상 */
+  --chat-input-bg-color: #f0f0f0; /* 입력창 배경색 */
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* 전체 페이지의 스크롤을 숨깁니다 */
+}
+
+.main-section {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden; /* 메인 섹션의 스크롤을 숨깁니다 */
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 메인 컨텐츠의 스크롤을 숨깁니다 */
+}
+
+.main-content.shifted-right {
+  margin-left: 80px; /* 사이드바 너비만큼 오른쪽으로 이동 */
+}
+
+.grid-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* 전체 너비를 사용하도록 설정 */
+  max-width: 100%; /* 최대 너비를 100%로 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 0; /* 좌우 여백 추가 */
+  overflow: hidden; /* 그리드 컨테이너의 스크롤을 숨깁니다 */
+}
+
+.react-grid-layout {
+  overflow: hidden !important; /* GridLayout의 스크롤을 숨깁니다 */
+}
+
+.grid-item {
+  box-sizing: border-box;
+  background: transparent !important; /* 배경을 투명하게 설정 */
+  padding: 0; /* 패딩 제거 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%; /* 전체 너비 사용 */
+}
+
+.grid-item.no-border {
+  border: none;
+}
+
+.grid-drag-handle {
+  cursor: move;
+  padding: 10px;
+  background: #d1d5db;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.chat-list-container { 
+  flex: 1;
+  overflow-y: auto; /* 채팅 리스트에만 세로 스크롤을 허용합니다 */
+  overflow-x: hidden;
+  margin: 0;
+  padding: 10px;
+  background-color: var(--chat-container-bg-color);
+  border-radius: 10px;
+  margin-bottom: 10px; /* 입력창과의 간격 */
+  width: 100%; /* 전체 너비 사용 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* Webkit browsers like Chrome, Safari */
+.chat-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-list-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-list-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  border: 2px solid transparent;
+}
+
+.chat-list-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.chat-box-container {
+  overflow-y: hidden;
+  flex: none; 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: transparent; /* 배경을 투명하게 설정 */
+}
+
+.chat-box-container .chat-container {
+  background: transparent !important; /* ChatBox 배경을 투명하게 설정 */
+}
+
+.edit-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.layout-info {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #ffffff;
+  background-opacity: 0.8;
+  padding: 10px;
+  font-size: 0.875rem;
+  z-index: 50;
+}
+
+.show-scrollbar {
+  overflow: auto !important;
+}
+
+.react-resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  right: 0;
+  bottom: 0;
+  cursor: se-resize;
+  z-index: 10;
+}
+
+.react-resizable-handle::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 5px;
+  height: 5px;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+}
+
+.react-resizable-handle-s {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  cursor: s-resize;
+}
+
+.react-resizable-handle-e {
+  right: 0;
+  top: 50%;
+  margin-top: -10px;
+  cursor: e-resize;
+}
+
+.react-resizable-handle-w {
+  left: 0;
+  top: 50%;
+  margin-top: -10px;
+  cursor: w-resize;
+}
+
+.react-resizable-handle-n {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  cursor: n-resize;
+}
+
+.grid-item:not(.edit-mode) .react-resizable-handle {
+  display: none;
+}
+
+.grid-item.edit-mode.chat-container .react-resizable-handle {
+  display: block;
+}
+
+.grid-item.edit-mode {
+  border: none;
+}
+
+/* Settings Dropdown */
+.settings-container {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.settings-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1200;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 15px;
+  left: 4em;
+  z-index: 1100;
+  transition: left 1.3s ease;
+}
+
+.header-container.shifted-header {
+  margin-left: 20%; /* Adjust this value based on your sidebar width */
+}
+
+.home_new_conversation {
+  font-weight: bold;
+  font-size: 31px;
+  margin-right: 0.8em;
+}
+
+.home_new_conversation:hover {
+  color: green;
+}
+
+.shifted-header .home_new_conversation {
+  display: none;
+}
+
+.brand-text {
+  font-weight: bold;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+.login-container {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  z-index: 1100;
+}
+
+.login-button {
+  background-color: grey;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: black;
+}
+
+.settings-container .save-button,
+.settings-container .cancel-button,
+.settings-container .reset-button { 
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.settings-container .save-button:hover,
+.settings-container .cancel-button:hover,
+.settings-container .reset-button:hover {
+  background-color: #e0e0e0;
+}
+
+.FaCog-dropdown-toggle{ 
+  background-color: transparent !important;
+  border: none !important;    
+}
+.FaCog-dropdown-toggle:after {
+  display: none !important;
+}
+
+.home-set-icon { 
+  width: 39px;
+  height: 39px; 
+  border-radius: 50%;
+  background-color: #989898; 
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  font-size: 1.6rem;  
+  color: white; 
+}
+
+/* 채팅 메시지에 CSS 변수 적용 */
+.chat-message {
+  background-color: var(--my-chat-bubble-color);
+  color: var(--my-chat-text-color);
+  font-weight: var(--chat-bubble-bold);
+  box-shadow: var(--chat-bubble-shadow);
+}
+
+.chat-message.other {
+  background-color: var(--other-chat-bubble-color);
+  color: var(--other-chat-text-color);
+}
+
+.chat-container {
+  background-color: var(--chat-container-bg-color);
+}
+
+.chat-time {
+  font-weight: var(--time-bold);
+}

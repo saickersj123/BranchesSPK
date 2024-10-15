@@ -1,0 +1,205 @@
+@keyframes slideIn {
+  from {
+    right: -15%;
+  }
+  to {
+    right: 0;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    right: 0;
+  }
+  to {
+    right: -15%;
+  }
+}
+
+.panel-container {
+  position: fixed; 
+  max-height:100%;
+  background-color: #f4f4f4;
+  border-left: 1px solid #ccc;
+  padding: 20px;
+  z-index: 1500;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: Arial, sans-serif; 
+}
+
+@media (max-width: 1000px) {
+  .panel-container {
+    right: -30%;
+    width: 30%;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1500px) {
+  .panel-container {
+    right: -20%;
+    width: 20%;
+  }
+}
+
+@media (min-width: 1501px) {
+  .panel-container {
+    right: -15%;
+    width: 15%;
+  }
+}
+
+.panel-container.open {
+  animation: slideIn 0.3s forwards;
+}
+
+.panel-container.close {
+  animation: slideOut 0.3s forwards;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.panel-header .fa-times {
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+}
+
+.panel-header .fa-times:hover {
+  color: #666;
+}
+
+.panel-content {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 10px;
+}
+
+.panel-section {
+  margin-bottom: 20px;
+}
+
+.panel-section h3 {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+  color: #333;
+  font-size: 18px;
+}
+
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.color-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.color-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s;
+}
+
+.color-button:hover {
+  transform: scale(1.1);
+}
+
+.color-picker-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  background-color: #ffffff;
+  background-image: url('../img/RGB_Pick.png');
+  background-size: cover;
+  transition: transform 0.2s;
+}
+
+.color-picker-button:hover {
+  transform: scale(1.1);
+}
+
+.color-picker-popover {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.color-picker-cover {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.icon-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.2s;
+}
+
+.icon-button:hover {
+  transform: scale(1.1);
+}
+
+.icon-button.active {
+  color: #007bff;
+}
+
+.color-picker-popover { 
+  position: absolute;
+  z-index: 2000;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; 
+}
+
+.color-picker-cover {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background: rgba(0, 0, 0, 0.2);
+  animation: fadeInBackground 0.3s ease-in-out;
+}
+
+.chrome-picker {
+  box-shadow: none !important; /* 기존 그림자 제거 */
+  border: 1px solid #ccc; /* 경계선 추가 */
+  border-radius: 8px; /* 모서리 둥글게 */
+}

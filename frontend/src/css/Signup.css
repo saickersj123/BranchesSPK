@@ -1,0 +1,149 @@
+/* Signup.css */
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  font-size: 18px; /* 기본 글자 크기 확대 */
+}
+
+.signupPage {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  font-family: Pretendard; 
+}
+
+.signup-center-box {
+  width: 100%;
+  min-width: 1em;
+  max-width: 25em; /* 최대 너비 확대 */
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.signupinputGroup img {
+  width: 100%;
+  margin-bottom: 6em; /* 이미지 마진 확대 */
+  margin-top: 6em;
+}
+
+.signupForm { 
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 간격 확대 */
+}
+ 
+.signupInputGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px; /* 마진 확대 */
+  position: relative;
+}
+
+.signupPasswordIcon {
+  position: absolute;
+  right: 10px;
+  top: 64%;
+}
+
+.signupInputField { 
+  height: 5rem; /* 입력 필드 높이 확대 */
+  padding: 15px; /* 패딩 확대 */
+  border: 0.6px solid #b1b1b1;
+  box-sizing: border-box;
+  border-radius: 6px;
+  font-size: 1.2rem; /* 글자 크기 확대 */
+  outline: none;
+  position: relative; 
+}
+
+.signupInputField:focus {
+  border-color: #007f3a; 
+  box-shadow: 0 0 0 2px rgba(0, 127, 58, 0.2);
+}
+
+.signupInputField:focus, .signupInputField:not(:placeholder-shown) {
+  outline: none;
+}
+
+.signupUnderline {
+  height: 5.71%;
+  width: 100%;
+  position: absolute;
+  top: calc(100% - 3px); 
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 0px 0px 5px 5px;
+  background-color: transparent;
+}
+
+.signupInputField:focus + .signupUnderline, .signupInputField:not(:placeholder-shown) + .signupUnderline {
+  background-color: #007f3a; 
+}
+
+.signupInputField:placeholder-shown + .signupUnderline {
+  background-color: transparent; 
+}
+
+.signupError {
+  color: red;
+  margin-bottom: 15px; /* 마진 확대 */
+}
+
+.signupButton {
+  width: 100% !important;
+  max-width: 25em; /* 최대 너비 확대 */
+  position: relative;
+  box-shadow: 0px 4px 30px rgba(38, 58, 67, 0.15);
+  border-radius: 12px;
+  border : none;
+  background-color: #b5b5b6;
+  height: 70px; /* 버튼 높이 확대 */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* 패딩 확대 */
+  font-size: 1.5rem; /* 글자 크기 확대 */
+  color: #fff;
+  white-space: nowrap;
+  font-weight: 600;
+  font-family: Pretendard;
+  margin-top: 15px; /* 마진 확대 */
+}
+
+.signupButton:hover, .signupButton:active {
+  background-color: #111111 !important; 
+} 
+
+.signupLabel {
+  width: 100%;
+  position: relative;
+  font-size: 1.8rem; /* 글자 크기 확대 */
+  line-height: 156.5%;
+  font-weight: 600;
+  font-family: Pretendard;
+  color: #263a43;
+  text-align: left;
+  display: block; 
+  margin-bottom: 15px; /* 마진 확대 */
+}
+
+.signupAlert {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  padding: 10px;
+}
