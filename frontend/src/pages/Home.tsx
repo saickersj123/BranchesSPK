@@ -115,7 +115,6 @@ const Home: React.FC<HomeProps> = ({
     };
   }, []);
 
-
   useEffect(() => {
     const loadConversationMessages = async () => {
       if (urlConversationId) {
@@ -144,7 +143,7 @@ const Home: React.FC<HomeProps> = ({
     };
 
     loadConversationMessages();
-  }, [urlConversationId, loadMessages]);
+  }, [urlConversationId, loadMessages, navigate]);
 
   useEffect(() => {
     document.documentElement.style.setProperty('--my-chat-bubble-color', myChatBubbleColor);
@@ -161,7 +160,7 @@ const Home: React.FC<HomeProps> = ({
       try {
         const fetchedConversations = await fetchConversations();
         setConversations(fetchedConversations);
-
+  
         if (fetchedConversations.length === 0) {
           setIsNewChat(true);
         } else if (fetchedConversations.length > 0 && !urlConversationId) {
@@ -172,7 +171,6 @@ const Home: React.FC<HomeProps> = ({
         console.error('Failed to fetch conversations:', error);
       }
     };
-
     if (isLoggedIn) {
       loadConversations();
     }
@@ -329,7 +327,7 @@ const Home: React.FC<HomeProps> = ({
       return { ...item, x, y, w, h };
     });
   };
-  
+
   const isPositionOccupied = (x: number, y: number, w: number, h: number, occupiedPositions: Set<string>): boolean => {
     for (let i = 0; i < w; i++) {
       for (let j = 0; j < h; j++) {
@@ -340,7 +338,7 @@ const Home: React.FC<HomeProps> = ({
     }
     return false;
   };
-  
+
   const markPosition = (x: number, y: number, w: number, h: number, occupiedPositions: Set<string>): void => {
     for (let i = 0; i < w; i++) {
       for (let j = 0; j < h; j++) {
@@ -348,22 +346,22 @@ const Home: React.FC<HomeProps> = ({
       }
     }
   };
-  
+
   const handleLayoutChange = (newLayout: LayoutItem[]) => {
     const validatedLayout = validateLayout(newLayout);
     setCurrentLayout(validatedLayout);
   };
-  
+
   const handleResizeStop = (layout: LayoutItem[]) => {
     const validatedLayout = validateLayout(layout);
     setCurrentLayout(validatedLayout);
   };
-  
+
   const handleDragStop = (layout: LayoutItem[]) => {
     const validatedLayout = validateLayout(layout);
     setCurrentLayout(validatedLayout);
   };
-  
+
   const handleResetLayout = async () => {
     try {
       await resetChatbox();
@@ -373,7 +371,7 @@ const Home: React.FC<HomeProps> = ({
       console.error('Failed to reset chatbox layout:', error);
     }
   };
-  
+
   const handleSaveLayout = async () => {
     try {
       const chatbox = {
@@ -390,36 +388,36 @@ const Home: React.FC<HomeProps> = ({
       console.error('Failed to save chatbox layout:', error);
     }
   };
-  
+
   const handleCancelLayout = () => {
     setCurrentLayout(originalLayoutRef.current);
     toggleLayoutEditing();
     setIsSidebarOpen(previousSidebarState);
   };
-  
+
   const handleSettingsClick = () => {
     setPreviousSidebarState(isSidebarOpen);
     setIsSidebarOpen(false);
     toggleLayoutEditing();
   };
-  
+
   const handleColorClick = () => {
     setPreviousSidebarState(isSidebarOpen);
     setIsSidebarOpen(false);
     setIsColorPickerPanelOpen(true);
   };
-  
+
   const handleClosePanel = () => {
     setIsColorPickerPanelOpen(false);
     setIsSidebarOpen(previousSidebarState);
   };
-  
+
   const handleNewConversation = async (newConversationId: string) => {
     setSelectedConversationId(newConversationId);
     setIsNewChat(false);
     navigate(`/chat/${newConversationId}`);
   };
-  
+
   const handleConversationDelete = async (resetChat: boolean = false) => {
     try {
       const updatedConversations = await fetchConversations();
@@ -433,13 +431,13 @@ const Home: React.FC<HomeProps> = ({
       console.error('Failed to update conversations list:', error);
     }
   };
-  
+
   const handleStartConversation = async () => {
     if (sidebarRef.current) { 
       sidebarRef.current.startConversation();
     } 
   };
-  
+
   const toggleLayoutEditing = () => {
     setIsLayoutEditing(prev => !prev);
   };
@@ -617,6 +615,6 @@ const Home: React.FC<HomeProps> = ({
       />
     </main>
   );
-  };
-  
-  export default Home;
+};
+
+export default Home;
