@@ -31,6 +31,86 @@ interface ChatboxCoordinates {
   cbox_h: number;
 }
 
+// AI 시나리오  
+interface AIScenario {
+  _id: string;
+  name: string;
+  roles: {
+    role1: string;
+    role2: string;
+  };
+  description: string;
+}
+
+// 임시 더미 시나리오 데이터
+const DUMMY_SCENARIOS: AIScenario[] = [
+  {
+    _id: "1",
+    name: "영어 회화 연습",
+    roles: {
+      role1: "영어 선생님",
+      role2: "학생"
+    },
+    description: "영어 회화를 연습하는 시나리오입니다."
+  },
+  {
+    _id: "2",
+    name: "직장 면접",
+    roles: {
+      role1: "면접관",
+      role2: "지원자"
+    },
+    description: "직장 면접 상황을 연습하는 시나리오입니다."
+  }
+];
+
+// 시나리오, 음성처리의 API 모드 설정 (1: 더미 데이터 모드, 2: 실제 서버 통신 모드)
+export const API_MODE = 1;
+
+// 모든 시나리오 목록을 가져오는 함수 (임시 더미 데이터 반환)
+export const getAllScenarios = async (): Promise<AIScenario[]> => {
+  if (API_MODE === 1) {
+    // 더미 데이터 모드
+    return Promise.resolve(DUMMY_SCENARIOS);
+  } else {
+    // 실제 서버 통신 모드
+    try {
+      const response = await axiosInstance.get('/chat/scenarios');
+      return response.data.scenarios;
+    } catch (error) {
+      console.error('시나리오 목록 가져오기 실패:', error);
+      throw error;
+    }
+  }
+};
+
+// 시나리오를 기반으로 새로운 대화를 시작하는 함수 (임시 성공 처리)
+export const startNewConversationWithScenario = async (
+  scenarioId: string, 
+  selectedRole: 'role1' | 'role2'
+): Promise<Conversation> => {
+  if (API_MODE === 1) {
+    // 더미 데이터 모드
+    return Promise.resolve({
+      _id: `temp_conversation_${Date.now()}`,
+      chats: [],
+      createdAt: new Date().toISOString()
+    });
+  } else {
+    // 실제 서버 통신 모드
+    try {
+      const response = await axiosInstance.post('/chat/c/new/scenario', {
+        scenarioId,
+        selectedRole
+      });
+      return response.data.conversation;
+    } catch (error) {
+      console.error('시나리오 기반 대화 시작 실패:', error);
+      throw error;
+    }
+  }
+};
+
 export const sendMessage = async (conversationId: string, messageContent: string, role: string = 'user'): Promise<Message[]> => {
   const message: Message = {
     role: role,
@@ -294,7 +374,7 @@ export const saveChatbox = async (chatbox: ChatboxCoordinates): Promise<any> => 
     const response = await axiosInstance.post('/user/cbox', chatbox);
     return response.data;
   } catch (error) {
-    console.error('좌표값 저장하기 실패:', error);
+    console.error('표값 저장하기 실패:', error);
     throw error;
   }
 };
@@ -315,6 +395,37 @@ export const resetChatbox = async (): Promise<any> => {
     } else {
       console.error('알 수 없는 오류:', error);
     }
+    throw error;
+  }
+};
+
+// 음성 메시지 전송 함수
+export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<Message[]> => {
+  if (API_MODE === 1) {
+    // 더미 데이터 모드
+    return Promise.resolve([{
+      role: 'assistant',
+      content: '음성 메시지가 성공적으로 처리되었습니다.',
+      createdAt: new Date().toISOString()
+    }]);
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'voice-message.wav');
+
+    const response = await axiosInstance.post(
+      `/chat/c/${conversationId}/voice`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    return response.data.chats;
+  } catch (error) {
+    console.error('음성 메시지 전송 실패:', error);
     throw error;
   }
 };

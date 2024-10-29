@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import '../css/ChatBox.css';
 import { useNavigate } from 'react-router-dom';
-import { sendMessage, startNewConversationwithmsg } from '../api/axiosInstance';
+import { sendMessage, startNewConversationwithmsg, sendVoiceMessage } from '../api/axiosInstance';
 import { Message } from '../types';
 
 interface ChatBoxProps {
@@ -31,13 +31,14 @@ const ChatBox: React.FC<ChatBoxProps> = ({
   setSelectedConversationId
 }) => {
   const [message, setMessage] = useState<string>('');
-  const [isListening, setIsListening] = useState(false);
-  const [interimTranscript, setInterimTranscript] = useState<string>('');
   const [shouldSendMessage, setShouldSendMessage] = useState(false);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
-  const recognitionRef = useRef<any>(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
   const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [message, interimTranscript]);
+  }, [message]);
 
   const handleMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (!isLoggedIn) {
@@ -55,79 +56,83 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     }
   };
 
-  const handleSpeechRecognition = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert('죄송합니다. 이 브라우저는 음성 인식을 지원하지 않습니다.');
-      return;
-    }
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
 
-    if (isListening) {
-      stopListening();
-      return;
-    }
+      const audioContext = new AudioContext();
+      const source = audioContext.createMediaStreamSource(stream);
+      const processor = audioContext.createScriptProcessor(2048, 1, 1);
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'ko-KR';
-    recognition.interimResults = true;
-    recognition.continuous = true;
-    recognition.maxAlternatives = 1;
+      processor.onaudioprocess = (event) => {
+        const input = event.inputBuffer.getChannelData(0);
+        const isSilent = input.every(sample => Math.abs(sample) < 0.01);
 
-    recognition.onstart = () => {
-      setIsListening(true);
-      setInterimTranscript('');
-    };
-
-    recognition.onresult = (event: any) => {
-      let interimTranscript = '';
-      let finalTranscript = '';
-
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          finalTranscript += event.results[i][0].transcript;
+        if (isSilent) {
+          if (!silenceTimeoutRef.current) {
+            silenceTimeoutRef.current = setTimeout(() => {
+              stopRecording();
+            }, 3000);
+          }
         } else {
-          interimTranscript += event.results[i][0].transcript;
+          if (silenceTimeoutRef.current) {
+            clearTimeout(silenceTimeoutRef.current);
+            silenceTimeoutRef.current = null;
+          }
         }
+      };
+
+      source.connect(processor);
+      processor.connect(audioContext.destination);
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        setAudioUrl(audioUrl);
+        console.log('녹음된 오디오 URL:', audioUrl);
+
+        if (conversationId) {
+          try {
+            const response = await sendVoiceMessage(conversationId, audioBlob);
+            if (response.length > 0) {
+              onUpdateMessage(response[response.length - 1]);
+            }
+          } catch (error) {
+            console.error('음성 메시지 처리 실패:', error);
+          }
+        }
+        stream.getTracks().forEach(track => track.stop());
+        processor.disconnect();
+        source.disconnect();
+        audioContext.close();
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error('마이크 접근 실패:', error);
+      alert('마이크 접근이 거부되었습니다.');
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      if (silenceTimeoutRef.current) {
+        clearTimeout(silenceTimeoutRef.current);
+        silenceTimeoutRef.current = null;
       }
-
-      setMessage((prevMessage) => prevMessage + finalTranscript);
-      setInterimTranscript(interimTranscript);
-
-      resetSilenceTimeout();
-    };
-
-    recognition.onerror = (event: any) => {
-      setIsListening(false);
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-      setInterimTranscript('');
-      setShouldSendMessage(true);
-    };
-
-    recognition.start();
-    recognitionRef.current = recognition;
-
-    resetSilenceTimeout();
-  };
-
-  const stopListening = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
     }
-    if (silenceTimeoutRef.current) {
-      clearTimeout(silenceTimeoutRef.current);
-    }
-  };
-
-  const resetSilenceTimeout = () => {
-    if (silenceTimeoutRef.current) {
-      clearTimeout(silenceTimeoutRef.current);
-    }
-    silenceTimeoutRef.current = setTimeout(() => {
-      stopListening();
-    }, 2000);
   };
 
   const handleInputFocus = () => {
@@ -139,7 +144,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
   };
 
   const sendMessageToServer = useCallback(async () => {
-    const fullMessage = (message + interimTranscript).trim();
+    const fullMessage = message.trim();
     if (fullMessage === '') {
       return;
     }
@@ -179,11 +184,10 @@ const ChatBox: React.FC<ChatBoxProps> = ({
         }
       }
       setMessage('');
-      setInterimTranscript('');
     } catch (error) {
-      // 에러 처리
+      console.error('메시지 전송 실패:', error);
     }
-  }, [message, interimTranscript, isNewChat, conversationId, onNewMessage, onUpdateMessage, onNewConversation, setSelectedConversationId, navigate]);
+  }, [message, isNewChat, conversationId, onNewMessage, onUpdateMessage, onNewConversation, setSelectedConversationId, navigate]);
 
   useEffect(() => {
     if (shouldSendMessage) {
@@ -206,17 +210,17 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     }}>
       <div className="input-button-wrapper">
         <Button
-          onClick={handleSpeechRecognition}
-          className={`chat-box-button mic-button ${isListening ? 'listening' : ''}`}
+          onClick={isRecording ? stopRecording : startRecording}
+          className={`chat-box-button mic-button ${isRecording ? 'recording' : ''}`}
           disabled={isEditMode}
         >
-          {isListening ? '■' : '🎤'}
+          {isRecording ? '■' : '🎤'}
         </Button>
         <Form.Control
           as="textarea"
           ref={textareaRef}
           rows={1}
-          value={message + interimTranscript}
+          value={message}
           onChange={handleMessageChange}
           onKeyDown={handleKeyPress}
           onFocus={handleInputFocus}
@@ -231,13 +235,19 @@ const ChatBox: React.FC<ChatBoxProps> = ({
             sendMessageToServer();
           }}
           className={`chat-box-button send-button`}
-          disabled={isEditMode || (!message.trim() && !interimTranscript.trim())}
+          disabled={isEditMode || !message.trim()}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-right" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
           </svg>
         </Button>
       </div>
+      {audioUrl && (
+        <audio controls>
+          <source src={audioUrl} type="audio/wav" />
+          Your browser does not support the audio element.
+        </audio>
+      )}
     </Form>
   );
 };
