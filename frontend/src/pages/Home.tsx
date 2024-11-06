@@ -492,7 +492,7 @@ const Home: React.FC<HomeProps> = ({
           </button>
         )}
         <span className="home_new_conversation" onClick={handleStartConversation}> <LuPenSquare /> </span>
-        <span className="brand-text" onClick={() => navigate('/chat')}>BranchGPT</span>
+        <span className="brand-text" onClick={() => navigate('/chat')}>Branch-SPK</span>
       </div>
       {isLoggedIn ? (
         <>

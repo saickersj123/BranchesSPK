@@ -6,6 +6,7 @@ import MyPage from './pages/MyPage';
 import Home from './pages/Home';
 import MainPage from './pages/MainPage';
 import Signup from './pages/Signup';
+import Scenarios from './pages/Scenarios';
 import { checkAuthStatus, fetchMessages } from './api/axiosInstance';
 import { Message } from './types';  // types.ts에서 Message 인터페이스를 import
 
@@ -58,6 +59,7 @@ const App: React.FC = () => {
           <Route path="/" element={<MainPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
+          <Route path="/scenarios" element={<Scenarios />} />
           <Route
             path="*"
             element={

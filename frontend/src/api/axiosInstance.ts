@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { Message, Conversation } from '../types';  // types.ts에서 Message와 Conversation을 import
+import { Message, Conversation, AIScenario, AuthResponse, ChatboxCoordinates } from '../types';  // types.ts에서 Message와 Conversation을 import
+import { DUMMY_SCENARIOS } from '../dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암
 
 // 모든 요청에 withCredentials 옵션을 설정
 axios.defaults.withCredentials = true;
@@ -13,56 +14,6 @@ const axiosInstance: AxiosInstance = axios.create({
   withCredentials: true, // 인스턴스 레벨에서 withCredentials 설정
 });
 
-// Conversation 인터페이스 제거 (이미 types.ts에서 import했으므로)
-
-interface User {
-  name: string;
-}
-
-interface AuthResponse {
-  valid: boolean;
-  user?: User;
-}
-
-interface ChatboxCoordinates {
-  cbox_x: number;
-  cbox_y: number;
-  cbox_w: number;
-  cbox_h: number;
-}
-
-// AI 시나리오  
-interface AIScenario {
-  _id: string;
-  name: string;
-  roles: {
-    role1: string;
-    role2: string;
-  };
-  description: string;
-}
-
-// 임시 더미 시나리오 데이터
-const DUMMY_SCENARIOS: AIScenario[] = [
-  {
-    _id: "1",
-    name: "영어 회화 연습",
-    roles: {
-      role1: "영어 선생님",
-      role2: "학생"
-    },
-    description: "영어 회화를 연습하는 시나리오입니다."
-  },
-  {
-    _id: "2",
-    name: "직장 면접",
-    roles: {
-      role1: "면접관",
-      role2: "지원자"
-    },
-    description: "직장 면접 상황을 연습하는 시나리오입니다."
-  }
-];
 
 // 시나리오, 음성처리의 API 모드 설정 (1: 더미 데이터 모드, 2: 실제 서버 통신 모드)
 export const API_MODE = 1;
@@ -71,7 +22,7 @@ export const API_MODE = 1;
 export const getAllScenarios = async (): Promise<AIScenario[]> => {
   if (API_MODE === 1) {
     // 더미 데이터 모드
-    return Promise.resolve(DUMMY_SCENARIOS);
+    return Promise.resolve(DUMMY_SCENARIOS); // DUMMY_SCENARIOS는 types.ts에서 import
   } else {
     // 실제 서버 통신 모드
     try {
