@@ -256,9 +256,9 @@ body, html {
 
 .header-container {
   display: flex;
-  align-items: center;
+  align-items: center; /* 세로 중앙 정렬 유지 */
   position: fixed;
-  top: 15px;
+  top: 12px;
   left: 4em;
   z-index: 1100;
   transition: left 1.3s ease;
@@ -272,6 +272,10 @@ body, html {
   font-weight: bold;
   font-size: 31px;
   margin-right: 0.8em;
+  display: flex;         
+  align-items: center;   
+  line-height: 1;        
+  height: 40px;       
 }
 
 .home_new_conversation:hover {

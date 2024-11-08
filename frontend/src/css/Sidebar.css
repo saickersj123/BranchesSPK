@@ -206,6 +206,7 @@ d
   border-radius: 4px;
   padding: 5px 5px;
   cursor: pointer; 
+  background-color: transparent;
 }
 
 .new-conversation-button:hover {
