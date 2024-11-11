@@ -16,7 +16,7 @@ const axiosInstance: AxiosInstance = axios.create({
 
 
 // 시나리오, 음성처리의 API 모드 설정 (1: 더미 데이터 모드, 2: 실제 서버 통신 모드)
-export const API_MODE = 1;
+export let API_MODE = 2;
 
 // 모든 시나리오 목록을 가져오는 함수 (임시 더미 데이터 반환)
 export const getAllScenarios = async (): Promise<AIScenario[]> => {
