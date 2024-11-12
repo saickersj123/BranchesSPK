@@ -19,27 +19,17 @@ interface ChatBoxProps {
 }
 
 const ChatBox: React.FC<ChatBoxProps> = ({
-  conversationId,
-  onNewMessage,
-  onUpdateMessage,
-  isEditMode,
-  isNewChat,
-  selectedModel,
-  onChatInputAttempt,
-  isLoggedIn,
-  onNewConversation,
-  setSelectedConversationId
+  conversationId, onNewMessage, onUpdateMessage, isEditMode, isNewChat, selectedModel,
+  onChatInputAttempt, isLoggedIn, onNewConversation, setSelectedConversationId
 }) => {
   const [message, setMessage] = useState<string>('');
   const [shouldSendMessage, setShouldSendMessage] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -49,11 +39,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
   }, [message]);
 
   const handleMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (!isLoggedIn) {
-      onChatInputAttempt();
-    } else {
-      setMessage(event.target.value);
-    }
+    !isLoggedIn ? onChatInputAttempt() : setMessage(event.target.value);
   };
 
   const startRecording = async () => {
@@ -62,65 +48,26 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
-
-      const audioContext = new AudioContext();
-      const source = audioContext.createMediaStreamSource(stream);
-      const processor = audioContext.createScriptProcessor(2048, 1, 1);
-
-      processor.onaudioprocess = (event) => {
-        const input = event.inputBuffer.getChannelData(0);
-        const isSilent = input.every(sample => Math.abs(sample) < 0.01);
-
-        if (isSilent) {
-          if (!silenceTimeoutRef.current) {
-            silenceTimeoutRef.current = setTimeout(() => {
-              stopRecording();
-            }, 3000);
-          }
-        } else {
-          if (silenceTimeoutRef.current) {
-            clearTimeout(silenceTimeoutRef.current);
-            silenceTimeoutRef.current = null;
-          }
-        }
-      };
-
-      source.connect(processor);
-      processor.connect(audioContext.destination);
-
       mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
+        if (event.data.size > 0) audioChunksRef.current.push(event.data);
       };
-
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        setAudioUrl(audioUrl);
-        console.log('녹음된 오디오 URL:', audioUrl);
-
         if (conversationId) {
           try {
             const response = await sendVoiceMessage(conversationId, audioBlob);
-            if (response.length > 0) {
-              onUpdateMessage(response[response.length - 1]);
-            }
+            if (response.length > 0) onUpdateMessage(response[response.length - 1]);
           } catch (error) {
-            console.error('음성 메시지 처리 실패:', error);
+            console.error('Voice message failed:', error);
           }
         }
-        stream.getTracks().forEach(track => track.stop());
-        processor.disconnect();
-        source.disconnect();
-        audioContext.close();
+        stream.getTracks().forEach((track) => track.stop());
       };
-
       mediaRecorder.start();
       setIsRecording(true);
     } catch (error) {
-      console.error('마이크 접근 실패:', error);
-      alert('마이크 접근이 거부되었습니다.');
+      console.error('Microphone access denied:', error);
+      alert('Microphone access was denied.');
     }
   };
 
@@ -128,33 +75,17 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      if (silenceTimeoutRef.current) {
-        clearTimeout(silenceTimeoutRef.current);
-        silenceTimeoutRef.current = null;
-      }
     }
   };
 
-  const handleInputFocus = () => {
-    setIsInputFocused(true);
-  };
-
-  const handleInputBlur = () => {
-    setIsInputFocused(false);
-  };
+  const handleInputFocus = () => setIsInputFocused(true);
+  const handleInputBlur = () => setIsInputFocused(false);
 
   const sendMessageToServer = useCallback(async () => {
     const fullMessage = message.trim();
-    if (fullMessage === '') {
-      return;
-    }
+    if (fullMessage === '') return;
 
-    const newMessage: Message = {
-      content: fullMessage,
-      role: 'user',
-      createdAt: new Date().toISOString(),
-    };
-
+    const newMessage: Message = { content: fullMessage, role: 'user', createdAt: new Date().toISOString() };
     onNewMessage(newMessage);
 
     try {
@@ -164,28 +95,20 @@ const ChatBox: React.FC<ChatBoxProps> = ({
         await onNewConversation(newConversationId);
         setSelectedConversationId(newConversationId);
         navigate(`/chat/${newConversationId}`);
-        if (response && response.chats && response.chats.length > 0) {
-          const aiMessage: Message = {
-            content: response.chats[response.chats.length - 1].content,
-            role: 'assistant',
-            createdAt: new Date().toISOString(),
-          };
+        if (response?.chats?.length > 0) {
+          const aiMessage: Message = { content: response.chats[response.chats.length - 1].content, role: 'assistant', createdAt: new Date().toISOString() };
           onUpdateMessage(aiMessage);
         }
       } else if (conversationId) {
         const response = await sendMessage(conversationId, fullMessage);
-        if (response && response.length > 0) {
-          const aiMessage: Message = {
-            content: response[response.length - 1].content,
-            role: 'assistant',
-            createdAt: new Date().toISOString(),
-          };
+        if (response?.length > 0) {
+          const aiMessage: Message = { content: response[response.length - 1].content, role: 'assistant', createdAt: new Date().toISOString() };
           onUpdateMessage(aiMessage);
         }
       }
       setMessage('');
     } catch (error) {
-      console.error('메시지 전송 실패:', error);
+      console.error('Message sending failed:', error);
     }
   }, [message, isNewChat, conversationId, onNewMessage, onUpdateMessage, onNewConversation, setSelectedConversationId, navigate]);
 
@@ -209,45 +132,19 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       sendMessageToServer();
     }}>
       <div className="input-button-wrapper">
-        <Button
-          onClick={isRecording ? stopRecording : startRecording}
-          className={`chat-box-button mic-button ${isRecording ? 'recording' : ''}`}
-          disabled={isEditMode}
-        >
+        <Button onClick={isRecording ? stopRecording : startRecording} className={`chat-box-button mic-button ${isRecording ? 'recording' : ''}`} disabled={isEditMode}>
           {isRecording ? '■' : '🎤'}
         </Button>
-        <Form.Control
-          as="textarea"
-          ref={textareaRef}
-          rows={1}
-          value={message}
-          onChange={handleMessageChange}
-          onKeyDown={handleKeyPress}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          placeholder="메시지를 입력하세요."
-          className={`chat-container`}
-          disabled={isEditMode}
-        />
-        <Button
-          onClick={(e) => {
-            e.preventDefault();
-            sendMessageToServer();
-          }}
-          className={`chat-box-button send-button`}
-          disabled={isEditMode || !message.trim()}
-        >
+        <Form.Control as="textarea" ref={textareaRef} rows={1} value={message} onChange={handleMessageChange} onKeyDown={handleKeyPress} onFocus={handleInputFocus} onBlur={handleInputBlur} placeholder="Type a message..." className="chat-container" disabled={isEditMode} />
+        <Button onClick={(e) => {
+          e.preventDefault();
+          sendMessageToServer();
+        }} className="chat-box-button send-button" disabled={isEditMode || !message.trim()}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-right" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
           </svg>
         </Button>
       </div>
-      {audioUrl && (
-        <audio controls>
-          <source src={audioUrl} type="audio/wav" />
-          Your browser does not support the audio element.
-        </audio>
-      )}
     </Form>
   );
 };

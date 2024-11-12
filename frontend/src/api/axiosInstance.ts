@@ -356,20 +356,27 @@ export const resetChatbox = async (): Promise<any> => {
 };
 
 // 음성 메시지 전송 함수
-export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<Message[]> => {
+export const sendVoiceMessage = async (
+  conversationId: string,
+  audioBlob: Blob
+): Promise<Message[]> => {
+  // API 모드 확인
   if (API_MODE === 1) {
     // 더미 데이터 모드
-    return Promise.resolve([{
-      role: 'assistant',
-      content: '음성 메시지가 성공적으로 처리되었습니다.',
-      createdAt: new Date().toISOString()
-    }]);
+    return Promise.resolve([
+      {
+        role: 'assistant',
+        content: '음성 메시지가 성공적으로 처리되었습니다.',
+        createdAt: new Date().toISOString(),
+      },
+    ]);
   }
 
   try {
     const formData = new FormData();
     formData.append('audio', audioBlob, 'voice-message.wav');
 
+    // axios POST 요청
     const response = await axiosInstance.post(
       `/chat/c/${conversationId}/voice`,
       formData,
@@ -379,11 +386,18 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
         },
       }
     );
-    return response.data.chats;
+
+    // 응답 데이터가 예상된 구조인지 확인
+    if (response.data && Array.isArray(response.data.chats)) {
+      return response.data.chats as Message[];
+    } else {
+      throw new Error("Unexpected response structure from server");
+    }
   } catch (error) {
     console.error('음성 메시지 전송 실패:', error);
     throw error;
   }
 };
+
 
 export default axiosInstance;
