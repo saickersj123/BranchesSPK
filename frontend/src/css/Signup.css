@@ -1,13 +1,6 @@
 /* Signup.css */
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: auto;
-  font-size: 18px; /* 기본 글자 크기 확대 */
-}
 
 .signupPage {
   width: 100%;

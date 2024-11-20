@@ -8,7 +8,7 @@ import MainPage from './pages/MainPage';
 import Signup from './pages/Signup';
 import Scenarios from './pages/Scenarios';
 import { checkAuthStatus, fetchMessages } from './api/axiosInstance';
-import { Message } from './types';  // types.ts에서 Message 인터페이스를 import
+import { Message } from './@types/types';  // types.ts에서 Message 인터페이스를 import
 
 interface User {
   name: string;
@@ -54,7 +54,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div>
+      <div className='main-app-container'>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/signup" element={<Signup />} />

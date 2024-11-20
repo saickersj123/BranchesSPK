@@ -1,27 +1,8 @@
-/* 기본 스타일 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import './set/color.css';
 
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  margin: 0; 
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-body.dark {
-  --background-color: #2b2a2a;
-  --text-color: #ffffff;
-}
-
-body.light {
-  --background-color: #ffffff;
-  --text-color: #000000;
-}
+ .main-app-container{
+  background-color: var(--main-background-color);
+ }
 
 .app-container {
   display: flex;

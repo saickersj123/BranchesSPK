@@ -6,7 +6,7 @@ import { Modal, Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../css/Scenarios.css';
 import IMAGE_NOT_FOUND from '../img/ErrorIMG.png';
-import { AIScenario } from '../types';
+import { AIScenario } from '../@types/types';
 
 const DifficultyBar: React.FC<{ level: 1 | 2 | 3 }> = ({ level }) => {
   const bars = [

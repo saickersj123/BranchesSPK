@@ -1,12 +1,4 @@
-:root {
-  --my-chat-bubble-color: gainsboro;
-  --my-chat-text-color: #000000;
-  --other-chat-bubble-color: #FFFFFF;
-  --other-chat-text-color: #000000;
-  --chat-bubble-bold: normal;
-  --chat-bubble-shadow: none;
-  --time-bold: normal;
-}
+ 
 
 .bubble-wrapper {
   display: flex;

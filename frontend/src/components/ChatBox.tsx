@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import '../css/ChatBox.css';
 import { useNavigate } from 'react-router-dom';
 import { sendMessage, startNewConversationwithmsg, sendVoiceMessage } from '../api/axiosInstance';
-import { Message } from '../types';
+import { Message } from '../@types/types';
 
 interface ChatBoxProps {
   onNewMessage: (message: Message) => void;
@@ -127,7 +127,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
   };
 
   return (
-    <Form className={`chat-input-container ${isInputFocused ? 'focused' : ''}`} onSubmit={(e) => {
+    <Form className={`chat-input-container ${isInputFocused ? 'focused' : ''}`} onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       sendMessageToServer();
     }}>
@@ -136,7 +136,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
           {isRecording ? '■' : '🎤'}
         </Button>
         <Form.Control as="textarea" ref={textareaRef} rows={1} value={message} onChange={handleMessageChange} onKeyDown={handleKeyPress} onFocus={handleInputFocus} onBlur={handleInputBlur} placeholder="Type a message..." className="chat-container" disabled={isEditMode} />
-        <Button onClick={(e) => {
+        <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
           e.preventDefault();
           sendMessageToServer();
         }} className="chat-box-button send-button" disabled={isEditMode || !message.trim()}>

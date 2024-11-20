@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { Message, Conversation, AIScenario, AuthResponse, ChatboxCoordinates } from '../types';  // types.ts에서 Message와 Conversation을 import
-import { DUMMY_SCENARIOS } from '../dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암
+import { Message, Conversation, AIScenario, AuthResponse, ChatboxCoordinates } from '../@types/types';  // types.ts에서 Message와 Conversation을 import
+import { DUMMY_SCENARIOS } from '../@types/dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암
 
 // 모든 요청에 withCredentials 옵션을 설정
 axios.defaults.withCredentials = true;

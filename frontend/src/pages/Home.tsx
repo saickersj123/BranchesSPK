@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { TbLayoutSidebar } from "react-icons/tb";
 import { LuPenSquare } from "react-icons/lu";
-import { faPalette, faRightFromBracket, faSquareMinus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faSquareMinus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChatBox from '../components/ChatBox';
 import ChatList from '../components/ChatList';
@@ -12,10 +12,9 @@ import { logout } from '../api/axiosInstance';
 import { Dropdown } from 'react-bootstrap';
 import { fetchMessages, fetchConversations, getChatboxes, saveChatbox, resetChatbox } from '../api/axiosInstance';
 import '../css/Home.css';
-import LoginModal from '../components/LoginModal';
-import ColorPickerPanel from '../components/ColorPickerPanel';
+import LoginModal from '../components/LoginModal'; 
 import { saveSidebarState, loadSidebarState } from '../utils/sidebarUtils';
-import { Message, Conversation } from '../types';
+import { Message, Conversation } from '../@types/types';
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -72,16 +71,14 @@ const Home: React.FC<HomeProps> = ({
   const originalLayoutRef = useRef<LayoutItem[]>(INITIAL_LAYOUT);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { conversationId: urlConversationId } = useParams<{ conversationId: string }>();
-  const [isColorPickerPanelOpen, setIsColorPickerPanelOpen] = useState<boolean>(false);
+  const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const [myChatBubbleColor, setMyChatBubbleColor] = useState<string>('#DCF8C6');
   const [myChatTextColor, setMyChatTextColor] = useState<string>('#000000');
   const [otherChatBubbleColor, setOtherChatBubbleColor] = useState<string>('#F0F0F0');
   const [otherChatTextColor, setOtherChatTextColor] = useState<string>('#000000');
   const [chatBubbleBold, setChatBubbleBold] = useState<boolean>(false);
   const [chatBubbleShadow, setChatBubbleShadow] = useState<boolean>(false);
-  const [chatContainerBgColor, setChatContainerBgColor] = useState<string>('#FFFFFF');
-  const [showTime, setShowTime] = useState<boolean>(true);
+  const [chatContainerBgColor, setChatContainerBgColor] = useState<string>('#FFFFFF'); 
   const [previousSidebarState, setPreviousSidebarState] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLayoutEditing, setIsLayoutEditing] = useState<boolean>(false);
@@ -400,18 +397,7 @@ const Home: React.FC<HomeProps> = ({
     setIsSidebarOpen(false);
     toggleLayoutEditing();
   };
-
-  const handleColorClick = () => {
-    setPreviousSidebarState(isSidebarOpen);
-    setIsSidebarOpen(false);
-    setIsColorPickerPanelOpen(true);
-  };
-
-  const handleClosePanel = () => {
-    setIsColorPickerPanelOpen(false);
-    setIsSidebarOpen(previousSidebarState);
-  };
-
+  
   const handleNewConversation = async (newConversationId: string) => {
     setSelectedConversationId(newConversationId);
     setIsNewChat(false);
@@ -522,34 +508,12 @@ const Home: React.FC<HomeProps> = ({
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={handleProfileClick}> <FontAwesomeIcon icon={faUser} /> 프로필</Dropdown.Item>
-                  <Dropdown.Item onClick={handleSettingsClick}><FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경</Dropdown.Item>
-                  <Dropdown.Item onClick={handleColorClick}><FontAwesomeIcon icon={faPalette} /> 스타일 변경</Dropdown.Item>
+                  <Dropdown.Item onClick={handleSettingsClick}><FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경</Dropdown.Item> 
                   <Dropdown.Item onClick={handleLogoutClick}><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-          )}
-          {isColorPickerPanelOpen && (
-            <ColorPickerPanel
-              myChatBubbleColor={myChatBubbleColor}
-              setMyChatBubbleColor={setMyChatBubbleColor}
-              myChatTextColor={myChatTextColor}
-              setMyChatTextColor={setMyChatTextColor}
-              otherChatBubbleColor={otherChatBubbleColor}
-              setOtherChatBubbleColor={setOtherChatBubbleColor}
-              otherChatTextColor={otherChatTextColor}
-              setOtherChatTextColor={setOtherChatTextColor}
-              chatBubbleBold={chatBubbleBold}
-              setChatBubbleBold={setChatBubbleBold}
-              chatBubbleShadow={chatBubbleShadow}
-              setChatBubbleShadow={setChatBubbleShadow}
-              chatContainerBgColor={chatContainerBgColor}
-              setChatContainerBgColor={setChatContainerBgColor}
-              showTime={showTime}
-              setShowTime={setShowTime}
-              closePanel={handleClosePanel}
-            />
-          )}
+          )} 
         </>
       ) : (
         <div className="login-container">
@@ -588,7 +552,7 @@ const Home: React.FC<HomeProps> = ({
                   <ChatList
                     messages={messages}
                     username={username}
-                    showTime={showTime}
+                    showTime={true}
                   />
                 )}
               </div>

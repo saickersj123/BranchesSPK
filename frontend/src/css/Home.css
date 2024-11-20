@@ -1,23 +1,4 @@
-:root {
-  --button-color: #000000;
-  --my-chat-bubble-color: #F0F0F0;
-  --my-chat-text-color: #000000;
-  --other-chat-bubble-color: #DCF8C6;
-  --other-chat-text-color: #000000;
-  --chat-container-bg-color: #FFFFFF;
-  --chat-bubble-bold: normal;
-  --chat-bubble-shadow: none;
-  --time-bold: normal;
-  --chatbox-bg-color: #f0f0f0; /* 기본 ChatBox 배경 색상 */
-  --chat-input-bg-color: #f0f0f0; /* 입력창 배경색 */
-}
-
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden; /* 전체 페이지의 스크롤을 숨깁니다 */
-}
+ 
 
 .main-section {
   display: flex;
@@ -42,7 +23,7 @@ body, html {
   display: flex;
   flex-direction: column;
   width: 100%; /* 전체 너비를 사용하도록 설정 */
-  max-width: 100%; /* 최대 너비를 100%로 ��정 */
+  max-width: 100%; /* 최대 너비를 100%로 설정 */
   margin: 0 auto; /* 중앙 정렬 */
   padding: 0; /* 좌우 여백 추가 */
   overflow: hidden; /* 그리드 컨테이너의 스크롤을 숨깁니다 */

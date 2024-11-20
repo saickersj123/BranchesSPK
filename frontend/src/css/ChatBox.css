@@ -1,3 +1,5 @@
+@import './set/color.css';
+
 /* 채팅 입력 컨테이너 */
 .chat-input-container {
   width: 100%;
@@ -27,8 +29,7 @@
   border: none;
   font-size: 16px;
   line-height: 1.5;
-  padding: 10px 15px;
-  background-color: transparent;
+  padding: 10px 15px; 
   transition: border-color 0.15s ease-in-out;
   overflow-y: hidden;
 }
@@ -40,8 +41,7 @@
 
 /* 채팅 상자 버튼 (마이크 버튼과 전송 버튼 공통 스타일) */
 .chat-box-button {
-  padding: 8px;
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  padding: 8px; 
   color: white;
   border: none;
   border-radius: 50%;
@@ -52,42 +52,35 @@
   justify-content: center;
   align-items: center;
   transition: background-color 0.15s ease-in-out;
+  background-color: var(--button-color);
+  cursor: not-allowed;
+}
+.chat-box-button:disabled {
+  background-color: var(--button-disabled-color);
+  cursor: not-allowed;
 }
 
 /* 마이크 버튼 */
 .mic-button {
+  background-color: var(--button-color) ;
   margin-right: 10px;
-}
+} 
 
 /* 전송 버튼 */
 .send-button {
   margin-left: 10px;
-}
+} 
 
 /* 채팅 상자 버튼 호버 효과 */
 .chat-box-button:hover {
-  background-color: #0056b3;
-}
-
-.chat-box-button:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
+  background-color: var(--button-hover-color);
 }
 
 /* SVG 아이콘 스타일 */
 .chat-box-button svg {
   width: 20px;
   height: 20px;
-}
-
-/* 마이크 버튼 활성화 스타일 */
-.chat-box-button.listening {
-  background-color: #dc3545;
-}
-
-.chat-box-button.listening:hover {
-  background-color: #c82333;
-}
+} 
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
@@ -95,14 +88,6 @@
     width: 36px;
     height: 36px;
   }
-}
-
-.chat-input-container.focused {
-  background-color: var(--chat-input-bg-color);
-}
-
-.chat-input-container.focused .input-button-wrapper {
-  background-color: var(--chat-input-bg-color);
 }
 
 /* 버튼 포커스 시 아웃라인 제거 */

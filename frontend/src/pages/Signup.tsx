@@ -102,7 +102,7 @@ const Signup: React.FC = () => {
               type="email"
               placeholder="이메일을 입력하세요"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} // 타입 추가
               className="signupInputField"
             />
             <div className="signupUnderline"></div>
@@ -114,7 +114,7 @@ const Signup: React.FC = () => {
               type="password"
               placeholder="8~15자리의 비밀번호를 입력하세요"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} // 타입 추가
               className="signupInputField"
             />
             <div className="signupUnderline"></div>
@@ -135,7 +135,7 @@ const Signup: React.FC = () => {
               type="password"
               placeholder="8~15자리의 비밀번호를 입력하세요"
               value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(e.target.value)} // 타입 추가
               className="signupInputField"
             />
             <div className="signupUnderline"></div>
@@ -156,7 +156,7 @@ const Signup: React.FC = () => {
               type="text"
               placeholder="닉네임을 입력하세요"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} // 타입 추가
               className="signupInputField"
             />
             <div className="signupUnderline"></div>
