@@ -26,7 +26,6 @@ html, body {
   max-width: 25em; /* 최대 너비 확대 */
   display: flex;
   flex-direction: column;
-  align-items: left;
 }
 
 .signupinputGroup img {
@@ -42,7 +41,7 @@ html, body {
   flex-direction: column;
   gap: 20px; /* 간격 확대 */
 }
- 
+
 .signupInputGroup {
   width: 100%;
   display: flex;
@@ -108,7 +107,7 @@ html, body {
   position: relative;
   box-shadow: 0px 4px 30px rgba(38, 58, 67, 0.15);
   border-radius: 12px;
-  border : none;
+  border: none;
   background-color: #b5b5b6;
   height: 70px; /* 버튼 높이 확대 */
   display: flex;

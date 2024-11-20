@@ -25,7 +25,6 @@ html, body {
   max-width: 25em; /* 최대 너비 확대 */
   display: flex;
   flex-direction: column;
-  align-items: left;
 }
 
 .form { 
@@ -35,7 +34,7 @@ html, body {
   flex-direction: column;
   gap: 20px; /* 간격 확대 */
 }
- 
+
 .logininputGroup {
   width: 100%;
   display: flex;
@@ -43,8 +42,8 @@ html, body {
   margin-bottom: 15px; /* 마진 확대 */
   position: relative;  
 }
- 
-.logininputGroup img{
+
+.logininputGroup img {
   margin-bottom: 6em; /* 이미지 마진 확대 */
   margin-top: 6em;
 }
@@ -120,7 +119,7 @@ html, body {
   color: #000; 
   display: inline-block;
 }
- 
+
 .label {
   width: 100%;
   position: relative;

@@ -61,14 +61,12 @@
 
 .panel-header {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .panel-header .fa-times {
   cursor: pointer;
-  font-size: 24px;
-  color: #333;
 }
 
 .panel-header .fa-times:hover {
@@ -92,7 +90,6 @@
   color: #333;
   font-size: 18px;
 }
-
 
 .form-group {
   margin-bottom: 15px;
@@ -199,7 +196,7 @@
 }
 
 .chrome-picker {
-  box-shadow: none !important; /* 기존 그림자 제거 */
-  border: 1px solid #ccc; /* 경계선 추가 */
-  border-radius: 8px; /* 모서리 둥글게 */
+  box-shadow: none !important;  
+  border: 1px solid #ccc;
+  border-radius: 8px; 
 }

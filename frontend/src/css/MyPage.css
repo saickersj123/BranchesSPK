@@ -39,7 +39,6 @@ html, body {
   max-width: 25em; /* 최대 너비 확대 */
   display: flex;
   flex-direction: column;
-  align-items: left;
 }
 
 .MainInputGroup {
@@ -50,7 +49,7 @@ html, body {
   position: relative;
 }
 
-.MainInputGroup img{
+.MainInputGroup img {
   margin-bottom: 6em; /* 이미지 마진 확대 */
 }
 
@@ -147,7 +146,7 @@ html, body {
 .label {
   width: 100%;
   position: relative;
-  font-size: 1.8rem !important;/* 글자 크기 확대 */
+  font-size: 1.8rem !important; /* 글자 크기 확대 */
   line-height: 156.5%;
   font-weight: 600;
   font-family: Pretendard;

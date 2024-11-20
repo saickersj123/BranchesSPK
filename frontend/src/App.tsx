@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './css/App.css';
-import Login from './pages/Login';
+import Login from './pages/login/Login';
 import MyPage from './pages/MyPage';
 import Home from './pages/Home';
 import MainPage from './pages/MainPage';
@@ -63,7 +63,7 @@ const App: React.FC = () => {
           <Route
             path="*"
             element={
-              <div className={`app-container`}>
+              <div className='app-container'>
                 <Routes>
                   <Route
                     path="/chat"
