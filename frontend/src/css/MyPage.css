@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap'); 
+@import './set/back_button_style.css';
 .mypage-container {
   display: flex;
   flex-direction: column;
@@ -10,18 +11,21 @@
   position: relative;  
 }  
 
-@media (max-width: 800px) { 
-  .my-back-button {
-    height: 3rem;
-    font-size: 1rem;
-  }
+.my-back-button {
+  position: fixed;
+  top: var(--button-position-top);
+  right: var(--button-position-right);
+  background-color: var(--back-button-background-color);
+  color: white;
+  border: none;
+  border-radius: var(--back-button-border-radius);
+  padding: var(--back-button-padding);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-@media (min-width: 801px) { 
-  .my-back-button {
-    height: 2.5rem;
-    font-size: 1rem;
-  }
+.my-back-button:hover {
+  background-color: var(--back-button-hover-color);
 }
 
 .my-center-box {
@@ -170,16 +174,20 @@
   background-color: #111111 !important;
 } 
 
+
 .my-back-button {
   position: fixed;
-  top: 2em; 
-  right: 2em; 
-  background-color: #b5b5b6;
+  top: var(--button-position-top); /* 상단 위치 */
+  right: var(--button-position-right); /* 우측 위치 */
+  background-color: var(--back-button-background-color);
+  color: white;
   border: none;
-  border-radius: 6px;
-  color: #fff; 
+  border-radius: var(--back-button-border-radius);
+  padding: var(--back-button-padding);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .my-back-button:hover {
-  background-color: #111111 !important;
+  background-color: var(--back-button-hover-color); /* 호버 시 색상 */
 }

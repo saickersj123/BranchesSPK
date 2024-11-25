@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
+@import '../set/back_button_style.css';
 
 .scenarios-container {
   padding: 3rem;
@@ -112,4 +113,21 @@
   line-height: 1.6;
   font-size: 1.1rem;
   text-align: center;
+}
+
+.scenarios-backbutton {
+    position: fixed;
+    top: var(--button-position-top);
+    right: var(--button-position-right);
+    background-color: var(--back-button-background-color);
+    color: white;
+    border: none;
+    border-radius: var(--back-button-border-radius);
+    padding: var(--back-button-padding);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.scenarios-backbutton:hover {
+    background-color: var(--back-button-hover-color);
 }

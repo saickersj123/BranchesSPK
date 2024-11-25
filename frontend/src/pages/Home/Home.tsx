@@ -4,17 +4,17 @@ import { TbLayoutSidebar } from "react-icons/tb";
 import { LuPenSquare } from "react-icons/lu";
 import { faRightFromBracket, faSquareMinus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
-import ChatBox from '../components/ChatBox';
-import ChatList from '../components/ChatList';
-import Sidebar from '../components/sidebar/Sidebar';
+import ChatBox from '../../components/ChatBox';
+import ChatList from '../../components/ChatList';
+import Sidebar from '../../components/sidebar/Sidebar';
 import GridLayout from 'react-grid-layout';
-import { logout } from '../api/axiosInstance';
+import { logout } from '../../api/axiosInstance';
 import { Dropdown } from 'react-bootstrap';
-import { fetchMessages, fetchConversations, getChatboxes, saveChatbox, resetChatbox } from '../api/axiosInstance';
-import '../css/Home.css';
-import LoginModal from '../components/LoginModal'; 
-import { saveSidebarState, loadSidebarState } from '../utils/sidebarUtils';
-import { Message, Conversation } from '../@types/types';
+import { fetchMessages, fetchConversations, getChatboxes, saveChatbox, resetChatbox } from '../../api/axiosInstance';
+import '../../css/Home.css';
+import LoginModal from '../../components/login/LoginModal';
+import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
+import { Message, Conversation } from '../../types';
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -396,8 +396,8 @@ const Home: React.FC<HomeProps> = ({
     setPreviousSidebarState(isSidebarOpen);
     setIsSidebarOpen(false);
     toggleLayoutEditing();
-  };
-  
+  }; 
+
   const handleNewConversation = async (newConversationId: string) => {
     setSelectedConversationId(newConversationId);
     setIsNewChat(false);

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { signupUser } from '../api/axiosInstance';
 import '../css/Signup.css';
 import branchImage from '../img/PRlogo2.png';
+import AlertMessage from '../components/signup/AlterMessage';
+import FormInput from '../components/signup/FormInput'; // 변경된 부분
+import SignupButton from '../components/signup/SignupButton';
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -21,10 +23,6 @@ const Signup: React.FC = () => {
     return emailRegex.test(email);
   };
 
-  const isValidPassword = (password: string): boolean => {
-    return password.length >= 8 && password.length <= 15;
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -38,11 +36,6 @@ const Signup: React.FC = () => {
       return;
     }
 
-    if (!isValidPassword(password)) {
-      setError('8~15자리의 비밀번호를 입력하세요.');
-      return;
-    }
-
     if (password !== passwordConfirm) {
       setError('비밀번호가 일치하지 않습니다.');
       return;
@@ -50,22 +43,25 @@ const Signup: React.FC = () => {
 
     try {
       const response = await signupUser(email, password, name);
-
-      if (response.success) {
+      if (response && response.success) {
         setSuccess(true);
         setTimeout(() => {
-          navigate('/login');
+            navigate('/login');
         }, 1000);
         setError('');
       } else {
-        setError('회원가입 중 오류가 발생했습니다. 다시 시도하세요.');
+          if (response && response.message === 'Email already in use') {
+              setError('이미 사용 중인 이메일입니다.');
+          } else {
+              setError('회원가입 중 오류가 발생했습니다. 다시 시도하세요.');
+          }
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 409) {
-        setError('이미 사용 중인 이메일입니다.');
-      } else {
-        setError('회원가입 중 오류가 발생했습니다. 다시 시도하세요.');
-      }
+        if (error.response && error.response.status === 409) {
+            setError('이미 사용 중인 이메일입니다.');
+        } else {
+            setError('회원가입 중 오류가 발생했습니다. 다시 시도하세요.');
+        }
     }
   };
 
@@ -83,88 +79,48 @@ const Signup: React.FC = () => {
       </div>
       
       <div className="signup-center-box">
-        {error && (
-          <Alert variant="danger" className="signupAlert">
-            <FaTimesCircle style={{ marginRight: '10px' }} />
-            {error}
-          </Alert>
-        )}
-        {success && (
-          <Alert variant="success" className="signupAlert">
-            <FaCheckCircle style={{ marginRight: '10px' }} />
-            회원가입에 성공했습니다!
-          </Alert>
-        )}
+        {error && <AlertMessage message={error} variant="danger" />}
+        {success && <AlertMessage message="회원가입에 성공했습니다!" variant="success" />}
+        
         <Form className="signupForm" onSubmit={handleSubmit}>
-          <Form.Group controlId="formEmail" className="signupInputGroup">
-            <Form.Label className="signupLabel">이메일 주소</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="이메일을 입력하세요"
-              value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} // 타입 추가
-              className="signupInputField"
-            />
-            <div className="signupUnderline"></div>
-          </Form.Group>
+          <FormInput
+            id="formEmail"
+            label="이메일 주소"
+            type="email"
+            placeholder="이메일을 입력하세요"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-          <Form.Group controlId="formPassword" className="signupInputGroup">
-            <Form.Label className="signupLabel">비밀번호</Form.Label> 
-            <Form.Control
-              type="password"
-              placeholder="8~15자리의 비밀번호를 입력하세요"
-              value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} // 타입 추가
-              className="signupInputField"
-            />
-            <div className="signupUnderline"></div>
-            {password && (
-              <div className="signupPasswordIcon">
-                {isValidPassword(password) ? (
-                  <FaCheckCircle color="green" />
-                ) : (
-                  <FaTimesCircle color="red" />
-                )}
-              </div>
-            )}
-          </Form.Group>
+          <FormInput
+            id="formPassword"
+            label="비밀번호"
+            type="password"
+            placeholder="8~15자리의 비밀번호를 입력하세요"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-          <Form.Group controlId="formPasswordConfirm" className="signupInputGroup">
-            <Form.Label className="signupLabel">비밀번호 재확인</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="8~15자리의 비밀번호를 입력하세요"
-              value={passwordConfirm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(e.target.value)} // 타입 추가
-              className="signupInputField"
-            />
-            <div className="signupUnderline"></div>
-            {passwordConfirm && (
-              <div className="signupPasswordIcon">
-                {password === passwordConfirm ? (
-                  <FaCheckCircle color="green" />
-                ) : (
-                  <FaTimesCircle color="red" />
-                )}
-              </div>
-            )}
-          </Form.Group>
+          <FormInput
+            id="formPasswordConfirm"
+            label="비밀번호 재확인"
+            type="passwordConfirm"
+            placeholder="8~15자리의 비밀번호를 입력하세요"
+            value={passwordConfirm}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
+            confirmValue={password} // 비밀번호 확인을 위한 비밀번호 전달
+          />
 
-          <Form.Group controlId="formName" className="signupInputGroup">
-            <Form.Label className="signupLabel">닉네임</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="닉네임을 입력하세요"
-              value={name}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} // 타입 추가
-              className="signupInputField"
-            />
-            <div className="signupUnderline"></div>
-          </Form.Group>
+          <FormInput
+            id="formName"
+            label="닉네임"
+            type="text"
+            placeholder="닉네임을 입력하세요"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
-          <Button variant="primary" type="submit" className="signupButton">
-            회원가입
-          </Button>
+          <SignupButton />
         </Form>
       </div>
     </div>

@@ -146,7 +146,7 @@ body, .sidebar, .sidebar *, .new-model-icon span, .chat-date, .room-title, .last
 
 .toggle-sidebar-button {
   position: fixed;  
-  top: 16px;
+  top: 15px;
   left: 1.1em;  
   display: flex;
   align-items: center;

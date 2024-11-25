@@ -125,10 +125,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       sendMessageToServer();
     }
   };
-
   return (
-    <Form className={`chat-input-container ${isInputFocused ? 'focused' : ''}`} onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+    <Form className={`chat-input-container ${isInputFocused ? 'focused' : ''}`} onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
       sendMessageToServer();
     }}>
       <div className="input-button-wrapper">
@@ -136,8 +135,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({
           {isRecording ? '■' : '🎤'}
         </Button>
         <Form.Control as="textarea" ref={textareaRef} rows={1} value={message} onChange={handleMessageChange} onKeyDown={handleKeyPress} onFocus={handleInputFocus} onBlur={handleInputBlur} placeholder="Type a message..." className="chat-container" disabled={isEditMode} />
-        <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-          e.preventDefault();
+        <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+          event.preventDefault();
           sendMessageToServer();
         }} className="chat-box-button send-button" disabled={isEditMode || !message.trim()}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-right" viewBox="0 0 16 16">

@@ -1,37 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllScenarios, startNewConversationWithScenario } from '../api/axiosInstance';
-import { faArrowLeft, faFilter } from '@fortawesome/free-solid-svg-icons';
-import { Modal, Dropdown } from 'react-bootstrap';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import '../css/Scenarios.css';
+import '../css/Scenario/Scenarios.css';
 import IMAGE_NOT_FOUND from '../img/ErrorIMG.png';
-import { AIScenario } from '../@types/types';
-
-const DifficultyBar: React.FC<{ level: 1 | 2 | 3 }> = ({ level }) => {
-  const bars = [
-    { filled: level >= 1, label: '쉬움' },
-    { filled: level >= 2, label: '중간' },
-    { filled: level >= 3, label: '어려움' }
-  ];
-
-  return (
-    <div className="difficulty-container">
-      <div className="difficulty-bars">
-        {bars.map((bar, index) => (
-          <div 
-            key={index} 
-            className={`difficulty-bar ${bar.filled ? 'filled' : ''}`}
-            data-label={bar.label}
-          />
-        ))}
-      </div>
-      <span className="difficulty-label">
-        {level === 1 ? '쉬움' : level === 2 ? '중간' : '어려움'}
-      </span>
-    </div>
-  );
-};
+import { AIScenario } from '../types';
+import DifficultyFilter from '../components/Scenarios/DifficultyFilter'; // 추가된 부분
+import ScenarioCard from '../components/Scenarios/ScenarioCard'; // 추가된 부분
+import ScenarioModal from '../components/Scenarios/ScenarioModal'; // 추가된 부분
+import '../css/set/color.css'; // 추가된 부분 
 
 const Scenarios: React.FC = () => {
   const [scenarios, setScenarios] = useState<AIScenario[]>([]);
@@ -63,7 +41,7 @@ const Scenarios: React.FC = () => {
     } else {
       setFilteredScenarios(scenarios.filter(scenario => scenario.difficulty === difficulty));
     }
-  };
+  }; 
 
   const handleStartScenario = async () => {
     if (!selectedScenario) return;
@@ -91,76 +69,29 @@ const Scenarios: React.FC = () => {
 
   return (
     <div className="scenarios-container">
-      <button className="scenarios-back-button" onClick={handleBack}>
+      <button className="scenarios-backbutton" onClick={handleBack}>
         <FontAwesomeIcon icon={faArrowLeft} />
       </button>
-      <h1>시나리오 선택</h1>
-      <div className="difficulty-filter">
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-difficulty">
-            <FontAwesomeIcon icon={faFilter} />
-            {selectedDifficulty === null 
-              ? ' 모든 난이도' 
-              : selectedDifficulty === 1 
-                ? ' 쉬움' 
-                : selectedDifficulty === 2 
-                  ? ' 중간' 
-                  : ' 어려움'}
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleDifficultyFilter(null)}>
-              모든 난이도
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleDifficultyFilter(1)}>
-              쉬움
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleDifficultyFilter(2)}>
-              중간
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleDifficultyFilter(3)}>
-              어려움
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
+      <h1>시나리오 선택</h1> 
+      <DifficultyFilter selectedDifficulty={selectedDifficulty} onDifficultyChange={handleDifficultyFilter} />  
       <div className="scenarios-grid">
         {filteredScenarios.map((scenario) => (
-          <div key={scenario._id} className="scenario-card" onClick={() => handleScenarioClick(scenario)}>
-            <div className="scenario-image">
-              <img src={scenario.imageUrl || IMAGE_NOT_FOUND} alt={scenario.name} onError={handleImageError} />
-            </div>
-            <h2>{scenario.name}</h2>
-            <DifficultyBar level={scenario.difficulty} />
-          </div>
-        ))}
+      <ScenarioCard 
+        key={scenario._id} 
+        scenario={scenario} 
+        onClick={handleScenarioClick} 
+        onImageError={handleImageError}
+      /> 
+    ))}
       </div>
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{selectedScenario?.name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>{selectedScenario?.description}</p>
-          <div className="roles">
-            <button 
-              className={`role-button ${selectedRole === 'role1' ? 'selected' : ''}`}
-              onClick={() => setSelectedRole('role1')}
-            >
-              {selectedScenario?.roles.role1}
-            </button>
-            <button 
-              className={`role-button ${selectedRole === 'role2' ? 'selected' : ''}`}
-              onClick={() => setSelectedRole('role2')}
-            >
-              {selectedScenario?.roles.role2}
-            </button>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <button className="back-button" onClick={() => setShowModal(false)}>닫기</button>
-          <button className="start-button" onClick={handleStartScenario}>시작하기</button>
-        </Modal.Footer>
-      </Modal>
+      <ScenarioModal 
+        show={showModal} 
+        selectedScenario={selectedScenario} 
+        onHide={() => setShowModal(false)} 
+        onStart={handleStartScenario} 
+        selectedRole={selectedRole} 
+        onRoleChange={setSelectedRole} 
+      />
     </div>
   );
 };
