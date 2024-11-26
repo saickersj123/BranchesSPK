@@ -1,5 +1,5 @@
 import React from 'react';
-import { AIScenario } from '../../types';
+import { AIScenario } from '../../@types/scenarios';
 import DifficultyBar from './DifficultyBar'; 
 import '../../css/Scenario/Scenarios.css';
 

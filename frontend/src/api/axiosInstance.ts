@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { Message, Conversation, AIScenario, AuthResponse, ChatboxCoordinates } from '../@types/types';  // types.ts에서 Message와 Conversation을 import
+import { Message, Conversation, AuthResponse, ChatboxCoordinates } from '../@types/types';  // types.ts에서 Message와 Conversation을 import
+import { AIScenario } from '../@types/scenarios';
 import { DUMMY_SCENARIOS } from '../@types/dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암
 
 // 모든 요청에 withCredentials 옵션을 설정
@@ -38,19 +39,24 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
 // startNewConversationWithScenario 함수 수정
 export const startNewConversationWithScenario = async (
   scenarioId: string, 
-  selectedRole: 'role1' | 'role2'
+  selectedRole: 'role1' | 'role2', 
 ): Promise<Conversation> => {
   if (API_MODE === 1) {
     // 더미 데이터 모드에서 선택된 정보 출력
     console.log('=== 시나리오 선택 정보 (테스트 모드) ===');
     console.log('선택된 시나리오 ID:', scenarioId);
     console.log('선택된 역할:', selectedRole);
-    console.log('선택된 시나리오 상세:', DUMMY_SCENARIOS.find(s => s._id === scenarioId));
+    const selectedScenario = DUMMY_SCENARIOS.find(s => s._id === scenarioId);
+    if (!selectedScenario) {
+      throw new Error('선택된 시나리오를 찾을 수 없습니다.');
+    }
+    console.log('선택된 시나리오 상세:', selectedScenario);
     console.log('===============================');
     return Promise.resolve({
       _id: `temp_conversation_${Date.now()}`,
       chats: [],
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      title: selectedScenario.name // Assuming title is a required property in Conversation
     });
   } else {
     // 실제 서버 통신 모드

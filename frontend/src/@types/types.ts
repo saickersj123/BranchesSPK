@@ -8,17 +8,10 @@ export interface Message {
 export interface Conversation {
   _id: string;
   chats: Message[];
+  title: string;
   createdAt: string;
 }
-
-export interface AIScenario {
-  _id: string;
-  name: string;
-  description: string;
-  imageUrl?: File;
-  roles: { role1: string; role2: string };
-  difficulty: 1 | 2 | 3; // 1: 쉬움, 2: 중간, 3: 어려움
-}
+ 
 
 export interface User {
   name: string;

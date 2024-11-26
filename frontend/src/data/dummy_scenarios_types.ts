@@ -3,8 +3,8 @@ import companyinterview from './img/DUMMY_SCENARIOS/CompanyInterview.png';
 import cafe from './img/DUMMY_SCENARIOS/Cafe.png';
 import checkin from './img/DUMMY_SCENARIOS/Hotel.png';
 import cinema from './img/DUMMY_SCENARIOS/Cinema.png';
-
-import { AIScenario } from './types';
+ 
+import { AIScenario } from '../@types/scenarios';
 
 export const DUMMY_SCENARIOS: AIScenario[] = [
     {

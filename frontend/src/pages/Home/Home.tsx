@@ -14,7 +14,7 @@ import { fetchMessages, fetchConversations, getChatboxes, saveChatbox, resetChat
 import '../../css/Home.css';
 import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
-import { Message, Conversation } from '../../types';
+import { Message, Conversation } from '../../@types/types';
 
 interface HomeProps {
   isLoggedIn: boolean;

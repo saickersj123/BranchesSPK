@@ -1,5 +1,5 @@
 export interface AIScenario {
-    _id: string;
+    _id: string; 
     name: string;
     description: string;
     imageUrl: string;
@@ -9,3 +9,4 @@ export interface AIScenario {
       role2: string;
     };
   }
+ 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import { AIScenario } from '../../types'; 
+import { AIScenario } from '../../@types/scenarios'; 
 import '../../css/Scenario/ScenarioModal.css';
 
 interface ScenarioModalProps {

@@ -5,7 +5,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../css/Scenario/Scenarios.css';
 import IMAGE_NOT_FOUND from '../img/ErrorIMG.png';
-import { AIScenario } from '../types';
+import { AIScenario } from '../@types/scenarios';
 import DifficultyFilter from '../components/Scenarios/DifficultyFilter'; // 추가된 부분
 import ScenarioCard from '../components/Scenarios/ScenarioCard'; // 추가된 부분
 import ScenarioModal from '../components/Scenarios/ScenarioModal'; // 추가된 부분
