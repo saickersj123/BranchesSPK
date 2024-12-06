@@ -1,0 +1,172 @@
+/* MyPage.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
+
+.mypage-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #fff;
+  font-family: Pretendard;
+  position: relative; 
+}
+
+.prlogo2-1-icon {
+  width: 20.8vw;
+  position: fixed; 
+  z-index: 1000;
+  margin-bottom: 5vh; 
+}
+
+.my-center-box {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MainInputGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.My-inputField {
+  width: 20.8vw; 
+  height: 4.375rem; 
+  padding: 10px;
+  padding-right: 2.5rem;
+  border: 0.6px solid #b1b1b1;
+  box-sizing: border-box;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+.My-inputField:focus {
+  border-color: #007f3a;
+  box-shadow: 0 0 0 2px rgba(0, 127, 58, 0.2);
+}
+
+.MainUnderline {
+  height: 0;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+  transition: height 0.3s, background-color 0.3s;
+}
+
+.My-inputField:focus + .MainUnderline {
+  height: 5.71%;
+  background-color: #007f3a;
+}
+
+.edit-button {
+  position: absolute;
+  right: 10px; 
+  top: 70%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: #87ceeb;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  color: #0056b3;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.my-save-button {
+  width: 10vw; 
+  background-color: #007f3a; 
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 600;
+  height: 3rem;
+  box-shadow: 0px 4px 15px rgba(0, 127, 58, 0.2);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.my-save-button:hover {
+  background-color: #005a1e; 
+  box-shadow: 0px 6px 20px rgba(0, 127, 58, 0.3);
+}
+
+.my-cancel-button {
+  margin-left: 0.8vw;
+  width: 10vw;
+  background-color: #6c757d; 
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 600;
+  height: 3rem;
+  box-shadow: 0px 4px 15px rgba(108, 117, 125, 0.2);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.my-cancel-button:hover {
+  background-color: #495057;
+  box-shadow: 0px 6px 20px rgba(108, 117, 125, 0.3);
+}
+
+.label {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #263a43;
+  margin-bottom: 10px;
+}
+
+.MypageButton {
+  width: 20.8vw;
+  box-shadow: 0px 4px 30px rgba(38, 58, 67, 0.15);
+  border-radius: 12px;
+  border: none;
+  background-color: #b5b5b6;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  font-size: 1.4375rem;
+  color: #fff;
+  font-weight: 600;
+  font-family: Pretendard;
+  margin-top: 10px;
+}
+
+.MypageButton:hover, .MypageButton:active {
+  background-color: #111111 !important;
+} 
+
+.my-back-button {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background-color: #b5b5b6;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.my-back-button:hover {
+  background-color: #111111 !important;
+}

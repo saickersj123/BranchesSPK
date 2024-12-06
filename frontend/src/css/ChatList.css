@@ -1,0 +1,103 @@
+:root {
+  --my-chat-bubble-color: gainsboro;
+  --my-chat-text-color: #000000;
+  --other-chat-bubble-color: #FFFFFF;
+  --other-chat-text-color: #000000;
+  --chat-bubble-bold: normal;
+  --chat-bubble-shadow: none;
+  --time-bold: normal; /* 시간 볼드체 추가 */
+}
+
+/* 채팅 메시지 컨테이너 스타일 */
+.message-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.bubble-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  max-width: 100%; /* 기본적으로 최대 너비를 100%로 설정 */
+}
+
+.bubble {
+  padding: 10px;
+  border-radius: 10px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.time {
+  font-size: 0.8em;
+  color: gray;
+  white-space: nowrap;
+  margin-left: 10px; /* 시간을 말풍선 옆에 띄우기 위한 여백 */
+  font-weight: var(--time-bold); /* 시간 볼드체 적용 */
+}
+
+.username {
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.sent-by-user {
+  margin-left: auto;
+  align-items: flex-end;
+}
+
+.sent-by-user .bubble-container {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+.sent-by-user .bubble {
+  background-color: var(--my-chat-bubble-color);
+  color: var(--my-chat-text-color);
+}
+
+.sent-by-user .time {
+  margin-left: 0; /* 왼쪽 마진 제거 */
+  margin-right: 5px; /* 오른쪽 마진 추가 */
+}
+
+.received {
+  margin-right: auto;
+  align-items: flex-start;
+}
+
+.received .bubble-container {
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.received .bubble {
+  background-color: var(--other-chat-bubble-color);
+  color: var(--other-chat-text-color);
+}
+
+.received .time {
+  margin-left: 5px;
+}
+
+/* 새로운 채팅을 시작해 보세요! 알림 스타일 */
+.alert-info {
+  background-color: lightgrey;
+}
+
+.alert-info.text-center {
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 50px;
+}
+
+/* 로딩 스피너 스타일 */
+.loading-spinner {
+  text-align: center;
+  font-size: 1.2em;
+  color: gray;
+  margin: 20px 0;
+}

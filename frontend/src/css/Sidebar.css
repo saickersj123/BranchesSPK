@@ -1,0 +1,297 @@
+/* src/css/Sidebar.css */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 20%;
+  height: 100%;
+  background-color: #f4f4f4;
+  padding: 10px 0; /* Remove top padding */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  z-index: 1050;
+  transform: translateX(-100%);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-menu {
+  margin-top: 25%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+
+.sidebar-menu a:hover,
+.sidebar-menu p:hover {
+  color: #007bff;
+}
+
+
+.chat-date-group {
+  margin-bottom: 20px;
+}
+
+.chat-date {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.chat-room {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+.chat-room:hover {
+  background-color: gainsboro;
+  cursor: pointer;
+}
+
+.last-message {
+  flex-grow: 1;
+  color: #333;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.no-chat-rooms {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+.no-chat-rooms p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  white-space: normal;
+}
+
+
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+.delete-button:hover {
+  background-color: transparent;
+  color: red;
+}
+
+.delete-all-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.delete-all-button:hover {
+  background-color: transparent;
+  color: red;
+}
+
+.confirmation-tab {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  text-align: center;
+}
+
+.confirmation-buttons {
+  margin-top: 20px;
+}
+
+.confirmation-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.toggle-sidebar-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+  display: none;
+}
+
+.sidebar-overlay.open {
+  display: none;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 50px); /* Adjust based on header height */
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.new-conversation-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 5px;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.new-conversation-button:hover {
+  color: green;
+}
+
+.new-model-button {
+  position: fixed;
+  top: 9px;
+  right: 60px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 5px;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.new-model-button:hover {
+  color: blue;
+}
+
+.room-title {
+  margin-left: 3%;
+  font-size: 16px;
+}
+
+.model-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.model-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.model-item:hover .model-name {
+  color: blue; /* 원하는 색상으로 변경 */
+}
+
+.model-item-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.model-name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.model-id {
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.model-item .delete-button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.model-item .delete-button:hover {
+  color: red;
+}
+
+.model-add {
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.input-group-pair-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-prompt-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
