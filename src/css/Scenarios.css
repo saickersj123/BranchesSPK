@@ -1,0 +1,478 @@
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
+
+.scenarios-container {
+  padding: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.scenarios-grid {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 를 아래와 같이 변경 */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+  padding: 1rem;
+  flex: 1;
+  min-height: 400px;
+}
+
+.scenario-card {
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* 반응형을 위한 미디어 쿼리 추가 */
+@media (max-width: 1024px) {
+  .scenarios-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .scenarios-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 시나리오가 없을 때도 그리드 영역 유지 */
+.scenarios-grid:empty {
+  min-height: 400px;
+  background-color: transparent;
+}
+
+.scenario-image {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.scenario-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.scenarios-container h1 {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #1a1a1a;
+  font-size: 2.5rem;
+  font-weight: 800;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.scenarios-container h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #007f3a;
+}
+
+ 
+
+.scenario-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.scenario-card.selected {
+  border-color: #007f3a;
+}
+
+.scenario-card h2 {
+  margin: 0 0 1.1rem;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.scenario-card p {
+  color: #666;
+  margin: 0;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.roles {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.role-button {
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex: 1;
+  max-width: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.role-button:hover {
+  background-color: #f5f5f5;
+  border-color: #007f3a;
+  color: #007f3a;
+}
+
+.role-button.selected {
+  color: white;
+  border-color: #007f3a;
+  box-shadow: 0 5px 15px rgba(0, 127, 58, 0.3);
+}
+
+.scenario-actions {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding: 1rem;
+}
+
+.start-button, .back-button {
+  padding: 1rem 3rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.start-button {
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 127, 58, 0.3);
+}
+
+.start-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 127, 58, 0.4);
+}
+
+.start-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.back-button {
+  background-color: #6c757d;
+  color: white;
+  box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+  background-color: #5a6268;
+}
+
+.scenario-card:hover .scenario-image img {
+  transform: scale(1.05);
+}
+
+.scenarios-back-button {
+  position: fixed;
+  top: 2em;
+  right: 2em;
+  background-color: #007f3a;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.5rem;
+  padding: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 127, 58, 0.2);
+}
+
+.scenarios-back-button:hover {
+  background-color: #006830;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 127, 58, 0.3);
+}
+
+@media (max-width: 800px) {
+  .scenarios-back-button {
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 1.3rem;
+  }
+}
+
+/* Modal button styles */
+
+.modal-footer {
+  border-top: none;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modal-footer .back-button, .modal-footer .start-button {
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.modal-footer .back-button {
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+}
+
+.modal-footer .back-button:hover {
+  background-color: #f5f5f5;
+  color: #333;
+  transform: translateY(-2px);
+}
+
+.modal-footer .start-button {
+  background-color: #007f3a;
+  color: white;
+  border: none;
+}
+
+.modal-footer .start-button:hover {
+  background-color: #006830;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 127, 58, 0.2);
+}
+
+/* Role selection button styles */
+
+.roles {
+  margin-top: 2rem;
+}
+
+.role-button {
+  padding: 1rem 2rem;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  background-color: transparent;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.role-button:hover {
+  border-color: #007f3a;
+  color: #007f3a;
+  background-color: rgba(0, 127, 58, 0.05);
+}
+
+.role-button.selected {
+  background-color: #007f3a;
+  color: white;
+  border-color: #007f3a;
+  box-shadow: 0 4px 12px rgba(0, 127, 58, 0.2);
+}
+
+/* Modal header styles */
+
+.modal-header {
+  border-bottom: none;
+  padding: 1.5rem;
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-body {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.modal-body p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Difficulty indicator styles */
+
+.difficulty-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.difficulty-bars {
+  display: flex;
+  gap: 0.3rem;
+  height: 8px;
+}
+
+.difficulty-bar {
+  width: 25px;
+  height: 100%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.difficulty-bar.filled:nth-child(1) { background-color: #4CAF50; }
+.difficulty-bar.filled:nth-child(2) { background-color: #FFA726; }
+.difficulty-bar.filled:nth-child(3) { background-color: #EF5350; }
+
+.difficulty-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.difficulty-bar:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+
+.difficulty-bar:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.8);
+  margin-bottom: -5px;
+}
+ 
+/* 필터 드롭다운 스타일 */
+.difficulty-filter {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+  padding-right: 1rem;
+}
+
+.difficulty-filter .dropdown-toggle {
+  background-color: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.95rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: 180px;
+  justify-content: center;
+  position: relative;
+  padding-right: 2.5rem;  /* 오른쪽 패딩 증가 */
+}
+
+.difficulty-filter .dropdown-toggle::after {
+  display: none; /* 기본 화살표 제거 */
+}
+
+.difficulty-filter .dropdown-toggle svg {
+  color: #007f3a;
+  font-size: 0.9rem;
+  position: absolute;  /* 아이콘 위치 고정 */
+  right: 1.2rem;      /* 우측 여백 */
+}
+.difficulty-filter .dropdown-toggle:hover {
+  border-color: #007f3a;
+  box-shadow: 0 4px 12px rgba(0, 127, 58, 0.15);
+}
+
+.difficulty-filter .dropdown-menu {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  min-width: 160px;
+  transform-origin: top;
+  animation: smoothDropdown 0.2s ease;
+  background-color: white;
+}
+
+
+@keyframes smoothDropdown {
+  from {
+    opacity: 0; 
+  }
+  to {
+    opacity: 1; 
+  }
+}
+
+.difficulty-filter .dropdown-item {
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  color: #555;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;  /* 드롭다운 아이템도 중앙 정렬 */
+}
+
+.difficulty-filter .dropdown-item:hover {
+  background-color: rgba(0, 127, 58, 0.08);
+  color: #007f3a;
+}
+
+.difficulty-filter .dropdown-item:active {
+  background-color: rgba(0, 127, 58, 0.12);
+}
+
+/* 시나리오가 없을 때 메시지 */
+.no-scenarios {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.1rem;
+}
