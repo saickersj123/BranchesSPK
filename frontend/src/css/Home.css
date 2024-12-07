@@ -1,17 +1,40 @@
- 
+/* Tailwind base */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.main-section {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;  
+:root {
+  --button-color: #000000;
+  --my-chat-bubble-color: #F0F0F0;
+  --my-chat-text-color: #000000;
+  --other-chat-bubble-color: #DCF8C6;
+  --other-chat-text-color: #000000;
+  --chat-container-bg-color: #FFFFFF;
+  --chat-bubble-bold: normal;
+  --chat-bubble-shadow: none;
+  --time-bold: normal;
+  --chatbox-bg-color: #f0f0f0; /* 기본 ChatBox 배경 색상 */
 }
 
-.main-content {
-  flex: 1;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-section {
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* 메인 컨텐츠의 스크롤을 숨깁니다 */
+  height: 100%;
+}
+
+
+.main-content {
+  position: relative;
+  width: 100%;
+  transition: margin-left 0.3s ease;
 }
 
 .main-content.shifted-right {
@@ -19,29 +42,22 @@
 }
 
 .grid-container {
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  width: 100%; /* 전체 너비를 사용하도록 설정 */
-  max-width: 100%; /* 최대 너비를 100%로 설정 */
-  margin: 0 auto; /* 중앙 정렬 */
-  padding: 0; /* 좌우 여백 추가 */
-  overflow: hidden; /* 그리드 컨테이너의 스크롤을 숨깁니다 */
-}
-
-.react-grid-layout {
-  overflow: hidden !important; /* GridLayout의 스크롤을 숨깁니다 */
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
 }
 
 .grid-item {
   box-sizing: border-box;
-  background: transparent !important; /* 배경을 투명하게 설정 */
-  padding: 0; /* 패딩 제거 */
+  background: var(--chat-container-bg-color);
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 100%; /* 전체 너비 사용 */
 }
+
 
 .grid-item.no-border {
   border: none;
@@ -55,49 +71,25 @@
   text-align: center;
 }
 
-.chat-list-container { 
-  flex: 1;
-  overflow-y: auto; /* 채팅 리스트에만 세로 스크롤을 허용합니다 */
+.chat-list-container {
+  overflow-y: auto;
   overflow-x: hidden;
-  margin: 0; 
-  background-color: var(--chat-container-bg-color);
-  border-radius: 10px;
-  margin-bottom: 10px; /* 입력창과의 간격 */
-  width: 100%; /* 전체 너비 사용 */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-}
-
-/* Webkit browsers like Chrome, Safari */
-.chat-list-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.chat-list-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.chat-list-container::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-  border: 2px solid transparent;
-}
-
-.chat-list-container::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.3);
+  flex: 1;
+  margin: 0;
+  padding: 10px;
 }
 
 .chat-box-container {
   overflow-y: hidden;
-  flex: none; 
-  margin: 0;
-  padding: 0;
+  flex: none;
+  height: 10%;
+  margin: 0px;
+  padding: 10px;
   box-sizing: border-box;
-  background: transparent; /* 배경을 투명하게 설정 */
 }
 
 .chat-box-container .chat-container {
-  background: transparent !important; /* ChatBox 배경을 투명하게 설정 */
+  background: var(--chatbox-bg-color); /* ChatBox 배경 색상 */
 }
 
 .edit-buttons {
@@ -119,31 +111,17 @@
   z-index: 50;
 }
 
+
 .show-scrollbar {
   overflow: auto !important;
 }
 
 .react-resizable-handle {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background-color: #007bff;
-  border-radius: 50%;
-  right: 0;
-  bottom: 0;
-  cursor: se-resize;
+  width: 10px;
+  height: 10px;
+  background: #9ca3af;
   z-index: 10;
-}
-
-.react-resizable-handle::after {
-  content: "";
-  position: absolute;
-  right: 3px;
-  bottom: 3px;
-  width: 5px;
-  height: 5px;
-  border-right: 2px solid white;
-  border-bottom: 2px solid white;
 }
 
 .react-resizable-handle-s {
@@ -193,7 +171,7 @@
   right: 20px;
   display: flex;
   align-items: center;
-  z-index: 1000;
+  z-index: 1100;
 }
 
 .settings-button {
@@ -231,41 +209,25 @@
 
 .header-container {
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 유지 */
+  align-items: center;
   position: fixed;
-  top: 12px;
-  left: 4em;
+  top: 15px;
+  left: 60px;
   z-index: 1100;
   transition: left 1.3s ease;
 }
 
 .header-container.shifted-header {
-  margin-left: 20%; /* Adjust this value based on your sidebar width */
-}
-
-.home_new_conversation {
-  font-weight: bold;
-  font-size: 31px;
-  margin-right: 0.8em;
-  display: flex;         
-  align-items: center;   
-  line-height: 1;        
-  height: 40px;       
-}
-
-.home_new_conversation:hover {
-  color: green;
-}
-
-.shifted-header .home_new_conversation {
-  display: none;
+  margin-left: 18%; /* Adjust this value based on your sidebar width */
 }
 
 .brand-text {
   font-weight: bold;
-  font-size: 1.3em;
+  font-size: 1.2em;
   cursor: pointer;
 }
+
+
 
 .login-container {
   position: fixed;
@@ -276,10 +238,12 @@
   z-index: 1100;
 }
 
-.login-button { 
+.login-button {
+  background-color: grey;
   color: white;
   border: none;
-  border-radius: 4px; 
+  border-radius: 4px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
@@ -301,46 +265,4 @@
 .settings-container .cancel-button:hover,
 .settings-container .reset-button:hover {
   background-color: #e0e0e0;
-}
-
-.FaCog-dropdown-toggle{ 
-  background-color: transparent !important;
-  border: none !important;    
-}
-
-.FaCog-dropdown-toggle:after {
-  display: none !important;
-}
-
-.home-set-icon { 
-  width: 39px;
-  height: 39px; 
-  border-radius: 50%;
-  background-color: #989898; 
-  display: flex;
-  align-items: center;
-  justify-content: center; 
-  font-size: 1.6rem;  
-  color: white; 
-}
-
-/* 채팅 메시지에 CSS 변수 적용 */
-.chat-message {
-  background-color: var(--my-chat-bubble-color);
-  color: var(--my-chat-text-color);
-  font-weight: var(--chat-bubble-bold);
-  box-shadow: var(--chat-bubble-shadow);
-}
-
-.chat-message.other {
-  background-color: var(--other-chat-bubble-color);
-  color: var(--other-chat-text-color);
-}
-
-.chat-container {
-  background-color: var(--chat-container-bg-color);
-}
-
-.chat-time {
-  font-weight: var(--time-bold);
 }

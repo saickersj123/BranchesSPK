@@ -1,8 +1,27 @@
-@import './set/color.css';
+/* 기본 스타일 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
- .main-app-container{
-  background-color: var(--main-background-color);
- }
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0; 
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+body.dark {
+  --background-color: #2b2a2a;
+  --text-color: #ffffff;
+}
+
+body.light {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
 
 .app-container {
   display: flex;
@@ -32,10 +51,9 @@
 .ChatList {
   padding: 20px;
   overflow-y: scroll;
-  margin-left: 25px;
-  margin-right: 25px;
+  margin-left: 25%;
+  margin-right: 25%;
   max-height: 80vh;
-  flex-grow: 1;  
 }
 
 .ChatList::-webkit-scrollbar {
@@ -93,3 +111,4 @@
     z-index: 999;
   }
 }
+ 

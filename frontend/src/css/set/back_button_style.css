@@ -1,9 +1,0 @@
-:root {
-    --back-button-background-color: #b5b5b6; /* 기본 버튼 배경 색상 */
-    --back-button-hover-color: #005f2a; /* 버튼 호버 색상 */
-    --back-button-border-radius: 5px; /* 버튼 모서리 둥글기 */
-    --back-button-padding: 0.5rem 1rem; /* 버튼 패딩 */
-    --button-position-top: 2em; /* 버튼 상단 위치 */
-    --button-position-right: 2em; /* 버튼 우측 위치 */
-  }
-    
