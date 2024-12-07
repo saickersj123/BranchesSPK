@@ -1,0 +1,335 @@
+/* src/css/Sidebar.css */
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
+
+body, .sidebar, .sidebar *, .new-model-icon span, .chat-date, .room-title, .last-message, .no-chat-rooms p, .model-name, .model-id, .confirmation-tab, .confirmation-buttons button, .input-group label, .input-group input, .input-group textarea {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 20%;
+  height: 100%;
+  background-color: #E4E4E4; 
+  padding: 10px 0; 
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  z-index: 1050;
+  transform: translateX(-100%); 
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-menu {
+  margin-top: 1.5em;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu p:hover {
+  color: #007bff;
+}
+
+.chat-date-group {
+  margin-top: 0;
+}
+
+.chat-date {
+  font-size: 1.2rem;
+  font-weight: bold; 
+  color: #555;
+  margin-top: 1em;
+}
+
+.chat-room {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 0.1em;
+}
+
+.chat-room:hover {
+  background-color: gainsboro;
+  cursor: pointer;
+}
+
+.last-message {
+  flex-grow: 1;
+  color: #333;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-chat-rooms {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-size: 2rem;
+}
+
+.no-chat-rooms p {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #555;
+  white-space: normal;
+} 
+
+.one-delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex: 0 0 auto;
+  margin-left: 10px;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  width: 1.5rem; 
+}
+
+.one-delete-button:hover {
+  background-color: transparent;
+  color: red;
+}
+
+.delete-all-button  {
+  background-color: transparent;
+  position: absolute;
+  bottom: 0.5em;
+  right: 1em;
+  background: none;
+  border: none;
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 1.4em; 
+  height: 1.4em; 
+  outline: none;
+}
+
+.delete-all-button:hover {
+  background-color: transparent;
+  color: red;
+}
+
+.confirmation-tab {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  text-align: center;
+}
+
+.confirmation-buttons {
+  margin-top: 20px;
+}
+
+.confirmation-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.toggle-sidebar-button {
+  position: fixed;  
+  top: 15px;
+  left: 1.1em;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent !important;
+  border: none;
+  cursor: pointer; 
+  z-index: 1100; 
+  outline: none;
+}
+
+.toggle-sidebar-button:hover {
+  color: green;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+  display: none;
+}
+
+.sidebar-overlay.open {
+  display: none;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2.5em;
+  height: calc(100% - 4.3em); /* Adjust based on header height */
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;  
+}
+
+.new-conversation-button {
+  position: fixed; 
+  top: 12px;
+  right: 10px; 
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 5px;
+  cursor: pointer; 
+  background-color: transparent;
+}
+
+.new-conversation-button:hover {
+  color: green;
+}
+
+.new-model-icon, .model-info { 
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1100;
+  outline: none;
+  background: none;    
+}
+
+.model-info {
+  margin-bottom: 0.5em; 
+  margin-top: 0.9em; 
+}  
+
+.new-model-icon svg, .model-info img {
+  margin-right: 1em;
+  width: 1.8rem;
+  height: 1.8rem;
+  background-color: #D9D9D9; 
+  border-radius: 50%; 
+  padding: 1px; 
+  border: 1px solid #ADADAD;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+} 
+
+.new-model-icon:hover, .model-info:hover {
+  color: #87ceeb; 
+} 
+
+.room-title {
+  flex: 1 1 auto;
+  margin-right: 10px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.model-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.model-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.model-item:hover .model-name {
+  color: blue; /* 원하는 색상으로 변경 */
+}
+
+.model-item-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.model-name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.model-id {
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+.model-item .delete-button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.model-item .delete-button:hover {
+  color: red;
+}
+
+.model-add {
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.input-group-pair-header { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-prompt-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+} 
+
+.Sidebar-Delete-Modal .modal-dialog {
+  display: flex;
+  align-items: center; 
+  height: 100vh; 
+}
