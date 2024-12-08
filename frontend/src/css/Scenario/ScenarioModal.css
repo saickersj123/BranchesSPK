@@ -1,0 +1,68 @@
+/* ScenarioModal.css */
+.modal-title {
+    font-size: 1.5rem; /* 제목 크기 */
+    font-weight: bold; /* 제목 두께 */
+    margin: 1rem 0; /* 상하 여백 추가 */
+    color: #333; /* 제목 색상 */
+    text-align: center; /* 중앙 정렬 */
+  }
+  
+  .modal-description {
+    font-size: 1.1rem; /* 본문 텍스트 크기 */ 
+    font-weight: bold;  
+    color: #666; /* 본문 색상 */
+    line-height: 1.5; /* 줄 간격 */
+    padding-bottom: 1rem;
+  }
+  
+  .roles { 
+      display: flex;
+      justify-content: space-between; /* 버튼 간의 간격을 균등하게 */
+      margin: 1rem;
+  }
+  
+  .role-button {
+      flex: 1; /* 버튼이 동일한 너비를 가지도록 설정 */
+      padding: 1rem; /* 버튼 높이 증가 */
+      border: none;
+      border-radius: 25px;  
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 애니메이션 추가 */
+      margin: 0 0.5rem; /* 버튼 간의 간격 추가 */
+  }
+  
+  .role-button.selected {
+      font-weight: bold;
+      color: white;
+      background-color: #005f2a; /* 선택된 역할 색상 */
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* 선택된 버튼에 불빛 효과 추가 */
+  }
+  
+  .role-button:hover {
+      font-weight: bold;
+      color: white;
+      background-color: #005f2a; /* 호버 시 색상 */
+  }
+  
+  .footer-buttons { 
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between; /* 버튼 간의 간격을 균등하게 */
+    width: 100%; /* 전체 너비 사용 */
+  }
+  
+  .back-button, .start-button {
+      padding: 1rem; /* 버튼 높이 증가 */
+      border: none;
+      border-radius: 25px; 
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      flex: 1; /* 버튼이 동일한 너비를 가지도록 설정 */
+      margin: 0 0.5rem; /* 버튼 간의 간격 추가 */
+  }
+  
+  .back-button:hover, .start-button:hover {
+      font-weight: bold;
+      color: white;
+      background-color: #005f2a; /* 호버 시 색상 */
+  }
