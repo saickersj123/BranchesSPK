@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import User from '../models/User.ts';
+import User from '../models/User';
 
 export const addUserExp = async (req: Request, res: Response) => {
 	try {

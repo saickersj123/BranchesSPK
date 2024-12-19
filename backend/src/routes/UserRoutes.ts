@@ -24,6 +24,12 @@ import {
 
 import { verifyToken } from "../utils/Token.js";
 
+import { 
+	addUserExp,
+	deleteUserExp,
+	seeUserExp 
+} from "../controllers/EXP_UP.js";
+
 const userRoutes = express.Router(); 
 
 userRoutes.get("/", getAllUsers);
@@ -51,5 +57,11 @@ userRoutes.put("/cbox", validate(chatboxValidator), verifyToken, saveChatbox);
 userRoutes.post("/cbox", validate(chatboxValidator), verifyToken, saveChatbox);
 
 userRoutes.put("/cbox/reset", verifyToken, resetChatbox);
+
+userRoutes.post("/users/:userId/exp", addUserExp);
+
+userRoutes.delete("/users/:userId/exp", deleteUserExp);
+
+userRoutes.get("/users/:userId/exp", seeUserExp);
 
 export default userRoutes;
