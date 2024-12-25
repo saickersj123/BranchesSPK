@@ -53,14 +53,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       };
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-        if (conversationId) {
-          try {
-            const response = await sendVoiceMessage(conversationId, audioBlob);
-            if (response.length > 0) onUpdateMessage(response[response.length - 1]);
-          } catch (error) {
-            console.error('Voice message failed:', error);
-          }
-        }
+        await sendVoiceMessageToServer(audioBlob);
         stream.getTracks().forEach((track) => track.stop());
       };
       mediaRecorder.start();
@@ -125,6 +118,30 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       sendMessageToServer();
     }
   };
+
+  const sendVoiceMessageToServer = async (audioBlob: Blob) => {
+    if (conversationId) {
+      try {
+        const response = await sendVoiceMessage(conversationId, audioBlob);
+        if (response) {
+          const { audioUrl, text } = response;
+          const aiMessage: Message = { content: text, role: 'assistant', createdAt: new Date().toISOString() };
+          onUpdateMessage(aiMessage);
+          playAudio(audioUrl);
+        }
+      } catch (error) {
+        console.error('Voice message failed:', error);
+      }
+    }
+  };
+
+  const playAudio = (audioUrl: string) => {
+    const audio = new Audio(audioUrl);
+    audio.play().catch((error) => {
+      console.error('Error playing audio:', error);
+    });
+  };
+
   return (
     <Form className={`chat-input-container ${isInputFocused ? 'focused' : ''}`} onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();

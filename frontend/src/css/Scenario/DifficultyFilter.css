@@ -1,32 +1,42 @@
-.difficulty-filter {
+.level-difficulty-filter { 
     margin: 20px; /* 여백 추가 */
     display: flex;
-    flex-direction: column; /* 세로 방향으로 정렬 */
-    align-items: center; /* 중앙 정렬 */
+    align-items: center; /* Align items vertically centered */
 }
 
-.MuiSlider-root {
-    color: #4CAF50; /* 슬라이더 색상 */
+.level-difficulty-label {
+    font-weight: bold;
+    margin-right: 10px; /* Space between label and dropdown */
+    font-size: 18px; /* Increased font size */
 }
 
-.MuiSlider-thumb {
-    height: 24px; /* 슬라이더 thumb 크기 */
-    width: 24px; /* 슬라이더 thumb 크기 */
-    background-color: white; /* thumb 배경색 */
-    border: 2px solid #4CAF50; /* thumb 테두리 색상 */
-    margin-top: -12px; /* thumb 위치 조정 */
-    transition: transform 0.3s ease; /* thumb 애니메이션 추가 */
+.level-dropdown-container { 
+    flex-grow: 1; /* Allow the dropdown to take available space */
+    max-width: 200px; /* Set a maximum width for the dropdown */
 }
 
-.MuiSlider-thumb:hover {
-    transform: scale(1.2); /* 호버 시 thumb 크기 증가 */
+.level-difficulty-dropdown {
+    align-items: center; /* Align items vertically centered */
+    text-align: center;
+    width: 100%; /* Full width of the container */
+    padding: 10px; /* Padding for better spacing */
+    border: 2px solid #4CAF50; /* Border color */
+    border-radius: 15px; /* Rounded corners */
+    background-color: white; /* Background color */
+    font-size: 18px; /* Font size */
+    font-weight: bold;
+    color: #333; /* Text color */
+    appearance: none; /* Remove default arrow */ 
+    background-position: right 10px center; /* Position the arrow */
+    background-size: 10px; /* Size of the arrow */
+    cursor: pointer; /* Change cursor to pointer */
 }
 
-.MuiSlider-track {
-    height: 8px; /* 슬라이더 트랙 높이 */
+.level-difficulty-dropdown:focus {
+    outline: none; /* Remove outline on focus */
+    border-color: #66afe9; /* Change border color on focus */
 }
 
-.MuiSlider-rail {
-    height: 8px; /* 슬라이더 레일 높이 */
-    background-color: #ccc; /* 레일 색상 */
+.level-difficulty-dropdown option {
+    padding: 10px; /* Padding for options */
 }

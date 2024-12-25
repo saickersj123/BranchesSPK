@@ -2,6 +2,7 @@ import React from 'react';
 import { AIScenario } from '../../@types/scenarios';
 import DifficultyBar from './DifficultyBar'; 
 import '../../css/Scenario/Scenarios.css';
+import IMAGE_NOT_FOUND from '../../img/ErrorIMG.png';
 
 interface ScenarioCardProps {
   scenario: AIScenario;
@@ -13,7 +14,11 @@ const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, onClick, onImageE
   return (
     <div className="scenario-card" onClick={() => onClick(scenario)}>
       <div className="scenario-image">
-        <img src={scenario.imageUrl || require('../../img/ErrorIMG.png')} alt={scenario.name} onError={onImageError} />
+        <img
+          src={scenario.imageUrl || IMAGE_NOT_FOUND}
+          alt={scenario.name}
+          onError={onImageError}
+        />
       </div>
       <h2>{scenario.name}</h2>
       <DifficultyBar level={scenario.difficulty} />

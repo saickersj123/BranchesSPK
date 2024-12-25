@@ -204,18 +204,17 @@
   align-items: center;
 }
 
-.dropdown-menu {
+.home-dropdown-menu {
   position: absolute;
   top: 30px;
-  right: 0;
-  background-color: white;
+  right: 0; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   overflow: hidden;
   z-index: 1200;
-}
+} 
 
-.dropdown-menu button {
+.home-dropdown-list { 
   display: block;
   width: 100%;
   padding: 10px 20px;
@@ -225,11 +224,11 @@
   text-align: left;
 }
 
-.dropdown-menu button:hover {
+.home-dropdown-list:hover {
   background-color: #f0f0f0;
 }
 
-.header-container {
+.home-header-container {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 유지 */
   position: fixed;
@@ -239,7 +238,7 @@
   transition: left 1.3s ease;
 }
 
-.header-container.shifted-header {
+.home-header-container.shifted-header {
   margin-left: 20%; /* Adjust this value based on your sidebar width */
 }
 
@@ -250,7 +249,7 @@
   display: flex;         
   align-items: center;   
   line-height: 1;        
-  height: 40px;       
+  height: 43px;       
 }
 
 .home_new_conversation:hover {

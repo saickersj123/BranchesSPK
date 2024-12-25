@@ -1,3 +1,4 @@
+ 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllScenarios, startNewConversationWithScenario } from '../api/axiosInstance';
@@ -10,6 +11,7 @@ import DifficultyFilter from '../components/Scenarios/DifficultyFilter'; // 추�
 import ScenarioCard from '../components/Scenarios/ScenarioCard'; // 추가된 부분
 import ScenarioModal from '../components/Scenarios/ScenarioModal'; // 추가된 부분
 import '../css/set/color.css'; // 추가된 부분 
+import { Button } from 'react-bootstrap'; // React Bootstrap의 Button 컴포넌트 추가
 
 const Scenarios: React.FC = () => {
   const [scenarios, setScenarios] = useState<AIScenario[]>([]);
@@ -69,20 +71,20 @@ const Scenarios: React.FC = () => {
 
   return (
     <div className="scenarios-container">
-      <button className="scenarios-backbutton" onClick={handleBack}>
+      <Button className="scenarios-backbutton" onClick={handleBack}>
         <FontAwesomeIcon icon={faArrowLeft} />
-      </button>
+      </Button>
       <h1>시나리오 선택</h1> 
       <DifficultyFilter selectedDifficulty={selectedDifficulty} onDifficultyChange={handleDifficultyFilter} />  
       <div className="scenarios-grid">
         {filteredScenarios.map((scenario) => (
-      <ScenarioCard 
-        key={scenario._id} 
-        scenario={scenario} 
-        onClick={handleScenarioClick} 
-        onImageError={handleImageError}
-      /> 
-    ))}
+          <ScenarioCard 
+            key={scenario._id} 
+            scenario={scenario} 
+            onClick={handleScenarioClick} 
+            onImageError={handleImageError}
+          /> 
+        ))}
       </div>
       <ScenarioModal 
         show={showModal} 
