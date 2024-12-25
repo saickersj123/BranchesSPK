@@ -2,11 +2,11 @@ import axios, { AxiosInstance } from 'axios';
 import { Message, Conversation, AuthResponse, ChatboxCoordinates } from '../@types/types';  // types.ts에서 Message와 Conversation을 import
 import { AIScenario } from '../@types/scenarios';
 import { DUMMY_SCENARIOS } from '../data/dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암
- 
-//  모든 요청에 withCredentials 옵션을 설정
+
+// 모든 요청에 withCredentials 옵션을 설정
 axios.defaults.withCredentials = true;
 
-// axios
+// axios 인스턴스 생성. 모든 요청에 사용됩니다.
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: 'http://localhost:5001/api', // API 요청의 기본 URL 설정
   headers: {
@@ -362,45 +362,27 @@ export const resetChatbox = async (): Promise<any> => {
 };
 
 // 음성 메시지 전송 함수
-export const sendVoiceMessage = async (
-  conversationId: string,
-  audioBlob: Blob
-): Promise<Message[]> => {
-  // API 모드 확인
+export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string }> => {
+  const formData = new FormData();
+  formData.append('audio', audioBlob);
+
   if (API_MODE === 1) {
-    // 더미 데이터 모드
-    return Promise.resolve([
-      {
-        role: 'assistant',
-        content: '음성 메시지가 성공적으로 처리되었습니다.',
-        createdAt: new Date().toISOString(),
-      },
-    ]);
+    // Dummy data for testing
+    return {
+      audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
+      text: 'This is a mock response text.' // Mock text response
+    };
   }
 
   try {
-    const formData = new FormData();
-    formData.append('audio', audioBlob, 'voice-message.wav');
-
-    // axios POST 요청
-    const response = await axiosInstance.post(
-      `/chat/c/${conversationId}/voice`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
-
-    // 응답 데이터가 예상된 구조인지 확인
-    if (response.data && Array.isArray(response.data.chats)) {
-      return response.data.chats as Message[];
-    } else {
-      throw new Error("Unexpected response structure from server");
-    }
+    const response = await axiosInstance.post(`/chat/c/${conversationId}/voice`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data; // Ensure this returns { audioUrl, text }
   } catch (error) {
-    console.error('음성 메시지 전송 실패:', error);
+    console.error('Error sending voice message:', error);
     throw error;
   }
 };

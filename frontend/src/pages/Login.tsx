@@ -14,7 +14,6 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn, setUser }) => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
-
   const isPasswordValid = password.length >= 8 && password.length <= 15;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

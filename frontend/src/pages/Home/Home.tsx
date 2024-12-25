@@ -1,7 +1,8 @@
+ 
 import React, { useState, useEffect, useCallback, useRef } from 'react'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { TbLayoutSidebar } from "react-icons/tb";
-import { LuPenSquare } from "react-icons/lu";
+import { LuSquarePlus } from "react-icons/lu";
 import { faRightFromBracket, faSquareMinus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChatBox from '../../components/ChatBox';
@@ -471,13 +472,13 @@ const Home: React.FC<HomeProps> = ({
 
   return (
     <main className={`main-section`}>
-      <div className={`header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
+      <div className={`home-header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
         {isLoggedIn && (
           <button className="toggle-sidebar-button" onClick={toggleSidebar}>
             <TbLayoutSidebar size={35}/>
           </button>
         )}
-        <span className="home_new_conversation" onClick={handleStartConversation}> <LuPenSquare /> </span>
+        <span className="home_new_conversation" onClick={handleStartConversation}> <LuSquarePlus /> </span>
         <span className="brand-text" onClick={() => navigate('/chat')}>Branch-SPK</span>
       </div>
       {isLoggedIn ? (
@@ -506,10 +507,10 @@ const Home: React.FC<HomeProps> = ({
                     {username.charAt(0)}
                   </div>
                 </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={handleProfileClick}> <FontAwesomeIcon icon={faUser} /> 프로필</Dropdown.Item>
-                  <Dropdown.Item onClick={handleSettingsClick}><FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경</Dropdown.Item> 
-                  <Dropdown.Item onClick={handleLogoutClick}><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
+                <Dropdown.Menu className="home-dropdown-menu">
+                  <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 마이페이지</Dropdown.Item>
+                  <Dropdown.Item onClick={handleSettingsClick} className="home-dropdown-list"><FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경</Dropdown.Item> 
+                  <Dropdown.Item onClick={handleLogoutClick} className="home-dropdown-list"><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>

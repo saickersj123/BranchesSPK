@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { FaPlus, FaMinus, FaList, FaTheaterMasks } from 'react-icons/fa';
-import { Trash3 } from 'react-bootstrap-icons';
-import { HighlightOff } from '@mui/icons-material';
+import { Trash3 } from 'react-bootstrap-icons'; 
 import { Modal, Button } from 'react-bootstrap';
-import { LuPenSquare } from "react-icons/lu";
+import { LuSquarePlus, LuDelete } from "react-icons/lu";
 import { deleteConversation, deleteAllChats, startNewConversation, getCustomModels, createModel, deleteModel } from '../../api/axiosInstance';
 import '../../css/Sidebar.css';
 import Nlogo_icon from '../../img/Nlogo3.png';
@@ -214,7 +213,7 @@ const Sidebar = forwardRef<any, SidebarProps>(({
     <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
         <button className="new-conversation-button" onClick={startConversation}>
-          <LuPenSquare size={31}/>
+          <LuSquarePlus size={31}/>
         </button>
       </div>
       <div className="sidebar-content">
@@ -241,7 +240,7 @@ const Sidebar = forwardRef<any, SidebarProps>(({
                       {room.chats.length > 0 ? truncateMessage(room.chats[room.chats.length - 1].content, 40) : "새 대화를 시작하세요."}
                     </span>
                     <button className="one-delete-button" onClick={(e) => {e.stopPropagation(); handleDeleteClick(room._id); }}>
-                      <HighlightOff />
+                      <LuDelete />
                     </button>
                   </div>
                 ))}
@@ -257,7 +256,7 @@ const Sidebar = forwardRef<any, SidebarProps>(({
       </div>
       {/* Modals */}
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} className="Sidebar-Delete-Modal">
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>대화 삭제 확인</Modal.Title>
         </Modal.Header>
         <Modal.Body>정말로 대화를 삭제하시겠습니까?</Modal.Body>
@@ -268,7 +267,7 @@ const Sidebar = forwardRef<any, SidebarProps>(({
       </Modal>
 
       <Modal show={showDeleteAllModal} onHide={() => setShowDeleteAllModal(false)}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>모든 대화 삭제 확인</Modal.Title>
         </Modal.Header>
         <Modal.Body>정말로 모든 대화를 삭제하시겠습니까?</Modal.Body>
@@ -278,11 +277,17 @@ const Sidebar = forwardRef<any, SidebarProps>(({
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>오류</Modal.Title>
+      <Modal
+        show={showErrorModal}
+        onHide={() => setShowErrorModal(false)}
+        backdrop="static"
+        className="new-chat-error-modal"
+        container={document.getElementById('.new-chat-error-modal-root')} // 특정 DOM 요소에 모달을 렌더링
+      >
+        <Modal.Header className='new-chat-error-modal-header'>
+          <Modal.Title> 안내 </Modal.Title>
         </Modal.Header>
-        <Modal.Body>{error || '이미 새 대화가 생성되었습니다.'}</Modal.Body>
+        <Modal.Body>{ '이미 새 대화가 생성되었습니다.'}</Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={() => setShowErrorModal(false)}>닫기</Button>
         </Modal.Footer>
