@@ -84,16 +84,6 @@ export const signupUser = async (email: string, password: string, name: string):
       throw error;
     } 
   }; 
-
-  export const resetPassword = async (email: string, newPassword: string): Promise<any> => { 
-    try {
-      const response = await axiosInstance.post('/user/resetPassword', { email, newPassword });
-      return response.data;
-    } catch (error) {
-      console.error('비밀번호 재설정 실패:', error);
-      throw error;
-    } 
-  };
   
  
 export const updatePassword = async (password: string): Promise<any> => { 
