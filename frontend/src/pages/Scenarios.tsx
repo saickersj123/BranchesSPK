@@ -1,7 +1,7 @@
  
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllScenarios, startNewConversationWithScenario } from '../api/axiosInstance';
+import { getAllScenarios, startNewConversationWithScenario } from '../api/AiChat';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../css/Scenario/Scenarios.css';

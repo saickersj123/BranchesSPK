@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import '../css/ChatBox.css';
 import { useNavigate } from 'react-router-dom';
-import { sendMessage, startNewConversationwithmsg, sendVoiceMessage } from '../api/axiosInstance';
+import { sendMessage, startNewConversationwithmsg, sendVoiceMessage } from '../api/AiChat';
 import { Message } from '../@types/types';
 
 interface ChatBoxProps {
