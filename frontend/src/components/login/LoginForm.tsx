@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../api/axiosInstance';
+import { loginUser } from '../../api/UserInfo';
 import '../../css/Login.css'; 
 
 interface LoginFormProps {

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faPen, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/MyPage.css';
-import { updatename, updatePassword, mypage } from '../api/axiosInstance';
+import { updatename, updatePassword, mypage } from '../api/UserInfo';
 import branchImage from '../img/PRlogo2.png';
 
 interface User {

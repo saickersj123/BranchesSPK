@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Message, Conversation, AuthResponse, ChatboxCoordinates } from '../@types/types';  // types.ts에서 Message와 Conversation을 import
+import { Message, Conversation, AuthResponse } from '../@types/types';  // types.ts에서 Message와 Conversation을 import
 import { AIScenario } from '../@types/scenarios';
 import { DUMMY_SCENARIOS } from '../data/dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암
 
@@ -18,7 +18,7 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // 시나리오, 음성처리의 API 모드 설정 (1: 더미 데이터 모드, 2: 실제 서버 통신 모드)
 export let API_MODE = 1;
-
+ 
 // 모든 시나리오 목록을 가져오는 함수 (임시 더미 데이터 반환)
 export const getAllScenarios = async (): Promise<AIScenario[]> => {
   if (API_MODE === 1) {
@@ -122,22 +122,7 @@ export const checkAuthStatus = async (): Promise<AuthResponse> => {
     return { valid: false }; 
   }
 };
-
-export const mypage = async (password: string): Promise<any> => { 
-  try {
-    const response = await axiosInstance.post('/user/mypage', { password });
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response && error.response.status === 403) {
-      return {
-        message: "ERROR",
-        cause: "Incorrect Password"
-      };
-    }
-    console.error('비밀번호 인증 실패:', error);
-    throw error;
-  } 
-};
+ 
 
 export const startNewConversation = async (): Promise<string> => {
   try {
@@ -173,46 +158,7 @@ export const startNewConversationwithmsg = async (messageContent: string, role: 
     }
   }
 };
-
-export const loginUser = async (email: string, password: string): Promise<any> => {
-  try {
-    const response = await axiosInstance.post('/user/login', { email, password });
-    if (response.status === 200 && response.data.message === "OK") {
-      return {
-        success: true,
-        message: "OK",
-        data: response.data
-      };
-    } else {
-      return {
-        success: false,
-        message: response.data.message || '로그인에 실패했습니다.'
-      };
-    }
-  } catch (error) {
-    console.error('로그인 요청 실패:', error);
-    return {
-      success: false,
-      message: '로그인에 실패했습니다.',
-      error: error instanceof Error ? error.message : String(error)
-    };
-  }
-};
-
-export const logout = async (): Promise<boolean> => { 
-  try {
-    const response = await axiosInstance.get('/user/logout');
-    if (response.data.message === "OK" || response.status === 200 || response.status === 304) { 
-      return true;
-    } else {
-      console.error('로그아웃 실패:', response.data);
-      return false;
-    }
-  } catch (error) {
-    console.error('로그아웃 실패:', error);
-    return false;
-  } 
-};
+ 
 
 export const fetchConversations = async (): Promise<Conversation[]> => {
   try {
@@ -236,48 +182,7 @@ export const fetchMessages = async (conversationId: string): Promise<Message[]> 
     console.error('메시지 가져오기 실패:', error);
     return [];
   }
-};
-
-export const signupUser = async (email: string, password: string, name: string): Promise<any> => { 
-  try {
-    const response = await axiosInstance.post('/user/signup', { email, password, name });
-    return {
-      success: response.status === 201,
-      ...response.data
-    };
-  } catch (error) {
-    console.error('회원가입 실패:', error);
-    throw error;
-  } 
-};
-
-export const resetPassword = async (email: string, newPassword: string): Promise<any> => { 
-  try {
-    const response = await axiosInstance.post('/user/resetPassword', { email, newPassword });
-    return response.data;
-  } catch (error) {
-    console.error('비밀번호 재설정 실패:', error);
-    throw error;
-  } 
-};
-
-export const updatename = async (name: string): Promise<any> => { 
-  try {
-    const response = await axiosInstance.put('/user/update-name', { name });
-    return response.data;
-  } catch (error) {
-    throw new Error('닉네임 변경에 실패했습니다.');
-  } 
-};
-
-export const updatePassword = async (password: string): Promise<any> => { 
-  try {
-    const response = await axiosInstance.put('/user/update-password', { password });
-    return response.data;
-  } catch (error) {
-    throw new Error('비밀번호 변경에 실패했습니다.');
-  } 
-};
+}; 
 
 export const createModel = async (modelName: string, trainingData: string): Promise<any> => {
   try {
@@ -310,56 +215,7 @@ export const getCustomModels = async (): Promise<any> => {
   }
 };
 
-export const getChatboxes = async (): Promise<ChatboxCoordinates | null> => {
-  try {
-    const response = await axiosInstance.get('/user/cbox');
-    const chatboxes = response.data.chatboxes; 
-    
-    if (chatboxes.length === 0) {
-      return null;
-    }
-    
-    // 가장 최근의 chatbox 찾기
-    const latestChatbox = chatboxes.reduce((latest: any, current: any) => {
-      return new Date(latest.createdAt) > new Date(current.createdAt) ? latest : current;
-    }, chatboxes[0]);
-
-    return latestChatbox;
-  } catch (error) {
-    console.error('좌표값 가져오기 실패:', error);
-    throw error;
-  }
-};
-
-export const saveChatbox = async (chatbox: ChatboxCoordinates): Promise<any> => {
-  try {
-    const response = await axiosInstance.post('/user/cbox', chatbox);
-    return response.data;
-  } catch (error) {
-    console.error('표값 저장하기 실패:', error);
-    throw error;
-  }
-};
-
-export const resetChatbox = async (): Promise<any> => {
-  try {
-    const response = await axiosInstance.put('/user/cbox/reset');
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        console.error('응답 오류:', error.response.data);
-      } else if (error.request) {
-        console.error('요청 오류:', error.request);
-      } else {
-        console.error('설정 오류:', error.message);
-      }
-    } else {
-      console.error('알 수 없는 오류:', error);
-    }
-    throw error;
-  }
-};
+ 
 
 // 음성 메시지 전송 함수
 export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string }> => {
