@@ -39,13 +39,16 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
   // startNewConversationWithScenario 함수 수정
   export const startNewConversationWithScenario = async (
     scenarioId: string, 
-    selectedRole: 'role1' | 'role2', 
+    selectedRole: 'role1' | 'role2',
+    scenarioName: string,
+    difficulty: number
   ): Promise<Conversation> => {
-    if (API_MODE === 1) {
+    if (API_MODE === 0) {
       // 더미 데이터 모드에서 선택된 정보 출력
       console.log('=== 시나리오 선택 정보 (테스트 모드) ===');
       console.log('선택된 시나리오 ID:', scenarioId);
       console.log('선택된 역할:', selectedRole);
+      console.log('시나리오 이름:', scenarioName)
       const selectedScenario = DUMMY_SCENARIOS.find(s => s._id === scenarioId);
       if (!selectedScenario) {
         throw new Error('선택된 시나리오를 찾을 수 없습니다.');
@@ -61,9 +64,11 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
     } else {
       // 실제 서버 통신 모드
       try {
-        const response = await axiosInstance.post('/chat/c/new/scenario', {
+        const response = await axiosInstance.post('/chat/c/new', {
           scenarioId,
-          selectedRole
+          selectedRole,
+          scenarioName,
+          difficulty
         });
         return response.data.conversation;
       } catch (error) {
@@ -160,7 +165,7 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
     const formData = new FormData();
     formData.append('audio', audioBlob);
   
-    if (API_MODE === 1) {
+    if (API_MODE === 0) {
       // Dummy data for testing
       return {
         audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
@@ -169,7 +174,7 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
     }
   
     try {
-      const response = await axiosInstance.post(`/chat/c/${conversationId}/voice`, formData, {
+      const response = await axiosInstance.post(`/chat/c/${conversationId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

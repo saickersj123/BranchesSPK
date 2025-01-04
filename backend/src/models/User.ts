@@ -34,9 +34,9 @@ const userSchema = new mongoose.Schema({
 // 레벨 설정
 userSchema.methods.updateLevel = function() {
     const levels = [
-        0, 100, 300, 600, 1000, 1500, 2100, 3000, 4000, 5000, 
-        6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000
-    ]; // Max level is 20
+        0, 60, 140, 250, 400, 600, 860, 1200, 1630, 2170, 
+        2840, 3700, 4700, 5800, 7200, 8800, 10700, 13000, 16000, 20000
+    ]; // 최대 20
     let newLevel = 1;
     for (let i = 0; i < levels.length; i++) {
         if (this.exp >= levels[i]) {
