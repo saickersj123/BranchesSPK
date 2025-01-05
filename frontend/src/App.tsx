@@ -8,7 +8,8 @@ import Home from './pages/home/Home';
 import MainPage from './pages/MainPage';
 import Signup from './pages/Signup';
 import Scenarios from './pages/Scenarios';
-import { checkAuthStatus, fetchMessages } from './api/axiosInstance';
+import { checkAuthStatus } from './api/axiosInstance';
+import { fetchMessages } from './api/AiChat';
 import { Message } from './@types/types';  // types.ts에서 Message 인터페이스를 import
 
 interface User {

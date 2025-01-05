@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { signupUser } from '../api/axiosInstance';
+import { signupUser } from '../api/UserInfo';
 import '../css/Signup.css';
 import branchImage from '../img/PRlogo2.png';
 import AlertMessage from '../components/signup/AlterMessage';
