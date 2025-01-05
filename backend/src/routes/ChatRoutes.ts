@@ -1,107 +1,86 @@
 import express from "express";
+import multer from "multer";
 import { verifyToken } from "../utils/Token.js";
-import { fineTuneValidator, chatCompletionValidator, validate } from "../utils/Validators.js";
-import { deleteConversation, 
-		 getConversation, 
-		 deleteAllConversations, 
-		 generateChatCompletion, 
-		 getAllConversations, 
+import { fineTuneValidator, validate } from "../utils/Validators.js";
+import { 
 		 startNewConversation,
-		 createCustomModel,
-		 deleteCustomModel,
-		 getCustomModels,
-		 getModelbyId,
-		 startNewConversationwith,
-		 } from "../controllers/ChatController.js";
- 
-const chatRoutes = express.Router();
+		 deleteConversation, 
+         getConversation, 
+         deleteAllConversations, 
+         getAllConversations, 
+         getAllScenarioConversations,
+         startNewConversationUnified,
+         generateChatCompletion,
+         createCustomModel,
+         deleteCustomModel,
+         getCustomModels,
+         getModelbyId,
+         getAllScenarios,
+         handleScenarioConversation
+         } from "../controllers/ChatController.js";
 
-// test
-chatRoutes.get("/", (req, res, next) => {
-	console.log("hi");
-	res.send("hello from chatRoutes");
+const chatRoutes = express.Router();
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Test route
+chatRoutes.get("/", (req, res) => {
+    console.log("hi");
+    res.send("hello from chatRoutes");
 });
 
-// protected API
 //new conversation
-chatRoutes.get(
-	"/c/new",
-	verifyToken,
-	startNewConversation,
-);
+chatRoutes.get("/c/new", verifyToken, startNewConversation);
 
-//new conversation with msg
+// Unified route for general conversations (text, voice)
 chatRoutes.post(
-	"/c/new",
-	validate(chatCompletionValidator),
-	verifyToken,
-	startNewConversationwith,
+    "/c/new",
+    verifyToken,
+    upload.single("audio"),
+    (req, res, next) => {
+        if (req.body.scenarioId) {
+            handleScenarioConversation(req, res);
+        } else {
+            startNewConversationUnified(req, res);
+        }
+    }
 );
 
-//resume conversation
+// Resume conversation (text or voice)
 chatRoutes.post(
-	"/c/:conversationId",
-	validate(chatCompletionValidator),
-	verifyToken,
-	generateChatCompletion,
-);
-
-//get all conversations
-chatRoutes.get(
-	"/all-c",
-	verifyToken,
-	getAllConversations,
-);
-
-//get a conversation
-chatRoutes.get(
-	"/c/:conversationId",
-	verifyToken,
-	getConversation,
-);
-
-//delete a conversation
-chatRoutes.delete(
     "/c/:conversationId",
     verifyToken,
-    deleteConversation,
-)
-
-//delete all conversations
-chatRoutes.delete(
-    "/all-c",
-    verifyToken,
-    deleteAllConversations,
-)
-
-//create custom model
-chatRoutes.post(
-    "/g/create",
-	validate(fineTuneValidator),
-    verifyToken,
-    createCustomModel,
+    upload.single("audio"),
+    generateChatCompletion
 );
 
-//delete custom model
-chatRoutes.delete(
-    "/g/:modelId",
-    verifyToken,
-    deleteCustomModel,
-);
+// Get all conversations (general + voice)
+chatRoutes.get("/all-c", verifyToken, getAllConversations);
 
-//get all custom models
-chatRoutes.get(
-    "/all-g",
-    verifyToken,
-	getCustomModels,
-);
+// Get all scenario conversations
+chatRoutes.get("/all-c/scenario", verifyToken, getAllScenarioConversations);
 
-//get a custom model
-chatRoutes.get(
-    "/g/:modelId/",
-    verifyToken,
-	getModelbyId,
-);
+// Get a specific conversation
+chatRoutes.get("/c/:conversationId", verifyToken, getConversation);
 
+// Delete a specific conversation
+chatRoutes.delete("/c/:conversationId", verifyToken, deleteConversation);
+
+// Delete all conversations
+chatRoutes.delete("/all-c", verifyToken, deleteAllConversations);
+
+// Create custom model
+chatRoutes.post("/g/create", validate(fineTuneValidator), verifyToken, createCustomModel);
+
+// Delete custom model
+chatRoutes.delete("/g/:modelId", verifyToken, deleteCustomModel);
+
+// Get all custom models
+chatRoutes.get("/all-g", verifyToken, getCustomModels);
+
+// Get a specific custom model
+chatRoutes.get("/g/:modelId/", verifyToken, getModelbyId);
+
+// Get all scenarios
+chatRoutes.get("/scenarios", verifyToken, getAllScenarios);
 
 export default chatRoutes;
