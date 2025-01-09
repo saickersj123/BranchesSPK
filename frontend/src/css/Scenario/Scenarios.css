@@ -117,16 +117,16 @@
 }
 
 .scenarios-backbutton {
-    position: fixed;
-    top: var(--button-position-top);
-    right: var(--button-position-right);
-    background-color: var(--back-button-background-color);
-    color: white;
-    border: none;
-    border-radius: var(--back-button-border-radius);
-    padding: var(--back-button-padding);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  position: fixed;
+  top: var(--button-position-top);
+  right: var(--button-position-right);
+  background-color: var(--back-button-background-color);
+  color: white;
+  border: none;
+  border-radius: var(--back-button-border-radius);
+  padding: var(--back-button-padding);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .scenarios-backbutton:hover {

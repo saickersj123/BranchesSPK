@@ -1,5 +1,9 @@
 @import './set/color.css';
 
+::-webkit-scrollbar {
+  display: none;
+}
+
  .main-app-container{
   background-color: var(--main-background-color);   
  }
