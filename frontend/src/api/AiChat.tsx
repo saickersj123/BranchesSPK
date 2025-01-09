@@ -4,6 +4,7 @@ import { AIScenario } from '../@types/scenarios';
 import { DUMMY_SCENARIOS } from '../data/dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암 
 import { Message, Conversation } from '../@types/types';
 
+// 새로운 대화 시작 API - 새로운 대화를 시작하는 함수
 export const startNewConversation = async (): Promise<string> => {
     try {
       const response = await axiosInstance.get('/chat/c/new'); 
@@ -19,7 +20,7 @@ export const startNewConversation = async (): Promise<string> => {
     }
   };
   
-// 모든 시나리오 목록을 가져오는 함수 (임시 더미 데이터 반환)
+// 모든 시나리오 목록을 가져오는 함수 - 모든 시나리오 목록을 반환하는 함수
 export const getAllScenarios = async (): Promise<AIScenario[]> => {
     if (API_MODE === 1) {
       // 더미 데이터 모드
@@ -37,7 +38,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
     }
   };
   
-  // startNewConversationWithScenario 함수 수정
+// 시나리오 기반 대화 시작 API - 시나리오 기반 대화를 시작하는 함수
   export const startNewConversationWithScenario = async (
     scenarioId: string, 
     selectedRole: 'role1' | 'role2',
@@ -80,6 +81,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
     }
   };
   
+// 메시지 보내기 API - 메시지를 보내는 함수
   export const sendMessage = async (conversationId: string, messageContent: string, role: string = 'user'): Promise<Message[]> => {
     const message: Message = {
       role: role,
@@ -96,6 +98,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
     }
   };
   
+// 대화 삭제 API - 대화를 삭제하는 함수
   export const deleteConversation = async (conversationId: string): Promise<any> => {
     try {
       const response = await axiosInstance.delete(`/chat/c/${conversationId}`);
@@ -106,6 +109,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
     }
   };
   
+// 모든 채팅 기록 삭제 API - 모든 채팅 기록을 삭제하는 함수
   export const deleteAllChats = async (): Promise<any> => { 
     try {
       const response = await axiosInstance.delete('/chat/all-c');
@@ -115,8 +119,9 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
       throw error;
     } 
   };
-  
-export const startNewConversationwithmsg = async (messageContent: string, role: string = 'user'): Promise<Conversation> => {
+
+// 메시지 보내기 API - 메시지를 보내는 함수
+export const starNewConversationwithmsg = async (messageContent: string, role: string = 'user'): Promise<Conversation> => {
     const message: Message = {
       role: role,
       content: messageContent,
@@ -136,7 +141,7 @@ export const startNewConversationwithmsg = async (messageContent: string, role: 
     }
   };
    
-  
+// 대화 목록 가져오기 API - 대화 목록을 가져오는 함수
   export const fetchConversations = async (): Promise<Conversation[]> => {
     try {
       const response = await axiosInstance.get('/chat/all-c');
@@ -151,6 +156,7 @@ export const startNewConversationwithmsg = async (messageContent: string, role: 
     }
   };
   
+// 메시지 가져오기 API - 메시지를 가져오는 함수
   export const fetchMessages = async (conversationId: string): Promise<Message[]> => {
     try {
       const response = await axiosInstance.get(`/chat/c/${conversationId}`);

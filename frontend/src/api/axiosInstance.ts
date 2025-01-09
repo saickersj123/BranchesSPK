@@ -7,7 +7,7 @@ export let API_MODE = 0;
 // 모든 요청에 withCredentials 옵션을 설정
 axios.defaults.withCredentials = true;
 
-// axios 인스턴스 생성. 모든 요청에 사용됩니다.
+// axios 인스턴스 생성. 모든 요청에 이걸 사용하여 처리.
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: 'http://localhost:5001/api', // API 요청의 기본 URL 설정
   headers: {
@@ -17,7 +17,7 @@ const axiosInstance: AxiosInstance = axios.create({
 });
  
   
-
+// 인증 상태 확인 API - 사용자의 인증 상태를 반환하는 함수 : 이걸로 로그인여부 파악
 export const checkAuthStatus = async (): Promise<AuthResponse> => {
   try {
     const response = await axiosInstance.get('/user/auth-status');

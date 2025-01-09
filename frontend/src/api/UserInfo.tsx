@@ -2,7 +2,8 @@ import axios from 'axios';
 import axiosInstance from './axiosInstance';
 import exp from 'constants';
 
-// 사용자 경험치를 불러오는 API
+
+// 사용자 경험치를 불러오는 API - 사용자의 경험치와 레벨을 반환하는 함수
 export const gethUserExperience = async (): Promise<{ exp: number, level: number }> => {
     try {
       const response = await axiosInstance.get('/user/exp');
@@ -14,7 +15,7 @@ export const gethUserExperience = async (): Promise<{ exp: number, level: number
     }
 };
   
-  // 과거에 참가한 게임의 정보를 얻어오는 API
+// 과거에 참가한 게임의 정보를 얻어오는 API - 과거에 참가한 게임의 정보를 반환하는 함수
   export const getPastGames = async (): Promise<{ gameName: string; participationTime: string; correctAnswers: number; experienceGained: number }[]> => {
     try {
       const response = await axiosInstance.get('/user/past-games');
@@ -32,6 +33,7 @@ export const gethUserExperience = async (): Promise<{ exp: number, level: number
   };
   
   
+// 로그인 요청 - 사용자의 이메일과 비밀번호를 받아서 로그인 요청을 보내는 함수
 export const loginUser = async (email: string, password: string): Promise<any> => {
     try {
       const response = await axiosInstance.post('/user/login', { email, password });
@@ -57,6 +59,7 @@ export const loginUser = async (email: string, password: string): Promise<any> =
     }
   };
   
+// 로그아웃 요청 - 로그아웃 요청을 보내는 함수
   export const logout = async (): Promise<boolean> => { 
     try {
       const response = await axiosInstance.get('/user/logout');
@@ -72,7 +75,7 @@ export const loginUser = async (email: string, password: string): Promise<any> =
     } 
   };
 
-  
+// 회원가입 요청 - 사용자의 이메일, 비밀번호, 닉네임을 받아서 회원가입 요청을 보내는 함수
 export const signupUser = async (email: string, password: string, name: string): Promise<any> => { 
     try {
       const response = await axiosInstance.post('/user/signup', { email, password, name });
@@ -86,7 +89,7 @@ export const signupUser = async (email: string, password: string, name: string):
     } 
   }; 
   
- 
+// 비밀번호 변경 요청 - 사용자의 수정할 비밀번호를 받아서 비밀번호 변경 요청을 보내는 함수
 export const updatePassword = async (password: string): Promise<any> => { 
     try {
       const response = await axiosInstance.put('/user/update-password', { password });
@@ -96,6 +99,7 @@ export const updatePassword = async (password: string): Promise<any> => {
     } 
   };
   
+// 닉네임 변경 요청 - 사용자의 수정할 닉네임을 받아서 닉네임 변경 요청을 보내는 함수
   export const updatename = async (name: string): Promise<any> => { 
     try {
       const response = await axiosInstance.put('/user/update-name', { name });
