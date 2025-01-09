@@ -7,9 +7,9 @@ import '../css/Scenario/Scenarios.css';
 import '../css/set/color.css';  
 import IMAGE_NOT_FOUND from '../img/ErrorIMG.png';
 import { AIScenario } from '../@types/scenarios';
-import DifficultyFilter from '../components/Scenarios/DifficultyFilter'; // 추가된 부분
-import ScenarioCard from '../components/Scenarios/ScenarioCard'; // 추가된 부분
-import ScenarioModal from '../components/Scenarios/ScenarioModal'; // 추가된 부분
+import DifficultyFilter from '../components/scenarios/DifficultyFilter'; // 추가된 부분
+import ScenarioCard from '../components/scenarios/ScenarioCard'; // 추가된 부분
+import ScenarioModal from '../components/scenarios/ScenarioModal'; // 추가된 부분
 import { Button } from 'react-bootstrap'; // React Bootstrap의 Button 컴포넌트 추가
 
 const Scenarios: React.FC = () => {
