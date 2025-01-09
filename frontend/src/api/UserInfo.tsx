@@ -1,17 +1,18 @@
 import axios from 'axios';
 import axiosInstance from './axiosInstance';
+import exp from 'constants';
 
 // 사용자 경험치를 불러오는 API
-export const gethUserExperience = async (): Promise<number> => {
+export const gethUserExperience = async (): Promise<{ exp: number, level: number }> => {
     try {
-      const response = await axiosInstance.get('/user/experience');
-      console.log(response.data);
-      return response.data.experience; // 경험치 반환
+      const response = await axiosInstance.get('/user/exp');
+      console.log(response);
+      return response.data; // Assuming response.data contains { exp, level }
     } catch (error) {
       console.error('경험치 가져오기 실패:', error);
       throw error;
     }
-  };
+};
   
   // 과거에 참가한 게임의 정보를 얻어오는 API
   export const getPastGames = async (): Promise<{ gameName: string; participationTime: string; correctAnswers: number; experienceGained: number }[]> => {

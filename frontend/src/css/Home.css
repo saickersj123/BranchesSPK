@@ -1,4 +1,4 @@
- 
+ @import url('./set/color.css');
 
 .main-section {
   display: flex;
@@ -315,7 +315,7 @@
   width: 39px;
   height: 39px; 
   border-radius: 50%;
-  background-color: #989898; 
+  background: var(--my-profile-color); 
   display: flex;
   align-items: center;
   justify-content: center; 

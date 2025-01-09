@@ -1,6 +1,6 @@
 /* Login.css */
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
-
+@import url('./set/color.css');
 .loginPage { 
   height: 100%;
   display: flex;
@@ -36,8 +36,9 @@
 }
 
 .logininputGroup img {
-  margin-bottom: 6em; /* 이미지 마진 확대 */
-  margin-top: 6em;
+  width: 100%;
+  margin-bottom: 1em; /* 이미지 마진 확대 */
+  margin-top: 2em;
 }
 
 .inputField { 
@@ -77,7 +78,7 @@
   box-shadow: 0px 4px 30px rgba(38, 58, 67, 0.15);
   border-radius: 12px;
   border: none;
-  background-color: #b5b5b6;
+  background-color: var(--button-color-2);
   height: 70px; /* 버튼 높이 확대 */
   display: flex;
   align-items: center;

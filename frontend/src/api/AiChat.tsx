@@ -6,7 +6,7 @@ import { Message, Conversation } from '../@types/types';
 
 export const startNewConversation = async (): Promise<string> => {
     try {
-      const response = await axiosInstance.get('/chat/c/new');
+      const response = await axiosInstance.get('/chat/c/new'); 
       return response.data.conversation.id;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -28,7 +28,8 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
       // 실제 서버 통신 모드
       try {
         const response = await axiosInstance.get('/chat/scenarios');
-        return response.data.scenarios;
+        console.log(response.data);  
+        return response.data;
       } catch (error) {
         console.error('시나리오 목록 가져오기 실패:', error);
         throw error;
@@ -40,7 +41,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
   export const startNewConversationWithScenario = async (
     scenarioId: string, 
     selectedRole: 'role1' | 'role2',
-    scenarioName: string,
+    game_id: string,
     difficulty: number
   ): Promise<Conversation> => {
     if (API_MODE === 0) {
@@ -48,7 +49,8 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
       console.log('=== 시나리오 선택 정보 (테스트 모드) ===');
       console.log('선택된 시나리오 ID:', scenarioId);
       console.log('선택된 역할:', selectedRole);
-      console.log('시나리오 이름:', scenarioName)
+      console.log('게임 ID : :', game_id)
+      console.log('난이도 : :', difficulty)
       const selectedScenario = DUMMY_SCENARIOS.find(s => s._id === scenarioId);
       if (!selectedScenario) {
         throw new Error('선택된 시나리오를 찾을 수 없습니다.');
@@ -67,7 +69,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
         const response = await axiosInstance.post('/chat/c/new', {
           scenarioId,
           selectedRole,
-          scenarioName,
+          game_id,
           difficulty
         });
         return response.data.conversation;
