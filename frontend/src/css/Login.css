@@ -75,7 +75,7 @@
   width: 100% !important;
   max-width: 25em; /* 최대 너비 확대 */
   box-shadow: 0px 4px 30px rgba(38, 58, 67, 0.15);
-  border-radius: 12px;
+  border-radius: 12px; 
   border: none;
   background-color: var(--button-color-2);
   height: 70px; /* 버튼 높이 확대 */
@@ -86,8 +86,7 @@
   font-size: 1.5rem; /* 글자 크기 확대 */
   color: #fff;
   font-weight: 600;
-  font-family: Pretendard;
-  margin-top: 15px; /* 마진 확대 */
+  font-family: Pretendard; 
 }
 
 .LoginButton:hover, .SignupButton:hover {
@@ -99,14 +98,13 @@
 }
 
 .SignupButton {
-  margin-top: 15px; /* 마진 확대 */
+  margin-bottom: 15px; /* 마진 확대 */ 
 }
 
-.or {
-  margin-top: 15px; 
-  margin-bottom: 15px;  
+.or { 
   width: 28px; 
-  font-size: 32px; /* 글자 크기 확대 */
+  font-size: 1.5rem; /* 글자 크기 확대 */
+  font-weight: 600;
   font-family: Pretendard;
   color: #000; 
   display: inline-block;
