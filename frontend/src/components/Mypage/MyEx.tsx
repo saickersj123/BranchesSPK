@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { gethUserExperience } from '../../api/UserInfo';
-import '../../css/Mypage/MyEx.css';
+import '../../css/mypage/MyEx.css';
 
 const MyEx: React.FC = () => {
     const [experience, setExperience] = useState<number | null>(null);

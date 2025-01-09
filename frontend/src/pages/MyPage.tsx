@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faPen, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/Mypage/Mypage.css';
+import '../css/mypage/Mypage.css';
 import { updatename, updatePassword, mypage } from '../api/UserInfo';
 import branchImage from '../img/PRlogo2.png';
-import MyEx from '../components/Mypage/MyEx';
+import MyEx from '../components/mypage/MyEx';
 
 interface User {
   name: string;
