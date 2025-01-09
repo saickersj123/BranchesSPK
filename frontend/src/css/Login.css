@@ -30,8 +30,7 @@
 .logininputGroup {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  margin-bottom: 15px; /* 마진 확대 */
+  flex-direction: column; 
   position: relative;  
 }
 
