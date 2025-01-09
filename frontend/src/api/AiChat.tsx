@@ -20,6 +20,27 @@ export const startNewConversation = async (): Promise<string> => {
     }
   };
   
+  // 메시지 보내기 API => {
+export const startNewConversationwithmsg = async (messageContent: string, role: string = 'user'): Promise<Conversation> => {
+  const message: Message = {
+    role: role,
+    content: messageContent,
+    createdAt: new Date().toISOString() // 현재 시간을 ISO 문자열로 추가
+  };
+  try {
+    const response = await axiosInstance.post('/chat/c/new', {message: message.content});
+    return response.data.conversation;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('새로운 대화 시작 실패:', error.response.data);
+      throw new Error(error.response.data.cause || '새로운 대화 시작에 실패했습니다.');
+    } else {
+      console.error('새로운 대화 시작 실패:', error);
+      throw error;
+    }
+  }
+};
+
 // 모든 시나리오 목록을 가져오는 함수 - 모든 시나리오 목록을 반환하는 함수
 export const getAllScenarios = async (): Promise<AIScenario[]> => {
     if (API_MODE === 1) {
@@ -160,6 +181,7 @@ export const starNewConversationwithmsg = async (messageContent: string, role: s
   export const fetchMessages = async (conversationId: string): Promise<Message[]> => {
     try {
       const response = await axiosInstance.get(`/chat/c/${conversationId}`);
+      console.log(response.data);
       return response.data.conversation.chats || [];
     } catch (error) {
       console.error('메시지 가져오기 실패:', error);
