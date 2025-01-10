@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Record from '../models/record.js';
+import Record from '../models/GameRecord.js';
 import User from '../models/User.js';
 
 const checkUserExists = async (req: Request, res: Response) => {

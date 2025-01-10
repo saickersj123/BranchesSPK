@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/User.js"; // 사용자 모델
-import Record from '../models/record.js';
+import Record from '../models/GameRecord.js';
 
 // 경험치 추가
 export const addUserExp = async (req: Request, res: Response) => {
