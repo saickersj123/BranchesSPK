@@ -1,16 +1,15 @@
- 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllScenarios, startNewConversationWithScenario } from '../api/AiChat';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../css/Scenario/Scenarios.css';
+import '../css/set/color.css';  
 import IMAGE_NOT_FOUND from '../img/ErrorIMG.png';
 import { AIScenario } from '../@types/scenarios';
-import DifficultyFilter from '../components/Scenarios/DifficultyFilter'; // 추가된 부분
-import ScenarioCard from '../components/Scenarios/ScenarioCard'; // 추가된 부분
-import ScenarioModal from '../components/Scenarios/ScenarioModal'; // 추가된 부분
-import '../css/set/color.css'; // 추가된 부분 
+import DifficultyFilter from '../components/scenarios/DifficultyFilter'; // 추가된 부분
+import ScenarioCard from '../components/scenarios/ScenarioCard'; // 추가된 부분
+import ScenarioModal from '../components/scenarios/ScenarioModal'; // 추가된 부분
 import { Button } from 'react-bootstrap'; // React Bootstrap의 Button 컴포넌트 추가
 
 const Scenarios: React.FC = () => {
@@ -48,12 +47,12 @@ const Scenarios: React.FC = () => {
   const handleStartScenario = async () => {
     if (!selectedScenario) return;
     try {
-      const conversation = await startNewConversationWithScenario(selectedScenario._id, selectedRole);
+      const conversation = await startNewConversationWithScenario(selectedScenario._id, selectedRole, selectedScenario.game_id, selectedScenario.difficulty);
       navigate(`/chat/${conversation._id}`);
     } catch (error) {
       console.error('시나리오 시작에 실패했습니다:', error);
       alert('시나리오를 시작하는데 실패했습니다.');
-    }
+    }``
   };
 
   const handleScenarioClick = (scenario: AIScenario) => {
@@ -77,14 +76,18 @@ const Scenarios: React.FC = () => {
       <h1>시나리오 선택</h1> 
       <DifficultyFilter selectedDifficulty={selectedDifficulty} onDifficultyChange={handleDifficultyFilter} />  
       <div className="scenarios-grid">
-        {filteredScenarios.map((scenario) => (
-          <ScenarioCard 
-            key={scenario._id} 
-            scenario={scenario} 
-            onClick={handleScenarioClick} 
-            onImageError={handleImageError}
-          /> 
-        ))}
+        {filteredScenarios.length === 0 ? (
+          <div className="scenarios-notfound">시나리오가 없습니다.</div>
+        ) : (
+          filteredScenarios.map((scenario) => (
+            <ScenarioCard 
+              key={scenario._id} 
+              scenario={scenario} 
+              onClick={handleScenarioClick} 
+              onImageError={handleImageError}
+            /> 
+          ))
+        )}
       </div>
       <ScenarioModal 
         show={showModal} 

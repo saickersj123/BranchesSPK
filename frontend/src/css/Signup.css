@@ -1,6 +1,6 @@
 /* Signup.css */
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
-
+@import url('./set/color.css');
 
 .signupPage {
   width: 100%;
@@ -18,13 +18,13 @@
   min-width: 1em;
   max-width: 25em; /* 최대 너비 확대 */
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
 }
 
-.signupinputGroup img {
+.signupinputGroup img {  
   width: 100%;
-  margin-bottom: 6em; /* 이미지 마진 확대 */
-  margin-top: 6em;
+  margin-bottom: 1em; /* 이미지 마진 확대 */
+  margin-top: 11em;
 }
 
 .signupForm { 
@@ -38,8 +38,7 @@
 .signupInputGroup {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  margin-bottom: 15px; /* 마진 확대 */
+  flex-direction: column; 
   position: relative;
 }
 
@@ -101,7 +100,7 @@
   box-shadow: 0px 4px 30px rgba(38, 58, 67, 0.15);
   border-radius: 12px;
   border: none;
-  background-color: #b5b5b6;
+  background-color: var(--button-color-2);
   height: 70px; /* 버튼 높이 확대 */
   display: flex;
   flex-direction: row;
@@ -114,6 +113,7 @@
   font-weight: 600;
   font-family: Pretendard;
   margin-top: 15px; /* 마진 확대 */
+  margin-bottom: 15px; /* 마진 확대 */
 }
 
 .signupButton:hover, .signupButton:active {

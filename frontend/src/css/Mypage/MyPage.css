@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap'); 
-@import './set/back_button_style.css';
+@import '../set/back_button_style.css';
 .mypage-container {
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@
 }
 
 .MainInputGroup img {
-  margin-bottom: 6em; /* 이미지 마진 확대 */
+  margin-bottom: 1em; /* 이미지 마진 확대 */
 }
 
 .My-inputField {

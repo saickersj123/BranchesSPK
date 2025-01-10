@@ -1,5 +1,7 @@
 import axiosInstance from './axiosInstance';
+//모델을 커스텀하게 될 경우 사용할 API
 
+//모델 생성
 export const createModel = async (modelName: string, trainingData: string): Promise<any> => {
     try {
       const response = await axiosInstance.post('/chat/g/create', {
@@ -13,6 +15,7 @@ export const createModel = async (modelName: string, trainingData: string): Prom
     }
   };
   
+  //모델 삭제
   export const deleteModel = async (modelId: string): Promise<any> => {
     try {
       const response = await axiosInstance.delete(`/chat/g/${modelId}`);
@@ -22,6 +25,7 @@ export const createModel = async (modelName: string, trainingData: string): Prom
     }
   };
   
+  //모델 목록 조회
   export const getCustomModels = async (): Promise<any> => {
     try {
       const response = await axiosInstance.get('/chat/all-g');  

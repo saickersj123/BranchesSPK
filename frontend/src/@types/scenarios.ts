@@ -3,6 +3,7 @@ export interface AIScenario {
     name: string;
     description: string;
     imageUrl: string;
+    game_id: string;
     difficulty: 1 | 2 | 3;
     roles: {
       role1: string;

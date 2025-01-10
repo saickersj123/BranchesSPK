@@ -1,0 +1,21 @@
+.experience-container {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+.experience-title {
+    font-size: 24px;
+    color: #4CAF50; /* Green color */
+    font-weight: bold;
+}
+
+.experience-value {
+    font-size: 20px;
+    color: #333; /* Darker text color */
+    margin-top: 10px;
+}

@@ -2,6 +2,7 @@ import axiosInstance from './axiosInstance';
 import axios from 'axios';
 import { ChatboxCoordinates } from '../@types/types';
 
+// 채팅박스 좌표를 가져오는 API - 채팅박스 좌표를 반환하는 함수
 export const getChatboxes = async (): Promise<ChatboxCoordinates | null> => {
     try {
       const response = await axiosInstance.get('/user/cbox');
@@ -23,6 +24,7 @@ export const getChatboxes = async (): Promise<ChatboxCoordinates | null> => {
     }
   };
   
+// 채팅박스 저장하는 API - 채팅박스 좌표를 받아서 채팅박스 저장 요청을 보내는 함수
   export const saveChatbox = async (chatbox: ChatboxCoordinates): Promise<any> => {
     try {
       const response = await axiosInstance.post('/user/cbox', chatbox);
@@ -33,6 +35,7 @@ export const getChatboxes = async (): Promise<ChatboxCoordinates | null> => {
     }
   };
   
+// 채팅박스 초기화하는 API - 채팅박스 초기화 요청을 보내는 함수
   export const resetChatbox = async (): Promise<any> => {
     try {
       const response = await axiosInstance.put('/user/cbox/reset');
