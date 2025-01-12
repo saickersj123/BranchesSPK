@@ -112,8 +112,7 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  background: #ffffff;
-  background-opacity: 0.8;
+  background: #ffffff; 
   padding: 10px;
   font-size: 0.875rem;
   z-index: 50;

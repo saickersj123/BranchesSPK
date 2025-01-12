@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
-import { FaPlus, FaMinus, FaList, FaTheaterMasks } from 'react-icons/fa';
+import { FaPlus, FaMinus, FaList, FaTheaterMasks, FaMicrophone } from 'react-icons/fa';
 import { Trash3 } from 'react-bootstrap-icons'; 
 import { Modal, Button } from 'react-bootstrap';
 import { LuSquarePlus, LuDelete } from "react-icons/lu";
-import { deleteConversation, deleteAllChats, startNewConversation } from '../../api/AiChat';
+import { deleteConversation, deleteAllChats, startNewConversation } from '../../api/AiTextChat';
 import { createModel, deleteModel, getCustomModels } from '../../api/Mode_custom';
 import '../../css/Sidebar.css';
 import Nlogo_icon from '../../img/Nlogo3.png';
@@ -225,6 +225,10 @@ const Sidebar = forwardRef<any, SidebarProps>(({
         <button className="new-model-icon" onClick={handleScenarioClick}>
           <FaTheaterMasks/>
           <span>시나리오</span>
+        </button>
+        <button className="new-model-icon" onClick={() => navigate('/voiceChat')}>
+          <FaMicrophone/>
+          <span>음성대화 </span>
         </button>
         <div className="sidebar-menu">
           {conversations.length === 0 ? (

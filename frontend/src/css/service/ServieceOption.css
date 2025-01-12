@@ -1,0 +1,47 @@
+@import '../set/color.css';
+
+.service-option {
+    width: 300px;
+    height: 200px;
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .service-option:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .service-option.selected {
+    border: 2px solid var(--button-color-2-hover);
+    transform: scale(1.05);
+  }
+   
+  .service-option-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--main-text-color);
+    margin-bottom: 1rem;
+  }
+  
+  .service-option-description {
+    text-align: center;
+    color: #6b7280;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 768px) {
+    .service-option {
+      width: 250px;
+      height: 350px;
+    }
+  }

@@ -1,17 +1,14 @@
-
 export interface Message {
   content: string;
   role: string;
-  createdAt: string;
-}
-
+  createdAt: string; 
+} 
 export interface Conversation {
   _id: string;
   chats: Message[];
   title: string;
   createdAt: string;
 }
- 
 
 export interface User {
   name: string;
@@ -28,4 +25,3 @@ export interface ChatboxCoordinates {
   cbox_w: number;
   cbox_h: number;
 }
- 

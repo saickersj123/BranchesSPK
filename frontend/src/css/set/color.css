@@ -6,7 +6,12 @@
   --button-hover-color: red; /* 버튼 호버 색상 */
   
   --button-color-2: #007AFF; /* 로그인, 회원가입쪽의 버튼 색상 */ 
-  
+  --button-color-2-hover: #8CD2F5; /* 로그인, 회원가입쪽의 버튼 색상 */
+
+  --sidebar-background-color: #8CD2F5; /* 사이드바 색상 */
+  --sidebar-text-color: #F0F0F0; /* 사이드바 텍스트 색상 */
+  --sidebar-text-hover-color: #007AFF; /* 사이드바 호버 색상 */
+
   --main-loading-page-color: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
   --ai-profile-color:  linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%); /* AI 프로필 배경 색상  */
   --my-profile-color:  linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%); /* 내 프로필 배경 색상  */

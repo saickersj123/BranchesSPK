@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faPen, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/mypage/Mypage.css';
 import { updatename, updatePassword, mypage } from '../api/UserInfo';
 import branchImage from '../img/PRlogo2.png';
-import MyEx from '../components/mypage/MyEx';
-
-interface User {
-  name: string;
-}
+import MyEx from '../components/Mypage/MyEx';
+import { User } from '../@types/types';
 
 interface MyPageProps {
   user: User | null;
@@ -20,6 +17,10 @@ interface MyPageProps {
   username: string;
   setUsername: (username: string) => void;
   setNicknameChanged: (changed: boolean) => void;
+}
+
+interface LocationState {
+  from?: string;
 }
 
 const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username, setUsername, setNicknameChanged }) => {
@@ -34,7 +35,10 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
   const [isNewnameFocused, setIsNewnameFocused] = useState(false);
   const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
   const [isConfirmNewPasswordFocused, setIsConfirmNewPasswordFocused] = useState(false);
+  
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as LocationState;
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -122,7 +126,11 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
   };
 
   const handleBackClick = () => {
-    navigate('/chat');
+    if (state && state.from) {
+      navigate(state.from);
+    } else {
+      navigate('/voiceChat');
+    }
   };
 
   const handleConfirmNewPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {

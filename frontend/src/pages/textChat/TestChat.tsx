@@ -1,19 +1,18 @@
- 
 import React, { useState, useEffect, useCallback, useRef } from 'react'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { TbLayoutSidebar } from "react-icons/tb";
 import { LuSquarePlus } from "react-icons/lu";
 import { faRightFromBracket, faSquareMinus, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, useParams } from 'react-router-dom';
-import ChatBox from '../../components/ChatBox';
-import ChatList from '../../components/ChatList';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import ChatBox from '../../components/testChat/ChatBox';
+import ChatList from '../../components/testChat/ChatList';
 import Sidebar from '../../components/sidebar/Sidebar';
 import GridLayout from 'react-grid-layout';
 import { logout } from '../../api/UserInfo';
 import { Dropdown } from 'react-bootstrap';
-import { fetchMessages, fetchConversations } from '../../api/AiChat';
+import { fetchMessages, fetchConversations } from '../../api/AiTextChat';
 import { getChatboxes, saveChatbox, resetChatbox } from '../../api/ChatUi';
-import '../../css/Home.css';
+import '../../css/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
 import { Message, Conversation } from '../../@types/types';
@@ -73,6 +72,7 @@ const Home: React.FC<HomeProps> = ({
   const originalLayoutRef = useRef<LayoutItem[]>(INITIAL_LAYOUT);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const [myChatBubbleColor, setMyChatBubbleColor] = useState<string>('#DCF8C6');
   const [myChatTextColor, setMyChatTextColor] = useState<string>('#000000');
@@ -133,7 +133,7 @@ const Home: React.FC<HomeProps> = ({
           await loadMessages(latestConversationId);
           setSelectedConversationId(latestConversationId);
           setIsNewChat(false);
-          navigate(`/chat/${latestConversationId}`);
+          navigate(`/textchat/${latestConversationId}`);
         } else {
           setIsNewChat(true);
           setMessages([]);
@@ -164,7 +164,7 @@ const Home: React.FC<HomeProps> = ({
           setIsNewChat(true);
         } else if (fetchedConversations.length > 0 && !urlConversationId) {
           setSelectedConversationId(fetchedConversations[fetchedConversations.length-1]._id);
-          navigate(`/chat/${fetchedConversations[fetchedConversations.length-1]._id}`);
+          navigate(`/textChat/${fetchedConversations[fetchedConversations.length-1]._id}`);
         }
       } catch (error) {
         console.error('Failed to fetch conversations:', error);
@@ -229,7 +229,7 @@ const Home: React.FC<HomeProps> = ({
   };
 
   const handleProfileClick = async () => {
-    navigate("/mypage");
+    navigate("/mypage", { state: { from: '/textChat' } });
   };
 
   const handleLogoutClick = async () => {
@@ -238,7 +238,7 @@ const Home: React.FC<HomeProps> = ({
       if (logoutSuccess) {
         setIsLoggedIn(false);
         setIsSidebarOpen(false);
-        navigate('/chat');
+        navigate('/textChat');
       } else {
         alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
       }
@@ -288,7 +288,7 @@ const Home: React.FC<HomeProps> = ({
       await loadMessages(conversationId);
       setSelectedConversationId(conversationId);
       setIsNewChat(false);
-      navigate(`/chat/${conversationId}`);
+      navigate(`/textChat/${conversationId}`);
     } catch (error) {
       console.error('Failed to load conversation messages:', error);
     }
@@ -403,7 +403,7 @@ const Home: React.FC<HomeProps> = ({
   const handleNewConversation = async (newConversationId: string) => {
     setSelectedConversationId(newConversationId);
     setIsNewChat(false);
-    navigate(`/chat/${newConversationId}`);
+    navigate(`/textChat/${newConversationId}`);
   };
 
   const handleConversationDelete = async (resetChat: boolean = false) => {
@@ -413,7 +413,7 @@ const Home: React.FC<HomeProps> = ({
       if (resetChat) {
         setSelectedConversationId(null);
         setIsNewChat(true);
-        navigate('/chat');
+        navigate('/textChat');
       }
     } catch (error) {
       console.error('Failed to update conversations list:', error);
@@ -480,7 +480,7 @@ const Home: React.FC<HomeProps> = ({
           </button>
         )}
         <span className="home_new_conversation" onClick={handleStartConversation}> <LuSquarePlus /> </span>
-        <span className="brand-text" onClick={() => navigate('/chat')}>Branch-SPK</span>
+        <span className="brand-text" onClick={() => navigate('/textChat')}>Branch-SPK</span>
       </div>
       {isLoggedIn ? (
         <>

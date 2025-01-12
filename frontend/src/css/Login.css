@@ -90,7 +90,7 @@
 }
 
 .LoginButton:hover, .SignupButton:hover {
-  background-color: #111111;
+  background-color: var(--button-color-2-hover);
 }
 
 .LoginButton {

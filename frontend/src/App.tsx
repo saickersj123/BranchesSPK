@@ -1,18 +1,12 @@
- 
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './css/App.css'; 
-import Login from './pages/login/Login';
-import MyPage from './pages/MyPage';
-import Home from './pages/home/Home';
-import MainPage from './pages/MainPage';
-import Signup from './pages/Signup';
-import Scenarios from './pages/Scenarios';
+import { BrowserRouter as Router } from 'react-router-dom';
+import './css/App.css';
+import Routes from './Routes';
 import { checkAuthStatus } from './api/axiosInstance';
-import { fetchMessages } from './api/AiChat';
-import { Message } from './@types/types';  // types.ts에서 Message 인터페이스를 import
+import { fetchMessages } from './api/AiTextChat';
+import { Message } from './@types/types';
 
-interface User {
+export interface User {
   name: string;
 }
 
@@ -48,7 +42,7 @@ const App: React.FC = () => {
   const loadMessages = useCallback(async (conversationId: string) => {
     try {
       const data = await fetchMessages(conversationId);
-      setMessages(data);  // 여기서 타입 체크가 정확히 이루어져야 합니다.
+      setMessages(data);
     } catch (error) {
       console.error('Error loading messages:', error);
     }
@@ -57,72 +51,20 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className='main-app-container'>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
-          <Route path="/scenarios" element={<Scenarios />} />
-          <Route
-            path="*"
-            element={
-              <div className='app-container'>
-                <Routes>
-                  <Route
-                    path="/chat"
-                    element={
-                      <Home
-                        isLoggedIn={isLoggedIn}
-                        setIsLoggedIn={setIsLoggedIn}
-                        user={user}
-                        isLayoutEditing={isLayoutEditing}
-                        loadMessages={loadMessages}
-                        messages={messages}
-                        setMessages={setMessages}
-                        toggleLayoutEditing={toggleLayoutEditing}
-                        username={username}
-                        setUsername={setUsername}
-                        nicknameChanged={nicknameChanged}
-                        setNicknameChanged={setNicknameChanged}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/chat/:conversationId"
-                    element={
-                      <Home
-                        isLoggedIn={isLoggedIn}
-                        setIsLoggedIn={setIsLoggedIn}
-                        user={user}
-                        isLayoutEditing={isLayoutEditing}
-                        loadMessages={loadMessages}
-                        messages={messages}
-                        setMessages={setMessages}
-                        toggleLayoutEditing={toggleLayoutEditing}
-                        username={username}
-                        setUsername={setUsername}
-                        nicknameChanged={nicknameChanged}
-                        setNicknameChanged={setNicknameChanged}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/mypage" 
-                    element={
-                      <MyPage 
-                        user={user} 
-                        setUser={setUser} 
-                        setIsLoggedIn={setIsLoggedIn}
-                        username={username}  
-                        setUsername={setUsername}
-                        setNicknameChanged={setNicknameChanged}
-                      />
-                    }
-                  />  
-                </Routes>
-              </div>
-            }
-          />
-        </Routes>
+        <Routes
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          user={user}
+          setUser={setUser}
+          isLayoutEditing={isLayoutEditing}
+          toggleLayoutEditing={toggleLayoutEditing}
+          messages={messages}
+          setMessages={setMessages}
+          username={username}
+          setUsername={setUsername}
+          nicknameChanged={nicknameChanged}
+          setNicknameChanged={setNicknameChanged}
+        />
       </div>
     </Router>
   );

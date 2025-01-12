@@ -1,0 +1,47 @@
+.voice-chat-title-logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 10px;
+} 
+
+/* Settings Dropdown */
+.voice-chat-settings-container {
+    position: fixed;
+    top: 15px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .voice-chat-settings-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .voice-chat-settings-dropdown-menu {
+    position: absolute;
+    top: 30px;
+    right: 0; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 1200;
+  } 
+  
+  .voice-chat-settings-dropdown-list { 
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .voice-chat-settings-dropdown-list:hover {
+    background-color: #f0f0f0;
+  } 
