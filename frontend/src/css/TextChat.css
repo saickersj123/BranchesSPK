@@ -259,7 +259,7 @@
   display: none;
 }
 
-.brand-text {
+.brand-text { 
   font-weight: bold;
   font-size: 1.3em;
   cursor: pointer;
@@ -267,8 +267,8 @@
 
 .login-container {
   position: fixed;
-  top: 15px;
-  right: 20px;
+  top: 21px;
+  right: 32px;
   display: flex;
   align-items: center;
   z-index: 1100;
