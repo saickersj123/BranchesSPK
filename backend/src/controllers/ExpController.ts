@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/User.js"; // 사용자 모델
+import Record from '../models/GameRecord.js';
 
 // 경험치 추가
 export const addUserExp = async (req: Request, res: Response) => {
@@ -13,10 +14,14 @@ export const addUserExp = async (req: Request, res: Response) => {
         if (!user) {
             return res.status(404).json({ msg: "유저를 찾을 수 없습니다." });
         }
+        const { date, keywordsMatched } = req.body;
 
         // 경험치 추가
         user.exp += exp;
         await user.save();
+        const newRecord = new Record({ date, exp, keywordsMatched });
+        await newRecord.save();
+        res.status(201).json(newRecord);
 
         return res.status(200).json({ message: "경험치 추가 성공", exp: user.exp });
     } catch (error: any) {
@@ -25,10 +30,11 @@ export const addUserExp = async (req: Request, res: Response) => {
     }
 };
 
+
 // 경험치 감소
 export const deleteUserExp = async (req: Request, res: Response) => {
     try {
-        const { exp } = req.body;
+        const { exp, date, keywordsMatched } = req.body;
 
         // 인증된 사용자 정보 가져오기
         const { id: userId } = res.locals.jwtData;
@@ -41,6 +47,10 @@ export const deleteUserExp = async (req: Request, res: Response) => {
         // 경험치 감소
         user.exp -= exp;
         await user.save();
+
+        // 경험치 기록 저장
+        const newRecord = new Record({ date, exp: -exp, keywordsMatched });
+        await newRecord.save();
 
         return res.status(200).json({ message: "경험치 감소 성공", exp: user.exp });
     } catch (error: any) {
