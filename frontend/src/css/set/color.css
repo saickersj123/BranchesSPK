@@ -1,10 +1,12 @@
 :root { 
   
   --main-background-color: #ffffff; /* 전체 배경 색상 */
-  --button-color: #c7c7c7; /* 마이크 버튼 색상 */
+  --button-color: #007AFF; /* 마이크 버튼 색상 */
   --button-disabled-color: #6c757d; /* 버튼 비활성화 색상 */
-  --button-hover-color: red; /* 버튼 호버 색상 */
-  
+  --button-hover-color: #8CD2F5; /* 버튼 호버 색상 */
+  --button-stop-color: #d64955; /* 버튼 멈춤 색상 */
+  --button-stop-hover-color: #d7959a; /* 버튼 멈춤 호버 색상 */
+
   --button-color-2: #007AFF; /* 로그인, 회원가입쪽의 버튼 색상 */ 
   --button-color-2-hover: #8CD2F5; /* 로그인, 회원가입쪽의 버튼 색상 */
 

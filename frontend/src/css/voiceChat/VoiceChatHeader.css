@@ -1,5 +1,7 @@
 .voice-chat-title-logo {
-  padding-top: 4px;
+  justify-content: center;   
+  align-items: center;       
+  padding-top: 2px;
   font-size: 1.3em;
   font-weight: bold;
   margin-left: 10px;
@@ -35,7 +37,7 @@
 }
 
 /* 드롭다운 메뉴 스타일 */
-.home-dropdown-menu {
+.voice-chat-dropdown-menu {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   overflow: hidden;
@@ -50,6 +52,6 @@
   text-align: left;
 }
 
-.home-dropdown-list:hover {
+.voice-chat-dropdown-list:hover {
   background-color: #f0f0f0;
 }

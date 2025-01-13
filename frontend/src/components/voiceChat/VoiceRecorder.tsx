@@ -53,13 +53,13 @@ const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onSend }) => {
   return (
     <div className="voice-recorder">
       {!isRecording && (
-        <Button variant="primary" onClick={startRecording}>
-          <FontAwesomeIcon icon={faMicrophone} /> 녹음 시작
+        <Button variant="primary" onClick={startRecording} className="voice-recorder-button-start">
+          <FontAwesomeIcon icon={faMicrophone} />
         </Button>
       )}
       {isRecording && (
-        <Button variant="danger" onClick={stopRecording}>
-          <FontAwesomeIcon icon={faStop} /> 녹음 중지
+        <Button variant="danger" onClick={stopRecording} className="voice-recorder-button-stop">
+          <FontAwesomeIcon icon={faStop} />
         </Button>
       )} 
     </div>

@@ -6,9 +6,13 @@ import { Message } from '../../@types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
-import VoiceChatHeader from './VoiceChatHeader';
+import VoiceChatHeader from './VoiceChatHeader';  
 
-const VoiceChat: React.FC = () => {
+interface VoiceChatProps {
+  isSidebarOpen: boolean;
+}
+
+const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>('');
   const [isNewConversation, setIsNewConversation] = useState<boolean>(true);
@@ -66,7 +70,7 @@ const VoiceChat: React.FC = () => {
   return (
     <Container className="voice-chat-container">
       <div className="voice-chat-header-container">
-        <VoiceChatHeader />  
+        <VoiceChatHeader isSidebarOpen={isSidebarOpen} />  
       </div>
       <div className="voice-chat-content-container">
         <div className="messages-container">
@@ -76,7 +80,9 @@ const VoiceChat: React.FC = () => {
             </div>
           ))}
         </div>
-        <VoiceRecorder onSend={handleVoiceSend} /> 
+        <div className="voice-recorder-container">
+          <VoiceRecorder onSend={handleVoiceSend} /> 
+        </div>
       </div>
     </Container>
   );
