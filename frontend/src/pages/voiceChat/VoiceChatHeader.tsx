@@ -31,7 +31,7 @@ interface VoiceChatHeaderProps {
         <TbLayoutSidebar size={35} />
       </button>
       <div className="voice-chat-title-logo" onClick={() => navigate('/voiceChat')}>
-        Brach-SPK
+        Branch-SPK
       </div>
       <div className="voice-chat-settings-container">
         <Dropdown align="end">
