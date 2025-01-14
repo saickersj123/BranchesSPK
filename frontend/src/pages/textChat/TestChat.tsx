@@ -16,6 +16,7 @@ import '../../css/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
 import { Message, Conversation } from '../../@types/types';
+import { url } from 'inspector';
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -233,6 +234,10 @@ const Home: React.FC<HomeProps> = ({
     navigate("/mypage", { state: { from: '/textChat' } });
   }; 
 
+  const handlelevelProfileClick = async () => {
+    navigate("/levelProfile", { state: { from: '/textChat' } });
+  }; 
+  
   const handleChatInputAttempt = () => {
     if (!isLoggedIn) {
       setShowLoginModal(true);
@@ -495,7 +500,8 @@ const Home: React.FC<HomeProps> = ({
                   </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="home-dropdown-menu">
-                  <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 마이페이지</Dropdown.Item>
+                <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 정보수정</Dropdown.Item>
+                <Dropdown.Item onClick={handlelevelProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 경험치 확인</Dropdown.Item>
                   <Dropdown.Item onClick={handleSettingsClick} className="home-dropdown-list"><FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경</Dropdown.Item> 
                   <Dropdown.Item onClick={handleLogout} className="home-dropdown-list"><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
                 </Dropdown.Menu>

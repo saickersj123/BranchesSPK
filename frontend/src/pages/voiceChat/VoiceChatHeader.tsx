@@ -25,6 +25,11 @@ interface VoiceChatHeaderProps {
     const setIsSidebarOpen = (isSidebarOpen: boolean) => {    
         setIsSidebarOpen(isSidebarOpen);
     };
+
+    const handlelevelProfileClick = async () => {
+      navigate("/levelProfile", { state: { from: '/voiceChat' } });
+    }; 
+    
   return (
     <div className={`voice-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}>
       <button className="toggle-sidebar-button" onClick={toggleSidebar}>
@@ -40,7 +45,10 @@ interface VoiceChatHeaderProps {
           </Dropdown.Toggle>
           <Dropdown.Menu className="voice-chat-dropdown-menu">
             <Dropdown.Item onClick={handleProfileClick} className="voice-chat-dropdown-list">
-              <FontAwesomeIcon icon={faUser} /> 마이페이지
+              <FontAwesomeIcon icon={faUser} /> 정보수정
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handlelevelProfileClick} className="voice-chat-dropdown-list">
+              <FontAwesomeIcon icon={faUser} /> 경험치 확인
             </Dropdown.Item>
             <Dropdown.Item className="voice-chat-dropdown-list" onClick={handleLogout}>
               <FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃
