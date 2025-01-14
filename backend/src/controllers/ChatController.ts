@@ -224,7 +224,6 @@ export const startNewConversationwith = async (
 			content,
 		})) ;
 		chats.push({ content: message, role: "user" });
-
 		conversation.chats.push({ content: message, role: "user" });
 		// send all chats with new ones to OpenAI API
 		const config = configureOpenAI();
@@ -236,7 +235,6 @@ export const startNewConversationwith = async (
 			model: ModelName,
 			messages: chats as OpenAI.Chat.ChatCompletionMessageParam[],
 		});
-
 		// push latest response to db
 		conversation.chats.push(chatResponse.choices[0].message);
 		await user.save();
@@ -272,6 +270,7 @@ export const getConversation = async (
 				cause: "Conversation not found",
 			});
 		}
+		await user.save();
 
 		return res.status(200).json({ message: "OK", conversation });
 	} catch (err) {
