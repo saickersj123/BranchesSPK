@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import useLogout from '../../utils/Logout';  
 import { useNavigate } from 'react-router-dom';
-import { TbLayoutSidebar } from 'react-icons/tb'; 
+import { TbLayoutSidebar } from 'react-icons/tb';  
 
 
 interface VoiceChatHeaderProps {
@@ -18,11 +18,11 @@ interface VoiceChatHeaderProps {
         navigate('/mypage', { state: { from: '/voiceChat' } });
     };
 
-    const toggleSidebar = () => {
+    const toggleSidebar = () => { 
         setIsSidebarOpen(!isSidebarOpen); 
     };
 
-    const setIsSidebarOpen = (isSidebarOpen: boolean) => {
+    const setIsSidebarOpen = (isSidebarOpen: boolean) => {    
         setIsSidebarOpen(isSidebarOpen);
     };
   return (

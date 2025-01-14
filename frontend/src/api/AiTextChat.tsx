@@ -187,31 +187,4 @@ export const starNewConversationwithmsg = async (messageContent: string, role: s
       console.error('메시지 가져오기 실패:', error);
       return [];
     }
-  }; 
-
-  
-// 음성 메시지 전송 함수
-export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string }> => {
-    const formData = new FormData();
-    formData.append('audio', audioBlob);
-  
-    if (API_MODE) {
-      // Dummy data for testing
-      return {
-        audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
-        text: 'This is a mock response text.' // Mock text response
-      };
-    }
-  
-    try {
-      const response = await axiosInstance.post(`/chat/c/${conversationId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data; // Ensure this returns { audioUrl, text }
-    } catch (error) {
-      console.error('Error sending voice message:', error);
-      throw error;
-    }
-  }; 
+  };  

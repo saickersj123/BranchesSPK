@@ -26,9 +26,9 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
   
     if (API_MODE) {
       // Dummy data for testing
-      return {
+      return { 
         audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
-        text: 'This is a mock response text.' // Mock text response
+        text: 'This is a mock response text.', // Mock text response 
       };
     }
   

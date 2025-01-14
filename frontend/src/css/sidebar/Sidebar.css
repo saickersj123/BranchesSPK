@@ -1,6 +1,6 @@
 /* src/css/Sidebar.css */
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
-@import url('./set/color.css');
+@import url('../set/color.css');
 
 body, .sidebar, .sidebar *, .new-model-icon span, .chat-date, .room-title, .last-message, .no-chat-rooms p, .model-name, .model-id, .confirmation-tab, .confirmation-buttons button, .input-group label, .input-group input, .input-group textarea {
   font-family: 'Pretendard', sans-serif;

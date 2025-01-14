@@ -7,7 +7,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
 import VoiceChatHeader from './VoiceChatHeader';  
-import VoisChatList from '../../components/voiceChat/VoisChatList'; // 수정된 파일 이름
+import VoisChatList from '../../components/voiceChat/VoisChatList'; 
+import Sidebar from '../../components/sidebar/Sidebar'; 
 
 interface VoiceChatProps {
   isSidebarOpen: boolean;
@@ -21,14 +22,13 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
   const { conversationId: routeConversationId } = useParams<{ conversationId: string }>();
 
   useEffect(() => {
-    // 대화 ID가 URL에 있는 경우 해당 ID 사용, 없으면 새로 초기화
     const initializeConv = async () => {
       if (routeConversationId) {
         setConversationId(routeConversationId);
         setIsNewConversation(false);
       } else {
         try {
-          const newConvId = await startNewConversationVoice(); // 대화 초기화 함수 호출
+          const newConvId = await startNewConversationVoice();
           setConversationId(newConvId);
           setIsNewConversation(false);
           navigate(`/voiceChat/${newConvId}`, { replace: true });
@@ -51,12 +51,10 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       const response = await sendVoiceMessage(conversationId, audioBlob);
       const newMessage: Message = { 
         role: 'user',
-        content: '음성 메시지 전송됨', // 실제 응답 텍스트로 대체
+        content: response.audioUrl, 
         createdAt: new Date().toISOString(),
       };
-      setMessages((prev) => [...prev, newMessage]);
-      
-      // 서버에서 응답받은 메시지를 처리 (예: AI의 응답)
+      setMessages((prev) => [...prev, newMessage]); 
       const aiMessage: Message = { 
         role: 'ai',
         content: response.text,
@@ -70,12 +68,14 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
 
   return (
     <Container className="voice-chat-container">
+      <div className='voiceChatSidebar'> 
+        {/* 여기에 사이드바를 넣을 예정임. */}
+      </div>
       <div className="voice-chat-header-container">
         <VoiceChatHeader isSidebarOpen={isSidebarOpen} />  
       </div>
       <div className="voice-chat-content-container">
         <div className="messages-container">
-          {/* 메시지를 VoisChatList로 전달 */}
           <VoisChatList messages={messages} />
         </div> 
          <VoiceRecorder onSend={handleVoiceSend} />  
