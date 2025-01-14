@@ -4,7 +4,7 @@ import { Trash3 } from 'react-bootstrap-icons';
 import { Modal, Button } from 'react-bootstrap';
 import { LuSquarePlus, LuDelete } from "react-icons/lu";
 import { deleteConversation, deleteAllChats, startNewConversation } from '../../api/AiTextChat'; 
-import '../../css/Sidebar.css';
+import '../../css/sidebar/Sidebar.css';
 import Nlogo_icon from '../../img/Nlogo3.png';
 import { useNavigate } from 'react-router-dom';
 
