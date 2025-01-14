@@ -7,8 +7,8 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import ChatBox from '../../components/testChat/ChatBox';
 import ChatList from '../../components/testChat/ChatList';
 import Sidebar from '../../components/sidebar/Sidebar';
-import GridLayout from 'react-grid-layout';
-import { logout } from '../../api/UserInfo';
+import GridLayout from 'react-grid-layout'; 
+import useLogout from '../../utils/Logout';
 import { Dropdown } from 'react-bootstrap';
 import { fetchMessages, fetchConversations } from '../../api/AiTextChat';
 import { getChatboxes, saveChatbox, resetChatbox } from '../../api/ChatUi';
@@ -59,6 +59,7 @@ const Home: React.FC<HomeProps> = ({
   nicknameChanged,
   setNicknameChanged
 }) => {
+  const handleLogout = useLogout();
   const sidebarRef = useRef<any>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [viewportHeight, setViewportHeight] = useState<number>(window.innerHeight);
@@ -230,22 +231,7 @@ const Home: React.FC<HomeProps> = ({
 
   const handleProfileClick = async () => {
     navigate("/mypage", { state: { from: '/textChat' } });
-  };
-
-  const handleLogoutClick = async () => {
-    try {
-      const logoutSuccess = await logout();
-      if (logoutSuccess) {
-        setIsLoggedIn(false);
-        setIsSidebarOpen(false);
-        navigate('/textChat');
-      } else {
-        alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
-      }
-    } catch (error) {
-      alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
-    }
-  };
+  }; 
 
   const handleChatInputAttempt = () => {
     if (!isLoggedIn) {
@@ -511,15 +497,15 @@ const Home: React.FC<HomeProps> = ({
                 <Dropdown.Menu className="home-dropdown-menu">
                   <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 마이페이지</Dropdown.Item>
                   <Dropdown.Item onClick={handleSettingsClick} className="home-dropdown-list"><FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경</Dropdown.Item> 
-                  <Dropdown.Item onClick={handleLogoutClick} className="home-dropdown-list"><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
+                  <Dropdown.Item onClick={handleLogout} className="home-dropdown-list"><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
           )} 
         </>
       ) : (
-        <div className="login-container">
-          <button className="login-button" onClick={handleLoginClick}>로그인</button>
+        <div className="home-login-container">
+          <button className="home-login-button" onClick={handleLoginClick}>로그인</button>
         </div>
       )}
       <div className={`main-content ${isSidebarOpen ? 'shifted-right' : ''}`}>

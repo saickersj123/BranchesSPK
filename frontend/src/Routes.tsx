@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import Scenarios from './pages/Scenarios';
 import ServicePage from './pages/servicePage/ServicePage';
 import VoiceChat from './pages/voiceChat/VoiceChat';
+import LevelProfilePage from './pages/levelProfilePage/levelProfilePage';
 import { fetchMessages } from './api/AiTextChat';
 import { Message, User } from './@types/types';
 
@@ -56,7 +57,10 @@ const Routes: React.FC<RoutesProps> = ({
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
       <Route path="/scenarios" element={<Scenarios />} />
-      <Route path="/mypage" element={<MyPage user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} username={username} setUsername={setUsername} setNicknameChanged={setNicknameChanged} />} />
+      <Route path="/mypage" element={<MyPage user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} username={username} setUsername={setUsername} setNicknameChanged={setNicknameChanged} />} />    
+      <Route path="/levelProfile" element={<LevelProfilePage />} />
+      <Route path="/voiceChat" element={<VoiceChat isSidebarOpen={false} />} />  
+      <Route path="/voiceChat/:conversationId" element={<VoiceChat isSidebarOpen={false}  />} />
       <Route path="/textChat" element={
         <TestChat
           isLoggedIn={isLoggedIn}
@@ -88,8 +92,7 @@ const Routes: React.FC<RoutesProps> = ({
           nicknameChanged={nicknameChanged}
           setNicknameChanged={setNicknameChanged}
         />
-      } />
-      <Route path="/voiceChat" element={<VoiceChat />} />  
+      } /> 
     </ReactRouterRoutes>
   );
 };

@@ -1,16 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap'); 
 @import '../set/back_button_style.css';
+@import '../set/color.css';
 .mypage-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #fff;
+  height: 100vh;   
   font-family: Pretendard;
   position: relative;  
 }  
 
+.mypage-container-2 {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; 
+  width: 1010%;
+  overflow: visible; 
+  background : var(--mypage-bg-color);
+  /*왜 좌우 여백이 생기지? */
+  font-family: Pretendard;
+  position: relative;  
+} 
 .my-back-button {
   position: fixed;
   top: var(--button-position-top);

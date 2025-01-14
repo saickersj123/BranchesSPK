@@ -6,8 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-color: #fff;
+  justify-content: center; 
   font-family: Pretendard;  
 }  
 
@@ -98,7 +97,7 @@
 }
 
 .SignupButton {
-  margin-bottom: 15px; /* 마진 확대 */ 
+  margin-bottom: 125px; /* 마진 확대 */ 
 }
 
 .or { 

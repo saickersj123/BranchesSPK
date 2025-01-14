@@ -6,8 +6,7 @@ import { faArrowRight, faPen, faArrowLeft } from '@fortawesome/free-solid-svg-ic
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/mypage/Mypage.css';
 import { updatename, updatePassword, mypage } from '../api/UserInfo';
-import branchImage from '../img/PRlogo2.png';
-import MyEx from '../components/Mypage/MyEx';
+import branchImage from '../img/PRlogo2.png'; 
 import { User } from '../@types/types';
 
 interface MyPageProps {
@@ -166,8 +165,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
         </div>
       ) : (
         <div className="my-center-box">
-          <Form>
-            <MyEx />
+          <Form> 
             <Form.Group className="MainInputGroup">
               <Form.Label className="label">사용자명</Form.Label>
               <Form.Control plaintext readOnly value={username} className="My-inputField" />

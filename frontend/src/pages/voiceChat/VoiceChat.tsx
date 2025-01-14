@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
 import VoiceChatHeader from './VoiceChatHeader';  
+import VoisChatList from '../../components/voiceChat/VoisChatList'; // 수정된 파일 이름
 
 interface VoiceChatProps {
   isSidebarOpen: boolean;
@@ -74,15 +75,10 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       </div>
       <div className="voice-chat-content-container">
         <div className="messages-container">
-          {messages.map((msg) => (
-            <div className={`message ${msg.role}`}>
-              <span>{msg.content}</span> 
-            </div>
-          ))}
-        </div>
-        <div className="voice-recorder-container">
-          <VoiceRecorder onSend={handleVoiceSend} /> 
-        </div>
+          {/* 메시지를 VoisChatList로 전달 */}
+          <VoisChatList messages={messages} />
+        </div> 
+         <VoiceRecorder onSend={handleVoiceSend} />  
       </div>
     </Container>
   );

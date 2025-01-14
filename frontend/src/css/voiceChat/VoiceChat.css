@@ -41,32 +41,4 @@
   margin-bottom: 10px;
   background-color: #f9f9f9;
   margin-bottom: 10px;
-}
-
-.message {
-  margin-bottom: 10px;
-  padding: 8px 12px;
-  border-radius: 16px;
-  max-width: 80%;
-  position: relative;
-}
-
-.message.user {
-  background-color: #d1e7dd;
-  align-self: flex-end;
-  text-align: right;
-}
-
-.message.ai {
-  background-color: #f8d7da;
-  align-self: flex-start;
-  text-align: left;
-}
-
-.message small {
-  position: absolute;
-  bottom: -15px;
-  right: 10px;
-  font-size: 10px;
-  color: #6c757d;
-}
+}  

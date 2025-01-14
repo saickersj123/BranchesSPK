@@ -4,8 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import useLogout from '../../utils/Logout';  
 import { useNavigate } from 'react-router-dom';
-import { TbLayoutSidebar } from 'react-icons/tb';
-import { useState } from 'react';
+import { TbLayoutSidebar } from 'react-icons/tb'; 
 
 
 interface VoiceChatHeaderProps {

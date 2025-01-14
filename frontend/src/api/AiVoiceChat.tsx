@@ -24,7 +24,7 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
     const formData = new FormData();
     formData.append('audio', audioBlob);
   
-    if (API_MODE === 0) {
+    if (API_MODE) {
       // Dummy data for testing
       return {
         audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
