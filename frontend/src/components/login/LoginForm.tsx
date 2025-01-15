@@ -43,7 +43,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setIsLoggedIn, setUser }) => {
       if (response.message === 'OK') {
         setIsLoggedIn(true);
         setUser(response.data); // 유저 정보 저장
-        navigate('/chat');
+        navigate('/service');
       } else {
         setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.');
       }

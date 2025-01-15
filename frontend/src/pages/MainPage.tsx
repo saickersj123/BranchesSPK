@@ -14,7 +14,7 @@ const MainPage: React.FC = () => {
       try {
         const response = await checkAuthStatus();
         if (response.valid) {
-          navigate('/chat');
+          navigate('/service');
         }
       } catch (error) {
         console.error('Error checking auth status:', error);

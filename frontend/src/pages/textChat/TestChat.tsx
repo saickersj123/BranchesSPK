@@ -1,22 +1,22 @@
- 
 import React, { useState, useEffect, useCallback, useRef } from 'react'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { TbLayoutSidebar } from "react-icons/tb";
 import { LuSquarePlus } from "react-icons/lu";
 import { faRightFromBracket, faSquareMinus, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, useParams } from 'react-router-dom';
-import ChatBox from '../../components/ChatBox';
-import ChatList from '../../components/ChatList';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import ChatBox from '../../components/testChat/ChatBox';
+import ChatList from '../../components/testChat/ChatList';
 import Sidebar from '../../components/sidebar/Sidebar';
-import GridLayout from 'react-grid-layout';
-import { logout } from '../../api/UserInfo';
+import GridLayout from 'react-grid-layout'; 
+import useLogout from '../../utils/Logout';
 import { Dropdown } from 'react-bootstrap';
-import { fetchMessages, fetchConversations } from '../../api/AiChat';
+import { fetchMessages, fetchConversations } from '../../api/AiTextChat';
 import { getChatboxes, saveChatbox, resetChatbox } from '../../api/ChatUi';
-import '../../css/Home.css';
+import '../../css/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
 import { Message, Conversation } from '../../@types/types';
+import { url } from 'inspector';
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -60,6 +60,7 @@ const Home: React.FC<HomeProps> = ({
   nicknameChanged,
   setNicknameChanged
 }) => {
+  const handleLogout = useLogout();
   const sidebarRef = useRef<any>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [viewportHeight, setViewportHeight] = useState<number>(window.innerHeight);
@@ -73,6 +74,7 @@ const Home: React.FC<HomeProps> = ({
   const originalLayoutRef = useRef<LayoutItem[]>(INITIAL_LAYOUT);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const [myChatBubbleColor, setMyChatBubbleColor] = useState<string>('#DCF8C6');
   const [myChatTextColor, setMyChatTextColor] = useState<string>('#000000');
@@ -133,7 +135,7 @@ const Home: React.FC<HomeProps> = ({
           await loadMessages(latestConversationId);
           setSelectedConversationId(latestConversationId);
           setIsNewChat(false);
-          navigate(`/chat/${latestConversationId}`);
+          navigate(`/textchat/${latestConversationId}`);
         } else {
           setIsNewChat(true);
           setMessages([]);
@@ -164,7 +166,7 @@ const Home: React.FC<HomeProps> = ({
           setIsNewChat(true);
         } else if (fetchedConversations.length > 0 && !urlConversationId) {
           setSelectedConversationId(fetchedConversations[fetchedConversations.length-1]._id);
-          navigate(`/chat/${fetchedConversations[fetchedConversations.length-1]._id}`);
+          navigate(`/textChat/${fetchedConversations[fetchedConversations.length-1]._id}`);
         }
       } catch (error) {
         console.error('Failed to fetch conversations:', error);
@@ -229,24 +231,13 @@ const Home: React.FC<HomeProps> = ({
   };
 
   const handleProfileClick = async () => {
-    navigate("/mypage");
-  };
+    navigate("/mypage", { state: { from: '/textChat' } });
+  }; 
 
-  const handleLogoutClick = async () => {
-    try {
-      const logoutSuccess = await logout();
-      if (logoutSuccess) {
-        setIsLoggedIn(false);
-        setIsSidebarOpen(false);
-        navigate('/chat');
-      } else {
-        alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
-      }
-    } catch (error) {
-      alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
-    }
-  };
-
+  const handlelevelProfileClick = async () => {
+    navigate("/levelProfile", { state: { from: '/textChat' } });
+  }; 
+  
   const handleChatInputAttempt = () => {
     if (!isLoggedIn) {
       setShowLoginModal(true);
@@ -288,7 +279,7 @@ const Home: React.FC<HomeProps> = ({
       await loadMessages(conversationId);
       setSelectedConversationId(conversationId);
       setIsNewChat(false);
-      navigate(`/chat/${conversationId}`);
+      navigate(`/textChat/${conversationId}`);
     } catch (error) {
       console.error('Failed to load conversation messages:', error);
     }
@@ -403,7 +394,7 @@ const Home: React.FC<HomeProps> = ({
   const handleNewConversation = async (newConversationId: string) => {
     setSelectedConversationId(newConversationId);
     setIsNewChat(false);
-    navigate(`/chat/${newConversationId}`);
+    navigate(`/textChat/${newConversationId}`);
   };
 
   const handleConversationDelete = async (resetChat: boolean = false) => {
@@ -413,7 +404,7 @@ const Home: React.FC<HomeProps> = ({
       if (resetChat) {
         setSelectedConversationId(null);
         setIsNewChat(true);
-        navigate('/chat');
+        navigate('/textChat');
       }
     } catch (error) {
       console.error('Failed to update conversations list:', error);
@@ -480,7 +471,7 @@ const Home: React.FC<HomeProps> = ({
           </button>
         )}
         <span className="home_new_conversation" onClick={handleStartConversation}> <LuSquarePlus /> </span>
-        <span className="brand-text" onClick={() => navigate('/chat')}>Branch-SPK</span>
+        <span className="brand-text" onClick={() => navigate('/textChat')}>Branch-SPK</span>
       </div>
       {isLoggedIn ? (
         <>
@@ -509,17 +500,18 @@ const Home: React.FC<HomeProps> = ({
                   </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="home-dropdown-menu">
-                  <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 마이페이지</Dropdown.Item>
+                <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 정보수정</Dropdown.Item>
+                <Dropdown.Item onClick={handlelevelProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 경험치 확인</Dropdown.Item>
                   <Dropdown.Item onClick={handleSettingsClick} className="home-dropdown-list"><FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경</Dropdown.Item> 
-                  <Dropdown.Item onClick={handleLogoutClick} className="home-dropdown-list"><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
+                  <Dropdown.Item onClick={handleLogout} className="home-dropdown-list"><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
           )} 
         </>
       ) : (
-        <div className="login-container">
-          <button className="login-button" onClick={handleLoginClick}>로그인</button>
+        <div className="home-login-container">
+          <button className="home-login-button" onClick={handleLoginClick}>로그인</button>
         </div>
       )}
       <div className={`main-content ${isSidebarOpen ? 'shifted-right' : ''}`}>

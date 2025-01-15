@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import '../css/ChatBox.css';
+import '../../css/ChatBox.css';
 import { useNavigate } from 'react-router-dom';
-import { sendMessage, startNewConversationwithmsg, sendVoiceMessage } from '../api/AiChat';
-import { Message } from '../@types/types';
+import { sendMessage, startNewConversationwithmsg } from '../../api/AiTextChat';
+import { Message } from '../../@types/types';
 
 interface ChatBoxProps {
   onNewMessage: (message: Message) => void;
@@ -41,35 +41,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
   const handleMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     !isLoggedIn ? onChatInputAttempt() : setMessage(event.target.value);
   };
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) audioChunksRef.current.push(event.data);
-      };
-      mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-        await sendVoiceMessageToServer(audioBlob);
-        stream.getTracks().forEach((track) => track.stop());
-      };
-      mediaRecorder.start();
-      setIsRecording(true);
-    } catch (error) {
-      console.error('Microphone access denied:', error);
-      alert('Microphone access was denied.');
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-    }
-  };
+ 
 
   const handleInputFocus = () => setIsInputFocused(true);
   const handleInputBlur = () => setIsInputFocused(false);
@@ -117,24 +89,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       event.preventDefault();
       sendMessageToServer();
     }
-  };
-
-  const sendVoiceMessageToServer = async (audioBlob: Blob) => {
-    if (conversationId) {
-      try {
-        const response = await sendVoiceMessage(conversationId, audioBlob);
-        if (response) {
-          const { audioUrl, text } = response;
-          const aiMessage: Message = { content: text, role: 'assistant', createdAt: new Date().toISOString() };
-          onUpdateMessage(aiMessage);
-          playAudio(audioUrl);
-        }
-      } catch (error) {
-        console.error('Voice message failed:', error);
-      }
-    }
-  };
-
+  }; 
   const playAudio = (audioUrl: string) => {
     const audio = new Audio(audioUrl);
     audio.play().catch((error) => {
@@ -147,10 +102,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       event.preventDefault();
       sendMessageToServer();
     }}>
-      <div className="input-button-wrapper">
-        <Button onClick={isRecording ? stopRecording : startRecording} className={`chat-box-button mic-button ${isRecording ? 'recording' : ''}`} disabled={isEditMode}>
-          {isRecording ? '■' : '🎤'}
-        </Button>
+      <div className="input-button-wrapper"> 
         <Form.Control as="textarea" ref={textareaRef} rows={1} value={message} onChange={handleMessageChange} onKeyDown={handleKeyPress} onFocus={handleInputFocus} onBlur={handleInputBlur} placeholder="Type a message..." className="chat-container" disabled={isEditMode} />
         <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.preventDefault();

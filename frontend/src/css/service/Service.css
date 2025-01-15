@@ -1,0 +1,81 @@
+@import '../set/color.css';
+
+.service-container { 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin: 0 auto;
+  }
+  
+  /* 서비스 리스트 섹션 */
+  .service-list-section { 
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .service-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #3b82f6;
+    margin-bottom: 3rem;
+  }
+  
+  .service-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+   
+
+/* 태블릿 크기에서는 2열로 */
+@media (max-width: 1324px) {  
+  .service-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 모바일에서는 1열로 */
+@media (max-width: 767px) {  
+  .service-list {
+    grid-template-columns: 1fr;
+  }
+} 
+
+.start-button {
+  margin-top: 3rem;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  background: var(--button-color-2);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-button:hover:not(:disabled) {
+  background: var(--button-color-2-hover);
+  transform: translateY(-2px);
+}
+ 
+.start-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 모바일 대응 */
+@media (max-width: 767px) {
+  .start-button {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0.875rem;
+  }
+} 

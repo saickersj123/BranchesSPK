@@ -13,15 +13,16 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn, setUser }) => {
   const navigate = useNavigate();
 
   return (
-    <div className='loginPage'>
-      <div className="login-center-box">
-        <div className='logininputGroup'>
-          <img src={branchImage} alt="logo" onClick={() => navigate('/')}/>
+    <div className="login-container"> 
+      <div className='loginPage'>
+        <div className="login-center-box">
+          <div className='logininputGroup'>
+            <img src={branchImage} alt="logo" onClick={() => navigate('/')}/>
+          </div>
+        </div> 
+        <div className="login-center-box">
+          <LoginForm setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
         </div>
-      </div>
-      
-      <div className="login-center-box">
-        <LoginForm setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
       </div>
     </div>
   );

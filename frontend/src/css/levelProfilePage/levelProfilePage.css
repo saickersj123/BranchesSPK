@@ -1,0 +1,28 @@
+@import '../set/color.css';
+
+.level-profile-container {
+    align-items: center; 
+  display: flex;
+  flex-direction: column; 
+  background: var(--level-profile-bg-color); 
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+.level-profile-header-container {
+  align-items: left; 
+  display: flex; 
+  margin-top: 5vh; 
+  margin-bottom: 10vh;
+  width: 80vw;
+}
+
+.level-profile-body-container {
+  align-items: center; 
+  display: flex;
+  margin-top: 10vh; 
+  margin-bottom: 5vh;
+}
+
+

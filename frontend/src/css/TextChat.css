@@ -112,8 +112,7 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  background: #ffffff;
-  background-opacity: 0.8;
+  background: #ffffff; 
   padding: 10px;
   font-size: 0.875rem;
   z-index: 50;
@@ -260,29 +259,29 @@
   display: none;
 }
 
-.brand-text {
+.brand-text { 
   font-weight: bold;
   font-size: 1.3em;
   cursor: pointer;
 }
 
-.login-container {
+.home-login-container {
   position: fixed;
-  top: 15px;
-  right: 20px;
+  top: 21px;
+  right: 32px;
   display: flex;
   align-items: center;
   z-index: 1100;
 }
 
-.login-button { 
+.home-login-button { 
   color: white;
   border: none;
   border-radius: 4px; 
   cursor: pointer;
 }
 
-.login-button:hover {
+.home-login-button:hover {
   background-color: black;
 }
 

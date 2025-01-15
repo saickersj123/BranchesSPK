@@ -1,0 +1,60 @@
+.vois-chat-list {
+  display: flex;
+  flex-direction: column-reverse; /* 최신 메시지가 아래로 오도록 */
+  overflow-y: auto;
+}
+
+.voice-message-container {
+  display: flex;
+  margin-bottom: 10px;
+  width: 100%; /* 부모의 100% 너비 사용 */
+}
+
+.voice-message-container.user {
+  justify-content: flex-end; /* 사용자 메시지: 오른쪽 끝으로 정렬 */
+}
+
+.voice-message-container.ai {
+  justify-content: flex-start; /* AI 메시지: 왼쪽 끝으로 정렬 */
+}
+
+.voice-message {
+  padding: 8px 12px;
+  border-radius: 16px;
+  max-width: 80%;
+  position: relative;
+}
+
+.voice-message.user {
+  background-color: transparent;
+  text-align: right; /* 사용자 메시지 오른쪽 정렬 */
+}
+
+.voice-message.ai {
+  background-color: transparent;
+  text-align: left; /* AI 메시지 왼쪽 정렬 */
+}
+
+.chatbot-icon {
+  font-family: 'Gmarket Sans';
+  width: 60px; /* 아이콘 크기 */
+  height: 60px;
+  margin-right: 10px; /* 아이콘과 메시지 사이의 간격 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* 아이콘 크기 고정 */
+  border-radius: 50%; /* 원형 프로필 이미지 */
+  background: var(--ai-profile-color); 
+  color: white;
+  font-size: 30px;
+  font-weight : bold;
+} 
+
+.voice-message small {
+  position: absolute;
+  bottom: -15px;
+  right: 10px;
+  font-size: 10px;
+  color: #6c757d;
+}

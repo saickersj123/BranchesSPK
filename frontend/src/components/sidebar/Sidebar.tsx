@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
-import { FaPlus, FaMinus, FaList, FaTheaterMasks } from 'react-icons/fa';
+import { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
+import { FaTheaterMasks, FaMicrophone } from 'react-icons/fa';
 import { Trash3 } from 'react-bootstrap-icons'; 
 import { Modal, Button } from 'react-bootstrap';
 import { LuSquarePlus, LuDelete } from "react-icons/lu";
-import { deleteConversation, deleteAllChats, startNewConversation } from '../../api/AiChat';
-import { createModel, deleteModel, getCustomModels } from '../../api/Mode_custom';
-import '../../css/Sidebar.css';
+import { deleteConversation, deleteAllChats, startNewConversation } from '../../api/AiTextChat'; 
+import '../../css/sidebar/Sidebar.css';
 import Nlogo_icon from '../../img/Nlogo3.png';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,19 +25,9 @@ const Sidebar = forwardRef<any, SidebarProps>(({
 }, ref) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showDeleteAllModal, setShowDeleteAllModal] = useState<boolean>(false);
-  const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
-  const [showModelModal, setShowModelModal] = useState<boolean>(false);
-  const [showTrainingModal, setShowTrainingModal] = useState<boolean>(false);
-  const [showDeleteModelModal, setShowDeleteModelModal] = useState<boolean>(false);
-  const [deleteRoomId, setDeleteRoomId] = useState<string | null>(null);
-  const [deleteModelId, setDeleteModelId] = useState<string | null>(null);
-  const [error, setError] = useState<string>('');
-  const [models, setModels] = useState<CustomModel[]>([]);
-  const [modelName, setModelName] = useState<string>('');
-  const [systemContent, setSystemContent] = useState<string>('');
-  const [userAssistantPairs, setUserAssistantPairs] = useState<{user: string, assistant: string}[]>([{ user: '', assistant: '' }]);
-  const [isTraining, setIsTraining] = useState<boolean>(false);
-  const [responseMessage, setResponseMessage] = useState<string>('');
+  const [showErrorModal, setShowErrorModal] = useState<boolean>(false); 
+  const [deleteRoomId, setDeleteRoomId] = useState<string | null>(null); 
+  const [error, setError] = useState<string>(''); 
   const navigate = useNavigate();
 
   useImperativeHandle(ref, () => ({ startConversation }));
@@ -119,112 +108,28 @@ const Sidebar = forwardRef<any, SidebarProps>(({
       setShowErrorModal(true);
     }
   };
-
-  const handleModelSelect = (modelId: string) => {
-    onModelSelect(modelId);
-    setShowModelModal(false);
-  };
-
-  const handleTrainModelClick = () => {
-    setShowTrainingModal(true);
-    setShowModelModal(false);
-  };
-
-  const handleAddPair = () => setUserAssistantPairs([...userAssistantPairs, { user: '', assistant: '' }]);
-
-  const handleRemovePair = (index: number) => {
-    setUserAssistantPairs(userAssistantPairs.filter((_, i) => i !== index));
-  };
-
-  const handlePairChange = (index: number, role: 'user' | 'assistant', value: string) => {
-    const newPairs = [...userAssistantPairs];
-    newPairs[index][role] = value;
-    setUserAssistantPairs(newPairs);
-  };
-
-  const handleSubmit = async () => {
-    setIsTraining(true);
-    setResponseMessage('');
-    try {
-      const trainingData = userAssistantPairs.map(pair => JSON.stringify({
-        messages: [
-          { role: "system", content: systemContent },
-          { role: "user", content: pair.user },
-          { role: "assistant", content: pair.assistant }
-        ]
-      })).join('\n');
-
-      await createModel(modelName, trainingData);
-      setResponseMessage('Model created successfully');
-      const updatedModels = await getCustomModels();
-      setModels(updatedModels);
-      await handleBacktoModels();
-    } catch (error: any) {
-      setResponseMessage(`Error creating model: ${error.response ? error.response.data.error : error.message}`);
-    } finally {
-      setIsTraining(false);
-    }
-  };
-
-  const handleCloseTrainingModal = () => {
-    setShowTrainingModal(false);
-    setModelName('');
-    setSystemContent('');
-    setUserAssistantPairs([{ user: '', assistant: '' }]);
-  };
-
-  const handleBacktoModels = async () => {
-    setShowTrainingModal(false);
-    setModelName('');
-    setSystemContent('');
-    setUserAssistantPairs([{ user: '', assistant: '' }]);
-    const updatedModels = await getCustomModels();
-    setModels(updatedModels);
-    setShowModelModal(true);
-  };
-
-  const handleDeleteModelClick = (modelId: string) => {
-    setDeleteModelId(modelId);
-    setShowDeleteModelModal(true);
-    setShowModelModal(false);
-  };
-
-  const confirmDeleteModel = async () => {
-    if (deleteModelId) {
-      try {
-        await deleteModel(deleteModelId);
-        setShowDeleteModelModal(false);
-        console.log('Model deleted successfully.');
-      } catch (error) {
-        console.log('Failed to delete model. Please try again.');
-      }
-    }
-  };
-
-  const cancelDeleteModel = () => {
-    setShowDeleteModelModal(false);
-    setShowModelModal(true);
-  };
-
-  const handleScenarioClick = () => {
-    navigate('/scenarios');
-  };
-
+ 
   return (
     <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-header">
+        {/*
         <button className="new-conversation-button" onClick={startConversation}>
           <LuSquarePlus size={31}/>
         </button>
+         */} 
       </div>
       <div className="sidebar-content">
-        <button className="model-info" onClick={startConversation}>
+        <button className="model-info" onClick={() => navigate('/textChat')}>
           <img src={Nlogo_icon} alt="Nlogo" />
-          <span>Branch-SPK</span>
+          <span>채팅</span>
         </button>
-        <button className="new-model-icon" onClick={handleScenarioClick}>
+        <button className="new-model-icon" onClick={() => navigate('/scenarios')}>
           <FaTheaterMasks/>
           <span>시나리오</span>
+        </button>
+        <button className="new-model-icon" onClick={() => navigate('/voiceChat')}>
+          <FaMicrophone/>
+          <span>음성대화 </span>
         </button>
         <div className="sidebar-menu">
           {conversations.length === 0 ? (
@@ -293,115 +198,7 @@ const Sidebar = forwardRef<any, SidebarProps>(({
           <Button variant="primary" onClick={() => setShowErrorModal(false)}>닫기</Button>
         </Modal.Footer>
       </Modal>
-
-      <Modal show={showModelModal} onHide={() => setShowModelModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>모델 목록</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <ul className="model-list">
-            {models.map((model, index) => (
-              <div key={index} className="model-item">
-                <div className="model-item-content" onClick={() => handleModelSelect(model.modelId)}>
-                  <div className="model-name">{model.modelName}</div>
-                  <div className="model-date">{formatDate(model.createdAt)}</div>
-                  <div className="model-id">{model.modelId}</div>
-                </div>
-                <button className="delete-button" onClick={() => handleDeleteModelClick(model.modelId)}>
-                  <FaMinus size={16} />
-                </button>
-              </div>
-            ))}
-          </ul>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleTrainModelClick}>
-            <FaPlus size={25} />
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal show={showTrainingModal} onHide={handleCloseTrainingModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>모델 생성</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="input-group">
-            <label>모델 이름</label>
-            <input
-              type="text"
-              placeholder="모델 이름을 입력하세요"
-              value={modelName}
-              onChange={(e) => setModelName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label>모델 역할</label>
-            <textarea
-              rows={3}
-              placeholder="모델의 성격, 임무, 역할 을 알려주세요."
-              value={systemContent}
-              onChange={(e) => setSystemContent(e.target.value)}
-              required
-            />
-          </div>
-          {userAssistantPairs.map((pair, index) => (
-            <div key={index} className="input-group-pair">
-              <div className="input-group-pair-header">
-                <label>예시 질문 {index + 1}</label>
-                {index > 0 && (
-                  <Button variant="danger" onClick={() => handleRemovePair(index)}>
-                    <FaMinus size={15}/>
-                  </Button>
-                )}
-              </div>
-              <div className="input-group">
-                <textarea
-                  rows={2}
-                  placeholder="예시 질문을 입력하세요."
-                  value={pair.user}
-                  onChange={(e) => handlePairChange(index, 'user', e.target.value)}
-                  required
-                />
-              </div>
-              <div className="input-group">
-                <label>원하는 응답 {index + 1}</label>
-                <textarea
-                  rows={2}
-                  placeholder="원하는 응답 또는 대답을 알려주세요."
-                  value={pair.assistant}
-                  onChange={(e) => handlePairChange(index, 'assistant', e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-          ))}
-        </Modal.Body>
-        <Modal.Footer>
-          {responseMessage && <p>{responseMessage}</p>}
-          <Button variant="light" onClick={handleBacktoModels}>
-            <FaList size={20} />
-          </Button>
-          <Button variant="light" onClick={handleAddPair}>
-            <FaPlus size={20} />
-          </Button>
-          <Button variant="primary" onClick={handleSubmit} disabled={isTraining}>
-            {isTraining ? '학습 중...' : '모델 생성'}
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal show={showDeleteModelModal} onHide={cancelDeleteModel}>
-        <Modal.Header closeButton>
-          <Modal.Title>모델 삭제 확인</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>정말로 이 모델을 삭제하시겠습니까?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={cancelDeleteModel}>취소</Button>
-          <Button variant="danger" onClick={confirmDeleteModel}>삭제</Button>
-        </Modal.Footer>
-      </Modal>
+  
     </div>
   );
 });

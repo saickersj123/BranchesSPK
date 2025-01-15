@@ -1,7 +1,7 @@
  
 import React, { useRef, useEffect } from 'react';
-import '../css/ChatList.css';
-import AI_Logo from '../img/Nlogo3.png';
+import '../../css/ChatList.css';
+import AI_Logo from '../../img/Nlogo3.png';
 
 interface Message {
   content: string;
@@ -79,7 +79,7 @@ const ChatList: React.FC<ChatListProps> = ({ messages, username, showTime }) => 
       {messages.length === 0 ? (
         <div className="empty-chat-message">
           <p>새로운 대화를 시작해 보세요!</p>
-          <p>질문을 입력하거나 마이크 버튼을 눌러 음성으로 대화를 시작할 수 있습니다.</p>
+          <p>질문을 입력하시면 대화를 시작할 수 있습니다.</p>
         </div>
       ) : (
         messages.map((message, index) => (

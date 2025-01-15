@@ -3,3 +3,4 @@ node_modules
 nodemon.json
 backend/dist/*
 .env
+.DS_Store
