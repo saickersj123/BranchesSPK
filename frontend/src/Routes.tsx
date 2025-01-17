@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
+import { Route, Routes as ReactRouterRoutes, Navigate } from 'react-router-dom'; // Navigate import 추가
 import Login from './pages/login/Login';
 import MyPage from './pages/MyPage';
 import TestChat from './pages/textChat/TestChat';
@@ -51,16 +51,16 @@ const Routes: React.FC<RoutesProps> = ({
   }, [setMessages]);
 
   return (
-    <ReactRouterRoutes> 
+    <ReactRouterRoutes>
       <Route path="/" element={<MainPage />} />
       <Route path="/service" element={<ServicePage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
       <Route path="/scenarios" element={<Scenarios />} />
-      <Route path="/mypage" element={<MyPage user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} username={username} setUsername={setUsername} setNicknameChanged={setNicknameChanged} />} />    
+      <Route path="/mypage" element={<MyPage user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} username={username} setUsername={setUsername} setNicknameChanged={setNicknameChanged} />} />
       <Route path="/levelProfile" element={<LevelProfilePage />} />
-      <Route path="/voiceChat" element={<VoiceChat isSidebarOpen={false} />} />  
-      <Route path="/voiceChat/:conversationId" element={<VoiceChat isSidebarOpen={false}  />} />
+      <Route path="/voiceChat" element={<VoiceChat isSidebarOpen={false} />} />
+      <Route path="/voiceChat/:conversationId" element={<VoiceChat isSidebarOpen={false} />} />
       <Route path="/textChat" element={
         <TestChat
           isLoggedIn={isLoggedIn}
@@ -92,7 +92,9 @@ const Routes: React.FC<RoutesProps> = ({
           nicknameChanged={nicknameChanged}
           setNicknameChanged={setNicknameChanged}
         />
-      } /> 
+      } />
+      {/* 추가된 리디렉션 Route */}
+      <Route path="*" element={<Navigate to="/" />} />  {/* path="*"를 추가하여 모든 경로를 "/"로 리디렉션 */}
     </ReactRouterRoutes>
   );
 };
