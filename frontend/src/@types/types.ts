@@ -2,6 +2,7 @@ export interface Message {
   content: string;
   role: string;
   createdAt: string; 
+  audioUrl : string;
 } 
 export interface Conversation {
   _id: string;

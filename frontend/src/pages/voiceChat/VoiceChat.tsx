@@ -51,13 +51,15 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       const response = await sendVoiceMessage(conversationId, audioBlob);
       const newMessage: Message = { 
         role: 'user',
-        content: response.audioUrl, 
+        content: response.text, 
+        audioUrl: '', 
         createdAt: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, newMessage]); 
       const aiMessage: Message = { 
         role: 'ai',
-        content: response.text,
+        content: response.gptResponse,
+        audioUrl: response.audioUrl, 
         createdAt: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, aiMessage]);

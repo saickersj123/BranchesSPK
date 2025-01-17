@@ -20,27 +20,34 @@ export const startNewConversationVoice = async (): Promise<string> => {
 };
   
 // 음성 메시지 전송 함수
-export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string }> => {
-    const formData = new FormData();
-    formData.append('audio', audioBlob);
-  
-    if (API_MODE) {
-      // Dummy data for testing
-      return { 
-        audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
-        text: 'This is a mock response text.', // Mock text response 
-      };
-    }
-  
-    try {
-      const response = await axiosInstance.post(`/chat/c/${conversationId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data; // Ensure this returns { audioUrl, text }
-    } catch (error) {
-      console.error('Error sending voice message:', error);
-      throw error;
-    }
-  }; 
+// 음성 메시지 전송 함수
+export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
+  const formData = new FormData();
+  formData.append('audio', audioBlob);
+
+  if (!API_MODE) {
+    // Dummy data for testing
+    return { 
+      audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
+      text: 'This is a mock response text.', // Mock text response 
+      gptResponse: 'This is a mock GPT response.' // Mock gptResponse
+    };
+  }
+
+  try {
+    const response = await axiosInstance.post(`/chat/c/${conversationId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log(response.data); 
+    return  { 
+      text: response.data.message, // Mock text response
+      gptResponse: response.data.gptResponse, // Corrected to use gptResponse
+      audioUrl: response.data.audioBuffer // Mock audio URL 
+    }; 
+  } catch (error) {
+    console.error('Error sending voice message:', error);
+    throw error;
+  }
+};
