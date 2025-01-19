@@ -19,7 +19,7 @@ const VoisChatList: React.FC<VoisChatListProps> = ({ messages }) => {
       const lastMessage = messages[messages.length - 1];
       if (lastMessage.audioUrl) {
         handlePlayAudio(lastMessage.audioUrl);
-      }
+      } 
     }
   }, [messages]);
 

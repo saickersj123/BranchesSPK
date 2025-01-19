@@ -18,8 +18,7 @@ export const startNewConversationVoice = async (): Promise<string> => {
   const response = await axiosInstance.get('/chat/v/new'); 
   return response.data.conversation.id;
 };
-  
-// 음성 메시지 전송 함수
+   
 // 음성 메시지 전송 함수
 export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
   const formData = new FormData();
@@ -40,7 +39,7 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
         'Content-Type': 'multipart/form-data',
       },
     });
-    console.log(response.data); 
+    //console.log(response.data); 
     return  { 
       text: response.data.message, // Mock text response
       gptResponse: response.data.gptResponse, // Corrected to use gptResponse

@@ -1,8 +1,8 @@
 import React, { useState, useEffect , useCallback} from 'react';
 import { Container } from 'react-bootstrap';
 import VoiceRecorder from '../../components/voiceChat/VoiceRecorder'; 
-import { sendVoiceMessage, startNewConversationVoice } from '../../api/AiVoiceChat';
-import { fetchMessages, fetchConversations } from '../../api/AiTextChat';
+import { sendVoiceMessage } from '../../api/AiVoiceChat';
+import { fetchMessages, fetchConversations, startNewConversation } from '../../api/AiTextChat';
 import { Message } from '../../@types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,8 +27,8 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
     try {
       const fetchedMessages = await fetchMessages(conversationId);
       if (fetchedMessages.length > 0) {
-        console.log("fetchedMessages : " + fetchedMessages);
-        setMessages(fetchedMessages); 
+        //console.log("fetchedMessages : " + fetchedMessages);
+        setMessages(fetchedMessages);  
       } else {
         console.warn(`No messages found for conversation ${conversationId}`); 
         setMessages([]);
@@ -44,6 +44,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       if (urlConversationId) {
         try {
           await loadMessages(urlConversationId);
+          //console.log("urlConversationId : " + urlConversationId);
           setSelectedConversationId(urlConversationId); 
         } catch (error) {
           console.error('Error loading conversation messages:', error);
@@ -72,7 +73,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
         setConversationId(routeConversationId); 
       } else {
         try {
-          const newConvId = await startNewConversationVoice();
+          const newConvId = await startNewConversation();
           setConversationId(newConvId); 
           navigate(`/voiceChat/${newConvId}`, { replace: true });
         } catch (error) {

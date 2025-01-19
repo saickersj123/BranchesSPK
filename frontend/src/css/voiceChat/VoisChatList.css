@@ -14,6 +14,8 @@
 }
 
 .vois-chat-list {
+  margin-bottom: 0px;
+  height: 100%;
   display: flex;
   flex-direction: column; /* 기존의 column-reverse를 column으로 변경 */
   overflow-y: auto;

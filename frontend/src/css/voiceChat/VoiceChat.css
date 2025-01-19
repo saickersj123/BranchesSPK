@@ -1,6 +1,7 @@
 
   
 .voice-chat-header-container {
+    position: fixed;
     display: flex;
     align-items: center; 
     position: fixed;
