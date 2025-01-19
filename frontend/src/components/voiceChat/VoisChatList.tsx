@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Message } from '../../@types/types';
 import '../../css/voiceChat/VoisChatList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { LuVolume2, LuFiles } from "react-icons/lu";
 
 interface VoisChatListProps {
   messages: Message[];
@@ -47,13 +47,21 @@ const VoisChatList: React.FC<VoisChatListProps> = ({ messages }) => {
                 {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
               </span>
             ) : (
-              <span className="ai-time">
-                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
-              </span>
+              <>
+                <span className="ai-time">
+                  {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                </span>
+                <button 
+                  onClick={() => navigator.clipboard.writeText(msg.content)}
+                  className="copy-button"
+                >
+                  <LuFiles/>
+                </button>
+              </>
             )}
             {msg.audioUrl && (
               <button onClick={() => handlePlayAudio(msg.audioUrl)} className="voice-chat-play-button">
-                <FontAwesomeIcon icon={faVolumeUp} style={{ color: 'black' }} />
+                <LuVolume2/>
               </button>
             )}
           </div>

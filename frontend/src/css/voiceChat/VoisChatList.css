@@ -122,12 +122,23 @@
   border: none;
   cursor: pointer;
   position: absolute; /* 절대 위치 설정 */
-  bottom: -40px; /* 말풍선 위쪽에 위치 */
-  left: 45px; /* 왼쪽 정렬 */
+  bottom: -38px; /* 말풍선 위쪽에 위치 */
+  left: 75px; /* 왼쪽 정렬 */
   font-size: 20px; /* 작은 글씨 크기 */
-  color: transparent; /* 회색 색상 */
+  color: black;
 }
 
 .voice-chat-play-button:hover {
   background: transparent;
+}
+
+.copy-button {
+  color: black;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute; /* 절대 위치 설정 */
+  bottom: -35px; /* 말풍선 위쪽에 위치 */
+  left: 58px; /* 왼쪽 정렬 */
+  font-size: 20px; /* 작은 글씨 크기 */ 
 }
