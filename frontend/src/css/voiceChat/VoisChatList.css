@@ -1,37 +1,66 @@
+/* VoisChatList.css */
+.voice-chat-play-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.voice-chat-play-button:hover {
+  background-color: #0056b3;
+}
+
 .vois-chat-list {
   display: flex;
-  flex-direction: column-reverse; /* 최신 메시지가 아래로 오도록 */
+  flex-direction: column; /* 기존의 column-reverse를 column으로 변경 */
   overflow-y: auto;
 }
 
 .voice-message-container {
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 5px; /* 여백을 줄이기 위해 10px에서 5px로 변경 */
   width: 100%; /* 부모의 100% 너비 사용 */
 }
 
 .voice-message-container.user {
-  justify-content: flex-end; /* 사용자 메시지: 오른쪽 끝으로 정렬 */
+  justify-content: flex-end; /* 사용자 메시지: 오른쪽 끝으로 정렬 */ 
+  margin-top: 5px; /* 상단 여백을 줄이기 위해 추가 */
+  margin-bottom: 5px; /* 하단 여백을 줄이기 위해 추가 */
 }
 
 .voice-message-container.ai {
   justify-content: flex-start; /* AI 메시지: 왼쪽 끝으로 정렬 */
+  background-color: #151d0d; /* AI 메시지 색상 */
 }
 
-.voice-message {
+.voice-message { 
   padding: 8px 12px;
   border-radius: 16px;
   max-width: 80%;
   position: relative;
+  background-color: inherit; /* 부모의 배경색을 상속받음 */
 }
 
-.voice-message.user {
-  background-color: transparent;
-  text-align: right; /* 사용자 메시지 오른쪽 정렬 */
+.voice-message.user { 
+  margin-top: 10px; 
+  background-color: #b2ebf2; /* 사용자 메시지 배경색 */
+  text-align: left; /* 사용자 메시지 오른쪽 정렬 */
+  position: relative; /* 상대 위치 설정 */
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 15px; /* 말풍선 모서리 둥글게 */
+  max-width: 80%; /* 최대 너비 설정 */
+  margin-bottom: 5px; /* 하단 여백 */
 }
 
-.voice-message.ai {
-  background-color: transparent;
+.voice-message.assistant {
+  margin-top: 10px;
+  background-color: #c8e6c9; /* AI 메시지 배경색 */
   text-align: left; /* AI 메시지 왼쪽 정렬 */
 }
 
@@ -57,4 +86,48 @@
   right: 10px;
   font-size: 10px;
   color: #6c757d;
+}
+
+.message-bubble {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 내용과 아이콘을 양쪽으로 배치 */
+}
+
+.message-time {
+  font-size: 10px; /* 작은 글씨 크기 */
+  color: #6c757d; /* 회색 색상 */
+  margin-top: 2px; /* 위쪽 여백 */
+}
+
+.user-time {
+  position: absolute; /* 절대 위치 설정 */
+  bottom: 5px; /* 말풍선 위쪽에 위치 */
+  left: -30px; /* 왼쪽 정렬 */
+  font-size: 10px; /* 작은 글ㄴ 크기 */
+  color: #6c757d; /* 회색 색상 */
+}
+
+.ai-time {
+  
+  position: absolute; /* 절대 위치 설정 */
+  bottom: -35px; /* 말풍선 위쪽에 위치 */
+  left: 10px; /* 왼쪽 정렬 */
+  font-size: 20px; /* 작은 글씨 크기 */
+  color: #6c757d; /* 회색 색상 */
+}
+
+.voice-chat-play-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute; /* 절대 위치 설정 */
+  bottom: -40px; /* 말풍선 위쪽에 위치 */
+  left: 45px; /* 왼쪽 정렬 */
+  font-size: 20px; /* 작은 글씨 크기 */
+  color: transparent; /* 회색 색상 */
+}
+
+.voice-chat-play-button:hover {
+  background: transparent;
 }

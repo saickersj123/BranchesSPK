@@ -27,6 +27,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
     try {
       const fetchedMessages = await fetchMessages(conversationId);
       if (fetchedMessages.length > 0) {
+        console.log("fetchedMessages : " + fetchedMessages);
         setMessages(fetchedMessages); 
       } else {
         console.warn(`No messages found for conversation ${conversationId}`); 
@@ -98,13 +99,19 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
         createdAt: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, newMessage]); 
+      
       const aiMessage: Message = { 
-        role: 'ai',
+        role: 'assistant',
         content: response.gptResponse,
         audioUrl: response.audioUrl, 
         createdAt: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, aiMessage]);
+
+      // 음성 파일 자동 재생
+      const audio = new Audio(response.audioUrl);
+      audio.play();
+      
     } catch (error) {
       console.error('음성 메시지 전송 실패:', error);
     }
