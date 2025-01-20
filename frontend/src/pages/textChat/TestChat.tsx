@@ -10,7 +10,7 @@ import NewSidebar from '../../components/newSIdebar/NewSIdevar';
 import GridLayout from 'react-grid-layout'; 
 import useLogout from '../../utils/Logout';
 import { Dropdown } from 'react-bootstrap';
-import { fetchMessages, fetchConversations } from '../../api/AiTextChat';
+import { fetchMessages, fetchConversations, startNewConversation } from '../../api/AiTextChat';
 import { getChatboxes, saveChatbox, resetChatbox } from '../../api/ChatUi';
 import '../../css/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
@@ -413,9 +413,8 @@ const Home: React.FC<HomeProps> = ({
   };
 
   const handleStartConversation = async () => {
-    if (sidebarRef.current) { 
-      sidebarRef.current.startConversation();
-    } 
+    const newConversationId = await startNewConversation();
+    handleConversationSelect(newConversationId);
   };
 
   const toggleLayoutEditing = () => {

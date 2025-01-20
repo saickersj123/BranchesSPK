@@ -50,7 +50,10 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     const fullMessage = message.trim();
     if (fullMessage === '') return;
 
-    const newMessage: Message = { content: fullMessage, role: 'user', createdAt: new Date().toISOString() };
+    const newMessage: Message = {
+      content: fullMessage, role: 'user', createdAt: new Date().toISOString(),
+      audioUrl: ''
+    };
     onNewMessage(newMessage);
 
     try {
@@ -61,13 +64,19 @@ const ChatBox: React.FC<ChatBoxProps> = ({
         setSelectedConversationId(newConversationId);
         navigate(`/chat/${newConversationId}`);
         if (response?.chats?.length > 0) {
-          const aiMessage: Message = { content: response.chats[response.chats.length - 1].content, role: 'assistant', createdAt: new Date().toISOString() };
+          const aiMessage: Message = {
+            content: response.chats[response.chats.length - 1].content, role: 'assistant', createdAt: new Date().toISOString(),
+            audioUrl: ''
+          };
           onUpdateMessage(aiMessage);
         }
       } else if (conversationId) {
         const response = await sendMessage(conversationId, fullMessage);
         if (response?.length > 0) {
-          const aiMessage: Message = { content: response[response.length - 1].content, role: 'assistant', createdAt: new Date().toISOString() };
+          const aiMessage: Message = {
+            content: response[response.length - 1].content, role: 'assistant', createdAt: new Date().toISOString(),
+            audioUrl: ''
+          };
           onUpdateMessage(aiMessage);
         }
       }

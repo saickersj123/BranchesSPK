@@ -24,7 +24,7 @@ const NewSidebar: React.FC<NewSidebarProps> = ({ isOpen, onToggle }) => {
                     <div className="new-sidebar-menu">
                         <div className="new-menu-item" onClick={() => navigate('/service')}>
                             <FontAwesomeIcon icon={faHome} />
-                            <span>홈으로</span>
+                            <span>메인페이지</span>
                         </div>
                         <div className="new-menu-divider"></div>
                         <div className="new-menu-item" onClick={() => navigate('/voiceChat')}>
@@ -33,7 +33,7 @@ const NewSidebar: React.FC<NewSidebarProps> = ({ isOpen, onToggle }) => {
                         </div>
                         <div className="new-menu-item" onClick={() => navigate('/textChat')}>
                             <FontAwesomeIcon icon={faComments} />
-                            <span>텍스트 대화</span>
+                            <span>문자 대화</span>
                         </div>
                         <div className="new-menu-item" onClick={() => navigate('/scenario')}>
                             <FontAwesomeIcon icon={faBook} />

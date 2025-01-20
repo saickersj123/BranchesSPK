@@ -7,6 +7,7 @@ interface Message {
   content: string;
   role: string;
   createdAt: string;
+  audioUrl: string;
 }
 
 interface ChatMessageProps {
