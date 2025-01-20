@@ -450,7 +450,7 @@ export const getVoiceConversation = async (
 
         // 필터링된 대화에서 conversationId와 일치하는 대화 찾기
         
-        const conversation = voiceConversations.find(conv => conv._id.toString() === conversationId);
+        const conversation = voiceConversations.find(conv => conv.id.toString() === conversationId);
 
         if (!conversation) {
             return res.status(404).json({
