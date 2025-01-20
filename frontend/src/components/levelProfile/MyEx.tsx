@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { gethUserExperience, getPastGames, getUserName } from '../../api/UserInfo';
+import { gethUserExperience, getUserName, getPastGames } from '../../api/UserInfo';
 import '../../css/levelProfilePage/MyEx.css';
 import LevelIcon from '../../utils/LevelIcon';
+import GameHistoryModal from './GameHistoryModal';
+
+interface GameHistory {
+    gameName: string;
+    participationTime: string;
+    correctAnswers: number;
+    experienceGained: number;
+}
 
 const MyEx: React.FC = () => {
     const [experience, setExperience] = useState<number | null>(null);
     const [level, setLevel] = useState<number | null>(null);
     const [completedCourses, setCompletedCourses] = useState<number>(0);
-    const [userName, setUserName] = useState<string>("USER");
+    const [userName, setUserName] = useState<string>("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [gameHistory, setGameHistory] = useState<GameHistory[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,13 +27,14 @@ const MyEx: React.FC = () => {
                 setExperience(exp);
                 setLevel(level);
 
-                // 완료한 코스 수 가져오기
-                const games = await getPastGames();
-                setCompletedCourses(games.length);
-
                 // 사용자 이름 가져오기
-                const name = await getUserName(); 
+                const name = await getUserName();
                 setUserName(name);
+
+                // 게임 히스토리 가져오기 및 완료한 코스 수 계산
+                const history = await getPastGames();
+                setGameHistory(history);
+                setCompletedCourses(history.length); // 게임 히스토리의 길이를 완료한 코스 수로 사용
             } catch (error) {
                 console.error('데이터 불러오기 실패:', error);
             }
@@ -45,9 +56,15 @@ const MyEx: React.FC = () => {
                 <div className="profile-name">{userName}</div>
             </div>
             <div className="profile-stats">
-                <div className="stat-item">
+                <div 
+                    className="stat-item clickable-stat" 
+                    onClick={() => setIsModalOpen(true)}
+                >
                     <div className="stat-value">{completedCourses}</div>
-                    <div className="stat-label">Courses Complete</div>
+                    <div className="stat-label">
+                        Courses Complete
+                        <span className="view-details">👆 Click to view details</span>
+                    </div>
                 </div>
                 <div className="stat-item">
                     <div className="stat-value">{experience || 0}</div>
@@ -70,6 +87,11 @@ const MyEx: React.FC = () => {
                     <div className="level-text">LEVEL {level || 1}</div>
                 </div>
             </div>
+            <GameHistoryModal 
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                history={gameHistory}
+            />
         </div>
     );
 };

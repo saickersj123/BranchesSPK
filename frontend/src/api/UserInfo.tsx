@@ -24,7 +24,7 @@ const calculateLevel = (exp: number): number => {
 // 사용자 경험치를 불러오는 API - 사용자의 경험치와 계산된 레벨을 반환하는 함수
 export const gethUserExperience = async (): Promise<{ exp: number, level: number }> => {
     if(API_MODE) {
-        const mockExp = 400;
+        const mockExp = 300;
         return { 
             exp: mockExp, 
             level: calculateLevel(mockExp) 
@@ -48,7 +48,32 @@ export const gethUserExperience = async (): Promise<{ exp: number, level: number
 // 과거에 참가한 게임의 정보를 얻어오는 API - 과거에 참가한 게임의 정보를 반환하는 함수
   export const getPastGames = async (): Promise<{ gameName: string; participationTime: string; correctAnswers: number; experienceGained: number }[]> => {
     if(API_MODE) {
-      return [];
+      return [
+        {
+          gameName: "키워드 맞추기",
+          participationTime: "2024-01-01",
+          correctAnswers: 10,
+          experienceGained: 100,
+        },
+        {
+          gameName: "키워드 맞추기",
+          participationTime: "2024-11-02",
+          correctAnswers: 8,
+          experienceGained: 80,
+        },
+        {
+          gameName: "키워드 맞추기",
+          participationTime: "2025-01-02",
+          correctAnswers: 7,
+          experienceGained: 70,
+        },
+        {
+          gameName: "키워드 맞추기",
+          participationTime: "2025-03-02",
+          correctAnswers: 4,
+          experienceGained: 40,
+        },
+      ];
     }
     else{
       try {

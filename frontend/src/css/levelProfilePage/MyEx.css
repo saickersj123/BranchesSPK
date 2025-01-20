@@ -128,3 +128,26 @@
     font-size: 1.2vw;
     margin-bottom: 0.5vh;
 }
+
+.clickable-stat {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.clickable-stat:hover {
+    transform: translateY(-2px);
+    background: rgba(37, 174, 117, 0.1);
+}
+
+.view-details {
+    display: block;
+    font-size: 0.8rem;
+    color: #25AE75;
+    margin-top: 4px;
+    opacity: 0.8;
+}
+
+.clickable-stat:hover .view-details {
+    opacity: 1;
+}
