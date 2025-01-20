@@ -376,7 +376,14 @@ export const startNewConversationVoice = async (
                 cause: "User doesn't exist or token malfunctioned",
             });
         }
-
+        // Validate if the last conversation is empty
+        const lastConversation = user.conversations[user.conversations.length - 1];
+        if (lastConversation && lastConversation.chats.length === 0) {
+            return res.status(400).json({
+                message: "ERROR",
+                cause: "The last conversation is still empty. Please add messages before creating a new conversation.",
+            });
+        }
         // 새 음성 대화 추가
         const newVoiceConversation = { 
             chats: [], 
@@ -450,7 +457,7 @@ export const getVoiceConversation = async (
 
         // 필터링된 대화에서 conversationId와 일치하는 대화 찾기
         
-        const conversation = voiceConversations.find(conv => conv.id.toString() === conversationId);
+        const conversation = voiceConversations.find(conv => conv._id.toString() === conversationId);
 
         if (!conversation) {
             return res.status(404).json({
@@ -475,12 +482,24 @@ const saveVoiceConversation = async (
 ) => {
     try {
         const user = await User.findById(userId);
-        if (user) {
-            const conversation = user.conversations[user.conversations.length - 1] || { chats: [] };
-            conversation.chats.push({ content: userMessage, role: "user" });
-            conversation.chats.push({ content: gptMessage, role: "assistant" });
-            await user.save();
+        if (!user) throw new Error("User not found");
+
+        // 마지막 대화 가져오기
+        let conversation = user.conversations[user.conversations.length - 1];
+
+        // 대화가 없으면 새 대화 생성
+        if (!conversation || !conversation.chats) {
+            conversation = { id: generateUniqueId(), type: "voice", chats: [], createdAt: new Date(), updatedAt: new Date() };
+            user.conversations.push(conversation);
         }
+
+        // 메시지 추가
+        conversation.chats.push({ content: userMessage, role: "user", createdAt: new Date() });
+        conversation.chats.push({ content: gptMessage, role: "assistant", createdAt: new Date() });
+        conversation.updatedAt = new Date();
+
+        // 사용자 저장
+        await user.save();
     } catch (error) {
         console.error(`[ERROR] Failed to save conversation for user ${userId}:`, error.message);
         throw new Error("Failed to save conversation");
