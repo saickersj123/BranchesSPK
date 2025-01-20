@@ -133,7 +133,6 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
           </div>
         </div>
       </VoiceChatHeader>
-      
       <NewSidebar isOpen={sidebarOpen} />
     </Container>
   );

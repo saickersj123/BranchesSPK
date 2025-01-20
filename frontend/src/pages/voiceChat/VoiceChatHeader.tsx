@@ -6,7 +6,6 @@ import useLogout from '../../utils/Logout';
 import { useNavigate } from 'react-router-dom';
 import { TbLayoutSidebar } from 'react-icons/tb';  
 import { useState } from 'react'; 
-import NewSidebar from '../../components/newSIdebar/NewSIdevar'; 
   
 interface VoiceChatHeaderProps {
   children?: React.ReactNode;
@@ -63,10 +62,9 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
           </Dropdown>
         </div>
       </div>
-      <div className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
+      <div className={`new-main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         {children}
       </div>
-      {isSidebarOpen && <NewSidebar isOpen={isSidebarOpen} />}
     </>
   );
 };

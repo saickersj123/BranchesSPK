@@ -4,59 +4,89 @@
     position: fixed;
     left: 0;
     top: 0; 
-    width: 20%;
+    width: 280px; /* 픽셀 단위로 고정 */
     height: 100vh;
     background-color: var(--sidebar-background-color);
     color: var(--sidebar-text-color);
-    padding: 10px 0; 
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s ease-out;
     z-index: 999;
-    transform: translateX(-100%); 
+    transform: translateX(-100%);
 }
 
 .new-sidebar.open {
     transform: translateX(0);
 }
 
-/* 메인 컨텐츠 영역 스타일 */
+/* 메인 컨텐츠 영역 조정 */
 .new-main-content {
-    transition: margin-left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: margin-left 0.3s ease-out;
     width: 100%;
 }
 
 .new-main-content.shifted {
-    margin-left: 250px;
+    margin-left: 280px; /* 사이드바 너비와 동일하게 설정 */
 }
 
+/* 메인 컨텐츠 영역 스타일 */ 
 .new-sidebar-content {
     padding: 20px;
-    margin-top: 60px;
+    margin-top: 80px; /* 헤더 여백 증가 */
 }
 
 .new-sidebar-menu {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
+}
+
+/* 구분선 스타일 */
+.new-menu-divider {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
 }
 
 .new-menu-item {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 10px;
+    gap: 20px;
+    padding: 15px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    border-radius: 8px;
-} 
+    transition: all 0.2s ease;
+    border-radius: 12px;
+    font-size: 1.2rem;
+}
+
+.new-menu-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: translateX(5px);
+}
 
 .new-menu-item svg {
-    width: 20px;
-    height: 20px;
-    color: #333;
+    width: 24px; /* 아이콘 크기 증가 */
+    height: 24px;
+    padding: 12px;
+    border-radius: 50%;
+    background-color: var(--button-color-2);
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.new-menu-item:hover svg {
+    transform: scale(1.1);
+    background-color: var(--button-color-2-hover);
 }
 
 .new-menu-item span {
-    font-size: 16px;
+    font-size: 1.2rem;
+    font-weight: 500;
     color: #333;
+}
+
+/* 마지막 메뉴 아이템 스타일 제거 (더 이상 필요하지 않음) */
+.new-menu-item:last-child {
+    margin-top: 0;
+    border-top: none;
+    padding-top: 15px;
 }

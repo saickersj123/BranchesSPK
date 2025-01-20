@@ -8,11 +8,7 @@
     left: 4em;
     z-index: 1100;
     transition: left 1.3s ease; 
-}
-  
-.voice-chat-header-container.shifted-header {
-    margin-left: 20%;  
-}
+} 
 
 .voice-chat-content-container{ 
   display: flex;
@@ -24,20 +20,20 @@
 }
 
 .voice-chat-container {
-    transition: margin-left 0.3s ease, width 0.3s ease;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding-top: 20px;
-    height: 100vh;
+  transition: transform 0.3s ease, width 0.3s ease; /* transform 사용 */
+  transform: translateX(0); /* 기본 상태 */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  height: 100vh;
 }
 
 .voice-chat-container.sidebar-open {
-    margin-left: 250px; /* 사이드바 너비만큼 여백 */
-    width: calc(100% - 250px); /* 전체 너비에서 사이드바 너비만큼 뺌 */
+  transform: translateX(-120px); /* 사이드바 닫힘 상태 */
 }
 
-.messages-container {
+.messages-container { 
   width: 100%; 
   height: 100%;
   overflow-y: auto;
