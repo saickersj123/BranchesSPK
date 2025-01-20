@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { AuthResponse } from '../@types/types';  // types.ts에서 Message와 Conversation을 import 
 
-// 시나리오, 음성처리의 API 모드 설정 (1: 더미 데이터 모드, 2: 실제 서버 통신 모드)
+// 시나리오, 음성처리의 API 모드 설정 (true: 더미 데이터 모드, false: 실제 서버 통신 모드)
 export let API_MODE = true;
 
 // 모든 요청에 withCredentials 옵션을 설정

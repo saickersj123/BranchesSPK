@@ -1,35 +1,71 @@
 import axios from 'axios';
-import axiosInstance from './axiosInstance';
+import axiosInstance, { API_MODE } from './axiosInstance';
 import exp from 'constants';
 
+// 레벨별 필요 경험치 배열
+const LEVEL_THRESHOLDS = [
+    0, 60, 140, 250, 400, 600, 860, 1200, 1630, 2170, 
+    2840, 3700, 4700, 5800, 7200, 8800, 10700, 13000, 16000, 20000
+];
 
-// 사용자 경험치를 불러오는 API - 사용자의 경험치와 레벨을 반환하는 함수
+// 경험치로 레벨 계산하는 함수
+const calculateLevel = (exp: number): number => {
+    let level = 1;
+    for (let i = 0; i < LEVEL_THRESHOLDS.length; i++) {
+        if (exp >= LEVEL_THRESHOLDS[i]) {
+            level = i + 1;
+        } else {
+            break;
+        }
+    }
+    return level;
+};
+
+// 사용자 경험치를 불러오는 API - 사용자의 경험치와 계산된 레벨을 반환하는 함수
 export const gethUserExperience = async (): Promise<{ exp: number, level: number }> => {
-    try {
-      const response = await axiosInstance.get('/user/exp');
-      console.log(response);
-      return response.data; // Assuming response.data contains { exp, level }
-    } catch (error) {
-      console.error('경험치 가져오기 실패:', error);
-      throw error;
+    if(API_MODE) {
+        const mockExp = 400;
+        return { 
+            exp: mockExp, 
+            level: calculateLevel(mockExp) 
+        };
+    }
+    else {
+        try {
+            const response = await axiosInstance.get('/user/exp');
+            const exp = response.data.exp;
+            return { 
+                exp, 
+                level: calculateLevel(exp) 
+            };
+        } catch (error) {
+            console.error('경험치 가져오기 실패:', error);
+            throw error;
+        }
     }
 };
   
 // 과거에 참가한 게임의 정보를 얻어오는 API - 과거에 참가한 게임의 정보를 반환하는 함수
   export const getPastGames = async (): Promise<{ gameName: string; participationTime: string; correctAnswers: number; experienceGained: number }[]> => {
-    try {
-      const response = await axiosInstance.get('/user/past-games');
-      console.log(response.data);
-      return response.data.games.map((game: any) => ({
-        gameName: game.name,
-        participationTime: game.participationTime,
-        correctAnswers: game.correctAnswers,
-        experienceGained: game.experienceGained,
-      })) || [];
-    } catch (error) {
-      console.error('과거 게임 정보 가져오기 실패:', error);
+    if(API_MODE) {
       return [];
     }
+    else{
+      try {
+        const response = await axiosInstance.get('/user/past-games');
+        console.log(response.data);
+        return response.data.games.map((game: any) => ({
+          gameName: game.name,
+          participationTime: game.participationTime,
+          correctAnswers: game.correctAnswers,
+          experienceGained: game.experienceGained,
+        })) || [];
+      } catch (error) {
+        console.error('과거 게임 정보 가져오기 실패:', error);
+        return [];
+      }
+    }
+ 
   };
   
   
@@ -125,3 +161,20 @@ export const mypage = async (password: string): Promise<any> => {
       throw error;
     } 
   };
+ 
+
+// 사용자 이름을 가져오는 함수
+export const getUserName = async (): Promise<string> => {
+    if(API_MODE) {
+        return "JEONGJIN"; // 테스트용 기본값
+    }
+    else{
+      try { 
+        const response = await axiosInstance.get('/user/profile');
+        return response.data.name; 
+      } catch (error) {
+          console.error('사용자 이름 가져오기 실패:', error);
+          return "User Name"; // 에러 발생시 기본값 반환
+      }
+    } 
+};
