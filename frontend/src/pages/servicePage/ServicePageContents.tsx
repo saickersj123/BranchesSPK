@@ -15,11 +15,11 @@ const ServicePageContents = () => {
         <div> 
             <h1>로그인 후 연결되는 페이지</h1> 
             <div className="service-main-page-start-button">
-            <button className="service-main-start-button" onClick={() => navigate('/voiceChat')}>Start</button>
+            <button className="service-main-start-button" onClick={() => navigate('/voiceChat')}>시작</button>
             </div>
     
             <div className="service-main-page-mode-button">
-            <button className="service-main-start-button" onClick={openModal}>Start</button>
+            <button className="service-main-start-button" onClick={openModal}>모드 선택</button>
             </div>
             
             <ServiceModal isOpen={isModalOpen} onClose={closeModal} />
