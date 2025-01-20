@@ -12,6 +12,7 @@
     transition: transform 0.3s ease-out;
     z-index: 999;
     transform: translateX(-100%);
+    overflow: auto;
 }
 
 .new-sidebar.open {
@@ -89,4 +90,34 @@
     margin-top: 0;
     border-top: none;
     padding-top: 15px;
+}
+
+.new-sidebar-toggle-button {
+    position: fixed;
+    top: 12px;
+    left: 20px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-sidebar-toggle-button svg {
+    width: 35px;
+    height: 35px;
+}
+
+/* 불필요한 애니메이션과 위치 변경 제거 */
+.new-sidebar.open .new-sidebar-toggle-button {
+    left: 20px; /* 위치 고정 */
+}
+
+/* hover 효과만 유지 */
+.new-sidebar-toggle-button:hover {
+    opacity: 0.8;
 }

@@ -4,9 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import useLogout from '../../utils/Logout';  
 import { useNavigate } from 'react-router-dom';
-import { TbLayoutSidebar } from 'react-icons/tb';  
-import { useState } from 'react'; 
-  
+
 interface VoiceChatHeaderProps {
   children?: React.ReactNode;
   isSidebarOpen: boolean;
@@ -28,17 +26,10 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
   const handlelevelProfileClick = async () => {
     navigate("/levelProfile", { state: { from: '/voiceChat' } });
   }; 
-    
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
 
   return (
     <>
       <div className={`voice-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}>
-        <button className="toggle-sidebar-button" onClick={toggleSidebar}>
-          <TbLayoutSidebar size={35} />
-        </button>
         <div className="voice-chat-title-logo" onClick={() => navigate('/voiceChat')}>
           Branch-SPK
         </div>

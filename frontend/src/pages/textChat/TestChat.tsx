@@ -6,7 +6,7 @@ import { faRightFromBracket, faSquareMinus, faUser } from '@fortawesome/free-sol
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import ChatBox from '../../components/testChat/ChatBox';
 import ChatList from '../../components/testChat/ChatList';
-import Sidebar from '../../components/sidebar/Sidebar';
+import NewSidebar from '../../components/newSIdebar/NewSIdevar';
 import GridLayout from 'react-grid-layout'; 
 import useLogout from '../../utils/Logout';
 import { Dropdown } from 'react-bootstrap';
@@ -17,6 +17,7 @@ import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
 import { Message, Conversation } from '../../@types/types';
 import { url } from 'inspector';
+import { IoRefreshOutline } from 'react-icons/io5';
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -464,34 +465,15 @@ const Home: React.FC<HomeProps> = ({
 
   return (
     <main className={`main-section`}>
-      <div className={`home-header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
-        {isLoggedIn && (
-          <button className="toggle-sidebar-button" onClick={toggleSidebar}>
-            <TbLayoutSidebar size={35}/>
-          </button>
-        )}
-        <span className="home_new_conversation" onClick={handleStartConversation}> <LuSquarePlus /> </span>
-        <span className="brand-text" onClick={() => navigate('/textChat')}>Branch-SPK</span>
-      </div>
       {isLoggedIn ? (
         <>
-          <div className={`sidebar-overlay ${isSidebarOpen ? 'open' : ''}`} onClick={() => setIsSidebarOpen(false)}></div>
-          <Sidebar
-            ref={sidebarRef}
-            isOpen={isSidebarOpen}
-            conversations={conversations}
-            onConversationSelect={handleConversationSelect}
-            onNewConversation={handleNewConversation}
-            onConversationDelete={handleConversationDelete}
-            onModelSelect={handleModelSelect}
-          />
-          {isLayoutEditing ? (
-            <div className="settings-container">
-              <button className="save-button" onClick={handleSaveLayout}>저장</button>
-              <button className="cancel-button" onClick={handleCancelLayout}>취소</button>
-              <button className="reset-button" onClick={handleResetLayout}>초기화</button>
+          <div className={`home-header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
+            <div className="header-left-section">
+              <span className="home_new_conversation" onClick={handleStartConversation}>
+                <IoRefreshOutline  />
+              </span>
+              <span className="brand-text" onClick={() => navigate('/textChat')}>Branch-SPK</span>
             </div>
-          ) : (
             <div className="settings-container">
               <Dropdown>
                 <Dropdown.Toggle variant="light" id="dropdown-basic" className="FaCog-dropdown-toggle">
@@ -500,72 +482,86 @@ const Home: React.FC<HomeProps> = ({
                   </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="home-dropdown-menu">
-                <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 정보수정</Dropdown.Item>
-                <Dropdown.Item onClick={handlelevelProfileClick} className="home-dropdown-list"> <FontAwesomeIcon icon={faUser} /> 경험치 확인</Dropdown.Item>
-                  <Dropdown.Item onClick={handleSettingsClick} className="home-dropdown-list"><FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경</Dropdown.Item> 
-                  <Dropdown.Item onClick={handleLogout} className="home-dropdown-list"><FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃</Dropdown.Item>
+                  <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list">
+                    <FontAwesomeIcon icon={faUser} /> 정보수정
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={handlelevelProfileClick} className="home-dropdown-list">
+                    <FontAwesomeIcon icon={faUser} /> 경험치 확인
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={handleSettingsClick} className="home-dropdown-list">
+                    <FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={handleLogout} className="home-dropdown-list">
+                    <FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-          )} 
+          </div>
+          
+          <NewSidebar 
+            isOpen={isSidebarOpen} 
+            onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+          />
+          
+          <div className={`main-content ${isSidebarOpen ? 'shifted-right' : ''}`}>
+            <div className="grid-container">
+              <GridLayout
+                className="layout"
+                layout={currentLayout}
+                cols={12}
+                rowHeight={(viewportHeight - 56) / 9}
+                width={viewportWidth}
+                isResizable={isLayoutEditing}
+                isDraggable={isLayoutEditing}
+                onLayoutChange={handleLayoutChange}
+                onResizeStop={handleResizeStop}
+                onDragStop={handleDragStop}
+                margin={[0, 0]}
+                containerPadding={[0, 0]}
+                compactType={null}
+                preventCollision={true} 
+              >
+                <div
+                  key="chatContainer"
+                  className={`grid-item chat-container ${isLayoutEditing ? 'edit-mode' : ''} ${!isLayoutEditing ? 'no-border' : ''}`}
+                  data-grid={{ ...currentLayout.find(item => item.i === 'chatContainer'), resizeHandles: isLayoutEditing ? ['s', 'e', 'w', 'n'] : [] }}
+                >
+                  <div className="chat-list-container">
+                    {isNewChat ? (
+                      <div className="alert alert-info text-center">
+                        새로운 대화를 시작해 보세요!
+                      </div>
+                    ) : (
+                      <ChatList
+                        messages={messages}
+                        username={username}
+                        showTime={true}
+                      />
+                    )}
+                  </div>
+                  <ChatBox
+                    onNewMessage={handleNewMessage}
+                    onUpdateMessage={handleUpdateMessage}
+                    conversationId={selectedConversationId}
+                    isNewChat={isNewChat}
+                    onChatInputAttempt={handleChatInputAttempt}
+                    isLoggedIn={isLoggedIn}
+                    selectedModel={selectedModel}
+                    onNewConversation={handleNewConversation}
+                    isEditMode={isLayoutEditing}
+                    setSelectedConversationId={setSelectedConversationId}
+                  />
+                </div>
+              </GridLayout>
+            </div>
+          </div>
         </>
       ) : (
         <div className="home-login-container">
           <button className="home-login-button" onClick={handleLoginClick}>로그인</button>
         </div>
       )}
-      <div className={`main-content ${isSidebarOpen ? 'shifted-right' : ''}`}>
-        <div className="grid-container">
-          <GridLayout
-            className="layout"
-            layout={currentLayout}
-            cols={12}
-            rowHeight={(viewportHeight - 56) / 9}
-            width={viewportWidth}
-            isResizable={isLayoutEditing}
-            isDraggable={isLayoutEditing}
-            onLayoutChange={handleLayoutChange}
-            onResizeStop={handleResizeStop}
-            onDragStop={handleDragStop}
-            margin={[0, 0]}
-            containerPadding={[0, 0]}
-            compactType={null}
-            preventCollision={true} 
-          >
-            <div
-              key="chatContainer"
-              className={`grid-item chat-container ${isLayoutEditing ? 'edit-mode' : ''} ${!isLayoutEditing ? 'no-border' : ''}`}
-              data-grid={{ ...currentLayout.find(item => item.i === 'chatContainer'), resizeHandles: isLayoutEditing ? ['s', 'e', 'w', 'n'] : [] }}
-            >
-              <div className="chat-list-container">
-                {isNewChat ? (
-                  <div className="alert alert-info text-center">
-                    새로운 대화를 시작해 보세요!
-                  </div>
-                ) : (
-                  <ChatList
-                    messages={messages}
-                    username={username}
-                    showTime={true}
-                  />
-                )}
-              </div>
-              <ChatBox
-                onNewMessage={handleNewMessage}
-                onUpdateMessage={handleUpdateMessage}
-                conversationId={selectedConversationId}
-                isNewChat={isNewChat}
-                onChatInputAttempt={handleChatInputAttempt}
-                isLoggedIn={isLoggedIn}
-                selectedModel={selectedModel}
-                onNewConversation={handleNewConversation}
-                isEditMode={isLayoutEditing}
-                setSelectedConversationId={setSelectedConversationId}
-              />
-            </div>
-          </GridLayout>
-        </div>
-      </div>
       <LoginModal
         show={showLoginModal}
         handleClose={() => setShowLoginModal(false)}

@@ -231,20 +231,21 @@
   display: flex;
   align-items: center; /* 세로 중앙 정렬 유지 */
   position: fixed;
-  top: 12px;
+  top: 16px;
   left: 4em;
   z-index: 1100;
-  transition: left 1.3s ease;
+  transition: margin-left 0.3s ease;
 }
 
 .home-header-container.shifted-header {
-  margin-left: 20%; /* Adjust this value based on your sidebar width */
+  margin-left: 300px; /* 사이드바 너비만큼만 이동 */
 }
 
 .home_new_conversation {
   font-weight: bold;
   font-size: 31px;
-  margin-right: 0.8em;
+  margin-left: 10px;
+  margin-right: 0.0em;
   display: flex;         
   align-items: center;   
   line-height: 1;        
@@ -253,11 +254,7 @@
 
 .home_new_conversation:hover {
   color: green;
-}
-
-.shifted-header .home_new_conversation {
-  display: none;
-}
+} 
 
 .brand-text { 
   font-weight: bold;
@@ -341,4 +338,25 @@
 
 .chat-time {
   font-weight: var(--time-bold);
+}
+
+.header-left-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative; /* 위치 고정을 위해 추가 */
+    z-index: 1000; /* 항상 보이도록 z-index 설정 */
+}
+
+.home_new_conversation {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    position: relative; /* 위치 고정을 위해 추가 */
+    z-index: 2000; /* 항상 보이도록 z-index 설정 */
+}
+
+.home_new_conversation:hover {
+    opacity: 0.8;
 }

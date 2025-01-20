@@ -73,11 +73,24 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
         setConversationId(routeConversationId); 
       } else {
         try {
-          const newConvId = await startNewConversation();
-          setConversationId(newConvId); 
-          navigate(`/voiceChat/${newConvId}`, { replace: true });
-        } catch (error) {
+          // 기존 대화가 있는지 먼저 확인
+          const conversations = await fetchConversations();
+          if (conversations.length > 0) {
+            const lastConversation = conversations[conversations.length - 1];
+            setConversationId(lastConversation._id);
+            navigate(`/voiceChat/${lastConversation._id}`, { replace: true });
+          } else {
+            // 기존 대화가 없을 때만 새 대화 시작
+            const newConvId = await startNewConversation();
+            setConversationId(newConvId);
+            navigate(`/voiceChat/${newConvId}`, { replace: true });
+          }
+        } catch (error: any) {
           console.error('대화 초기화 실패:', error);
+          // 에러 메시지가 있다면 사용자에게 표시할 수 있습니다
+          if (error.message) {
+            // TODO: 에러 메시지를 사용자에게 보여주는 로직 추가
+          }
         }
       }
     };
@@ -133,7 +146,10 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
           </div>
         </div>
       </VoiceChatHeader>
-      <NewSidebar isOpen={sidebarOpen} />
+      <NewSidebar 
+        isOpen={sidebarOpen} 
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+      />
     </Container>
   );
 };
