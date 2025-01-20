@@ -1,6 +1,6 @@
- 
+  
 import React from 'react';
-import '../../css/Scenario/DifficultyBar.css';
+import '../../css/scenarioPage/DifficultyBar.css';
 
 const DifficultyBar: React.FC<{ level: 1 | 2 | 3 }> = ({ level }) => {
   const bars = [

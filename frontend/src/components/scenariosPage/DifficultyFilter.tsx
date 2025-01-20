@@ -1,6 +1,6 @@
 import React from 'react';
-import '../../css/Scenario/Scenarios.css';
-import '../../css/Scenario/DifficultyFilter.css'; 
+import '../../css/scenarioPage/Scenarios.css';
+import '../../css/scenarioPage/DifficultyFilter.css'; 
 
 interface DifficultyFilterProps {
   selectedDifficulty: number | null;

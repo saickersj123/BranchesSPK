@@ -1,7 +1,7 @@
 import React from 'react';
 import { AIScenario } from '../../@types/scenarios';
 import DifficultyBar from './DifficultyBar'; 
-import '../../css/Scenario/Scenarios.css';
+import '../../css/scenarioPage/Scenarios.css';
 import IMAGE_NOT_FOUND from '../../img/ErrorIMG.png';
 
 interface ScenarioCardProps {

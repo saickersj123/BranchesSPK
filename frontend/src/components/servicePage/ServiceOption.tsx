@@ -1,5 +1,5 @@
 import React from 'react';
-import '../..//css/service/ServieceOption.css';
+import '../../css/servicePage/ServieceOption.css';
 
 interface ServiceOptionProps { 
   title: string;

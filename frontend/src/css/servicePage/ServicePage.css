@@ -1,0 +1,24 @@
+.service-main-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: px;
+} 
+
+.service-main-page-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  position: relative;
+}
+
+.service-main-page-contents {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+}

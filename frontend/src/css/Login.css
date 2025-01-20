@@ -53,7 +53,7 @@
   outline: none;
 }
 
-.inputField:focus + .underline, .inputField:not(:placeholder-shown) + .underline {
+.inputField:placeholder-shown + .underline {
   height: 5.71%;
   width: 100%;
   position: absolute;
@@ -62,7 +62,7 @@
   bottom: 0;
   left: 0;
   border-radius: 0px 0px 5px 5px;
-  background-color: #007f3a;
+  background-color: var(--button-color-2-hover);
 }
 
 .error {

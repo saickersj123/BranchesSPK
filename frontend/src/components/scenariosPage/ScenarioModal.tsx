@@ -2,7 +2,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { AIScenario } from '../../@types/scenarios'; 
-import '../../css/Scenario/ScenarioModal.css';
+import '../../css/scenarioPage/ScenarioModal.css';
 
 interface ScenarioModalProps {
   show: boolean;
