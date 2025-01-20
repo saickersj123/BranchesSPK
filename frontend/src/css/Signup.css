@@ -69,23 +69,27 @@
 }
 
 .signupUnderline {
-  height: 5.71%;
+  height: 0;
   width: 100%;
   position: absolute;
-  top: calc(100% - 3px); 
-  right: 0;
   bottom: 0;
   left: 0;
-  border-radius: 0px 0px 5px 5px;
   background-color: transparent;
+  transition: height 0.3s, background-color 0.3s;
+  border-radius: 0 0 8px 8px; /* 하단 굴곡 추가 */
 }
 
-.signupInputField:focus + .signupUnderline, .signupInputField:not(:placeholder-shown) + .signupUnderline {
-  background-color: #007f3a; 
-}
-
+/* 입력 필드가 비어있을 때 언더라인 표시 */
 .signupInputField:placeholder-shown + .signupUnderline {
-  background-color: transparent; 
+  height: 5.71%;
+  background-color: var(--input-field-underline-color);
+  border-radius: 0 0 8px 8px; /* 하단 굴곡 추가 */
+}
+
+/* focus 스타일 제거 */
+.signupInputField:focus + .signupUnderline {
+  height: 0;
+  background-color: transparent;
 }
 
 .signupError {

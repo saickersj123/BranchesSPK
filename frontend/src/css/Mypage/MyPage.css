@@ -86,12 +86,21 @@
   bottom: 0;
   left: 0;
   background-color: transparent;
-  transition: height 0.3s, background-color 0.3s;
+  transition: height 0.3s, background-color 0.3s; 
 }
 
-.My-inputField:focus + .MainUnderline {
+/* 입력 필드가 비어있을 때 언더라인 표시 */
+.My-inputField:placeholder-shown + .MainUnderline {
   height: 5.71%;
-  background-color: #007f3a;
+  background-color: var(--input-field-underline-color);
+  border-radius: 0 0 8px 8px; /* 하단 굴곡 추가 */
+}
+
+/* focus 스타일 제거 (필요한 경우) */
+.MainUnderline {
+  height: 0;
+  background-color: transparent;
+  border-radius: 0 0 8px 8px; /* 하단 굴곡 추가 */
 }
 
 .edit-button {

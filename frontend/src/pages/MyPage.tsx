@@ -155,6 +155,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
                 onFocus={() => setIsPasswordFocused(true)}
                 onBlur={() => setIsPasswordFocused(false)}
                 className="My-inputField"
+                placeholder=" "
               />
               <div className={`MainUnderline ${isPasswordFocused ? 'focused' : ''}`}></div>
             </Form.Group>
@@ -185,6 +186,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
                     onFocus={() => setIsNewnameFocused(true)}
                     onBlur={() => setIsNewnameFocused(false)}
                     className="My-inputField"
+                    placeholder=" "
                   />
                   <div className={`MainUnderline ${isNewnameFocused ? 'focused' : ''}`}></div>
                 </Form.Group>
@@ -215,6 +217,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
                     onFocus={() => setIsNewPasswordFocused(true)}
                     onBlur={() => setIsNewPasswordFocused(false)}
                     className="My-inputField"
+                    placeholder=" "
                   />
                   <div className={`MainUnderline ${isNewPasswordFocused ? 'focused' : ''}`}></div>
                 </Form.Group>
@@ -227,6 +230,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
                     onFocus={() => setIsConfirmNewPasswordFocused(true)}
                     onBlur={() => setIsConfirmNewPasswordFocused(false)}
                     className="My-inputField"
+                    placeholder=" "
                   />
                   <div className={`MainUnderline ${isConfirmNewPasswordFocused ? 'focused' : ''}`}></div>
                 </Form.Group>

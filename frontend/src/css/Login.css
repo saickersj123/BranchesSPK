@@ -60,9 +60,9 @@
   top: 94.29%;
   right: 0;
   bottom: 0;
-  left: 0;
-  border-radius: 0px 0px 5px 5px;
-  background-color: var(--button-color-2-hover);
+  left: 0; 
+  background-color: var(--input-field-underline-color);
+  border-radius: 0 0 8px 8px; /* 하단 굴곡 추가 */
 }
 
 .error {
