@@ -7,42 +7,6 @@ import { saveModel, loadModel, deleteModel } from "../utils/modelStorage.js";
 import { fineTuneModel, saveTrainingDataToFile, uploadTrainingData } from "../utils/fineTuneModel.js"
 import { transcribeAudioToText, generateFineTunedResponse, generateSpeechFromText } from "../utils/VoiceChat.js";
 
-export const startNewConversationUnified = async (req: Request, res: Response) => {
-    try {
-        const user = await User.findById(res.locals.jwtData.id);
-        if (!user) {
-            return res.status(401).json({ message: "ERROR", cause: "User not found" });
-        }
-
-        const { scenarioId } = req.body;
-        const audio = req.file;
-        let newConversation;
-
-        if (scenarioId) {
-            return await handleScenarioConversation(req, res);
-        } 
-
-        newConversation = {
-            messages: [],
-            type: "general",
-        };
-        
-        user.conversations.push(newConversation);
-        await user.save();
-
-        const conversationId = user.conversations[user.conversations.length - 1]._id;
-
-        if (audio) {
-            return await handleGeneralConversation(req, res);
-        }
-
-        return res.status(201).json({ message: "OK", conversationId });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "ERROR", cause: error.message });
-    }
-};
-
 export const generateChatCompletion = async (
     req: Request, 
     res: Response, 
@@ -56,22 +20,28 @@ export const generateChatCompletion = async (
             return res.status(401).json({ message: "ERROR", cause: "User not registered / token malfunctioned" });
         }
 
-        const conversation = user.conversations.id(conversationId)?.toObject();
+        // 특정 대화 가져오기
+        const conversation = user.conversations.find(
+            (conv) =>
+                conv.id === conversationId || conv._id.toString() === conversationId
+        );
         if (!conversation) {
+            console.log("User Conversations:", user.conversations);
             return res.status(404).json({ message: "ERROR", cause: "Conversation not found" });
         }
 
-        // 🔹 시나리오 대화인지 확인 후 handleScenarioConversation 호출
-        if (conversation.type === "scenario") {
-            return await handleScenarioConversation(req, res);
-        }
-
-        // 🔹 음성 메시지가 포함된 경우 handleGeneralConversation 호출
+        // 🔹 대화 타입 확인
         if (req.file) {
-            return await handleGeneralConversation(req, res);
+            // 음성 메시지가 포함된 경우 (음성 대화)
+            console.log("Processing voice message...");
+            conversation.type = "voice";
+            return await handleGeneralConversation(req, res); // 음성 대화 처리
+        } else {
+            // 일반 텍스트 메시지
+            console.log("Processing text message...");
         }
 
-        // 🔹 일반 텍스트 메시지 처리
+        // 일반 텍스트 메시지 처리
         const { message } = req.body;
         if (!message || message.trim() === "") {
             return res.status(400).json({ message: "ERROR", cause: "Empty message received" });
@@ -123,7 +93,8 @@ export const getAllConversations = async (
 				.status(401)
 				.json({ message: "ERROR", cause: "Permissions didn't match" });
 		}
-		return res.status(200).json({ message: "OK", conversations: user.conversations });
+		const generalConversations = user.conversations.filter(convo => convo.type !== "voice");
+        return res.status(200).json({ message: "OK", conversations: generalConversations });
 	} catch (err) {
 		console.log(err);
 		return res.status(200).json({ message: "ERROR", cause: err.message });
@@ -390,7 +361,113 @@ export const getModelbyId = async (
 		return res.status(500).json({ message: "ERROR", cause: err.message });
 	}
 };
+export const startNewConversationVoice = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+    try {
+        const user = await User.findById(res.locals.jwtData.id);
 
+        // 유저가 존재하지 않을 경우 처리
+        if (!user) {
+            return res.status(401).json({
+                message: "ERROR",
+                cause: "User doesn't exist or token malfunctioned",
+            });
+        }
+
+        // 새 음성 대화 추가
+        const newVoiceConversation = { 
+            chats: [], 
+            type: "voice", 
+        };
+        user.conversations.push(newVoiceConversation);
+
+        // 변경 사항 저장
+        await user.save();
+
+        // 새로 생성된 대화 반환
+        return res.status(200).json({
+            message: "New voice conversation started",
+            conversation: user.conversations[user.conversations.length - 1],
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "ERROR", cause: err.message });
+    }
+};
+
+export const getAllVoiceConversations = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+    try {
+        const user = await User.findById(res.locals.jwtData.id); // 이전 미들웨어에서 저장된 JWT 데이터 사용
+        if (!user) {
+            return res.status(401).json({
+                message: "ERROR",
+                cause: "User doesn't exist or token malfunctioned",
+            });
+        }
+
+        // 권한 확인
+        if (user._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+        }
+
+        // 음성 대화만 필터링
+        const voiceConversations = user.conversations.filter(conversation => conversation.type === "voice");
+
+        return res.status(200).json({
+            message: "OK",
+            voiceConversations,
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "ERROR", cause: err.message });
+    }
+};
+export const getVoiceConversation = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+    try {
+        const user = await User.findById(res.locals.jwtData.id); // 현재 사용자를 가져옵니다.
+        const { conversationId } = req.params; // URL 파라미터에서 conversationId를 가져옵니다.
+        
+        if (!user) {
+            return res.status(401).json({
+                message: "ERROR",
+                cause: "User doesn't exist or token malfunctioned",
+            });
+        }
+
+        // 음성 대화만 필터링
+        const voiceConversations = user.conversations.filter(conversation => conversation.type === "voice");
+
+        // 필터링된 대화에서 conversationId와 일치하는 대화 찾기
+        
+        const conversation = voiceConversations.find(conv => conv._id.toString() === conversationId);
+
+        if (!conversation) {
+            return res.status(404).json({
+                message: "ERROR",
+                cause: "Voice conversation not found",
+            });
+        }
+
+        await user.save(); // 사용자가 수정되었다면 저장합니다.
+        
+        return res.status(200).json({ message: "OK", conversation });
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "ERROR", cause: err.message });
+    }
+};
 const saveVoiceConversation = async (
     userId: string,
     userMessage: string,
@@ -601,4 +678,3 @@ export const getAllScenarioConversations = async (req: Request, res: Response) =
         return res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
-

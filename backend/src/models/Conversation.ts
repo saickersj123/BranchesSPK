@@ -7,6 +7,11 @@ const conversationSchema = new mongoose.Schema({
         type: String,
         default: randomUUID(),
     },
+    type:{
+        type: String,
+        default: undefined,
+        enum: ['voice', 'scenario'],
+    },
     chats: [chatSchema],
     createdAt: {
         type: Date,

@@ -24,6 +24,7 @@ export async function transcribeAudioToText(audioBuffer: Buffer): Promise<string
         const formData = new FormData();
         formData.append("file", buffer, { filename: "audio.wav", contentType: "audio/wav" });
         formData.append("model", "whisper-1");
+        formData.append("language", "en");
 
         // Whisper API 호출
         const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
