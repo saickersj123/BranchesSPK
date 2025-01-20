@@ -1,0 +1,62 @@
+@import '../set/color.css';
+
+.new-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0; 
+    width: 20%;
+    height: 100vh;
+    background-color: var(--sidebar-background-color);
+    color: var(--sidebar-text-color);
+    padding: 10px 0; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    z-index: 999;
+    transform: translateX(-100%); 
+}
+
+.new-sidebar.open {
+    transform: translateX(0);
+}
+
+/* 메인 컨텐츠 영역 스타일 */
+.new-main-content {
+    transition: margin-left 0.3s ease;
+    width: 100%;
+}
+
+.new-main-content.shifted {
+    margin-left: 250px;
+}
+
+.new-sidebar-content {
+    padding: 20px;
+    margin-top: 60px;
+}
+
+.new-sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.new-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 8px;
+} 
+
+.new-menu-item svg {
+    width: 20px;
+    height: 20px;
+    color: #333;
+}
+
+.new-menu-item span {
+    font-size: 16px;
+    color: #333;
+}

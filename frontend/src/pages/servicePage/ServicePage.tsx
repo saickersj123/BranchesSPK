@@ -7,12 +7,17 @@ const ServicePage: React.FC = () => {
 
   return (
     <div className="service-main-page"> 
+    
       <div className="service-main-page-header"> 
+        {/** 헤더 영역 */}
         <ServicePageHeader /> 
       </div>
+
       <div className="service-main-page-contents">
+        {/** 컨텐츠 영역 */}
         <ServicePageContents />  
       </div>
+    
     </div>
   );
 };

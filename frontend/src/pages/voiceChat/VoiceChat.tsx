@@ -8,9 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
 import VoiceChatHeader from './VoiceChatHeader';  
-import VoisChatList from '../../components/voiceChat/VoisChatList'; 
-import Sidebar from '../../components/sidebar/Sidebar'; 
-
+import VoisChatList from '../../components/voiceChat/VoisChatList';  
+import NewSidebar from '../../components/newSIdebar/NewSIdevar';
 interface VoiceChatProps {
   isSidebarOpen: boolean;
 }
@@ -19,6 +18,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>(''); 
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const navigate = useNavigate();
   const { conversationId: routeConversationId } = useParams<{ conversationId: string }>();
@@ -119,19 +119,22 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
   };
 
   return (
-    <Container className="voice-chat-container">
-      <div className='voiceChatSidebar'> 
-        {/* 여기에 사이드바를 넣을 예정임. */}
-      </div>
-      <div className="voice-chat-header-container">
-        <VoiceChatHeader isSidebarOpen={isSidebarOpen} />  
-      </div>
-      <div className="voice-chat-content-container">
-        <div className="messages-container">
-          <VoisChatList messages={messages} />
-        </div> 
-         <VoiceRecorder onSend={handleVoiceSend} />  
-      </div>
+    <Container>  
+      <VoiceChatHeader 
+        isSidebarOpen={sidebarOpen} 
+        setIsSidebarOpen={setSidebarOpen}
+      >
+        <div className={`voice-chat-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
+          <div className="voice-chat-content-container">
+            <div className="messages-container">
+              <VoisChatList messages={messages} />
+            </div> 
+            <VoiceRecorder onSend={handleVoiceSend} />  
+          </div>
+        </div>
+      </VoiceChatHeader>
+      
+      <NewSidebar isOpen={sidebarOpen} />
     </Container>
   );
 };

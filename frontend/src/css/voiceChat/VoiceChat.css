@@ -1,5 +1,3 @@
-
-  
 .voice-chat-header-container {
     position: fixed;
     display: flex;
@@ -25,11 +23,18 @@
   height: 100%;
 }
 
-.voice-chat-container { 
-  display: flex;
-  flex-direction: column;
-  padding-top: 20px;
-  height: 100vh;
+.voice-chat-container {
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    height: 100vh;
+}
+
+.voice-chat-container.sidebar-open {
+    margin-left: 250px; /* 사이드바 너비만큼 여백 */
+    width: calc(100% - 250px); /* 전체 너비에서 사이드바 너비만큼 뺌 */
 }
 
 .messages-container {

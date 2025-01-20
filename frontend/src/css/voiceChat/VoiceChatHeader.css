@@ -2,10 +2,13 @@
   justify-content: center;   
   align-items: center;       
   padding-top: 2px;
-  font-size: 1.3em;
+  font-size: 1.5rem;
   font-weight: bold;
   margin-left: 10px;
   cursor: pointer;
+  padding: 10px;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .voice-chat-settings-container {
@@ -54,4 +57,20 @@
 
 .voice-chat-dropdown-list:hover {
   background-color: #f0f0f0;
+}
+
+.voice-chat-header {
+  display: flex;
+  align-items: center;
+  padding: 10px; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 60px;
+}
+
+.toggle-sidebar-button {
+  z-index: 1000;  
 }
