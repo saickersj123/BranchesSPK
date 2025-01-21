@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosInstance, { API_MODE } from './axiosInstance';
+import axiosInstance, { TEST_MODE } from './axiosInstance';
 import exp from 'constants';
 
 // 레벨별 필요 경험치 배열
@@ -23,7 +23,7 @@ const calculateLevel = (exp: number): number => {
 
 // 사용자 경험치를 불러오는 API - 사용자의 경험치와 계산된 레벨을 반환하는 함수
 export const gethUserExperience = async (): Promise<{ exp: number, level: number }> => {
-    if(API_MODE) {
+    if(TEST_MODE) {
         const mockExp = 300;
         return { 
             exp: mockExp, 
@@ -47,7 +47,7 @@ export const gethUserExperience = async (): Promise<{ exp: number, level: number
   
 // 과거에 참가한 게임의 정보를 얻어오는 API - 과거에 참가한 게임의 정보를 반환하는 함수
   export const getPastGames = async (): Promise<{ gameName: string; participationTime: string; correctAnswers: number; experienceGained: number }[]> => {
-    if(API_MODE) {
+    if(TEST_MODE) {
       return [
         {
           gameName: "키워드 맞추기",
@@ -190,7 +190,7 @@ export const mypage = async (password: string): Promise<any> => {
 
 // 사용자 이름을 가져오는 함수
 export const getUserName = async (): Promise<string> => {
-    if(API_MODE) {
+    if(TEST_MODE) {
         return "JEONGJIN"; // 테스트용 기본값
     }
     else{

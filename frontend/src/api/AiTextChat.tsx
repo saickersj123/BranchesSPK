@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosInstance, { API_MODE } from './axiosInstance';
+import axiosInstance, { TEST_MODE } from './axiosInstance';
 import { AIScenario } from '../@types/scenarios';
 import { DUMMY_SCENARIOS } from '../data/dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암 
 import { Message, Conversation } from '../@types/types';
@@ -44,7 +44,7 @@ export const startNewConversationwithmsg = async (messageContent: string, role: 
 
 // 모든 시나리오 목록을 가져오는 함수 - 모든 시나리오 목록을 반환하는 함수
 export const getAllScenarios = async (): Promise<AIScenario[]> => {
-    if (API_MODE) {
+    if (TEST_MODE) {
       // 더미 데이터 모드
       return Promise.resolve(DUMMY_SCENARIOS); // DUMMY_SCENARIOS는 types.ts에서 import
     } else {
@@ -67,7 +67,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
     game_id: string,
     difficulty: number
   ): Promise<Conversation> => {
-    if (API_MODE) {
+    if (TEST_MODE) {
       // 더미 데이터 모드에서 선택된 정보 출력
       console.log('=== 시나리오 선택 정보 (테스트 모드) ===');
       console.log('선택된 시나리오 ID:', scenarioId);

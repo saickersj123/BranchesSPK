@@ -1,4 +1,4 @@
-import axiosInstance, { API_MODE } from './axiosInstance';
+import axiosInstance, { TEST_MODE } from './axiosInstance';
 import { Message } from '../@types/types';
 
 // conversationId를 활용해 모든 음성대화 메시지를 가져오는 함수
@@ -24,7 +24,7 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
   const formData = new FormData();
   formData.append('audio', audioBlob);
 
-  if (!API_MODE) {
+  if (!TEST_MODE) {
     // Dummy data for testing
     return { 
       audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
