@@ -1,26 +1,65 @@
-import React from 'react';
-import { Message } from '../../@types/types'; // Message 타입 import
-import '../../css/voiceChat/VoisChatList.css'; 
+import React, { useEffect, useRef } from 'react';
+import { Message } from '../../@types/types';
+import '../../css/voiceChat/VoisChatList.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 
 interface VoisChatListProps {
-  messages: Message[]; // 메시지를 props로 받기
+  messages: Message[];
 }
 
 const VoisChatList: React.FC<VoisChatListProps> = ({ messages }) => {
+  const endOfMessagesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+    
+    // 새로운 메시지가 추가될 때 자동으로 오디오 재생
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.audioUrl) {
+        handlePlayAudio(lastMessage.audioUrl);
+      }
+    }
+  }, [messages]);
+
+  const handlePlayAudio = (audioBuffer: string) => {
+    const audio = new Audio(`data:audio/wav;base64,${audioBuffer}`);
+    audio.play().catch(error => {
+      console.error("오디오 재생 중 오류 발생:", error);
+    });
+  };
+
   return (
     <div className="vois-chat-list">
       {messages.map((msg, index) => (
-        <div key={index} className={`voice-message-container ${msg.role}`}>
-          {msg.role === 'ai' && (
-            <div className="chatbot-icon">
-               B {/* AI 프로필 이미지 */}
-            </div>
+        <div
+          key={index}
+          className={`voice-message-container ${msg.role}`}
+        >
+          {msg.role === 'assistant' && (
+            <div className="chatbot-icon">AI</div>
           )}
           <div className={`voice-message ${msg.role}`}>
-            <span>{msg.content}</span>
+            {msg.content}
+            {msg.role === 'user' ? (
+              <span className="user-time">
+                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+              </span>
+            ) : (
+              <span className="ai-time">
+                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+              </span>
+            )}
+            {msg.audioUrl && (
+              <button onClick={() => handlePlayAudio(msg.audioUrl)} className="voice-chat-play-button">
+                <FontAwesomeIcon icon={faVolumeUp} style={{ color: 'black' }} />
+              </button>
+            )}
           </div>
         </div>
       ))}
+      <div ref={endOfMessagesRef} />
     </div>
   );
 };
