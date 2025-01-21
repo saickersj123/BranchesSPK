@@ -17,12 +17,15 @@
   margin-top: 30px; 
   padding-top: 10px;
   height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .voice-chat-container {
   transition: transform 0.3s ease, width 0.3s ease; /* transform 사용 */
   transform: translateX(0); /* 기본 상태 */
-  width: 100%;
+  margin-left: 100px;
+  margin-right: 100px;
   display: flex;
   flex-direction: column;
   padding-top: 20px;

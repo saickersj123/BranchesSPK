@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import useLogout from '../../utils/Logout';  
 import { useNavigate } from 'react-router-dom';
+import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
 
 interface VoiceChatHeaderProps {
   children?: React.ReactNode;
@@ -17,15 +18,6 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
     setIsSidebarOpen 
 }) => {
   const navigate = useNavigate();
-  const handleLogout = useLogout();
-
-  const handleProfileClick = () => {
-    navigate('/mypage', { state: { from: '/voiceChat' } });
-  };  
-
-  const handlelevelProfileClick = async () => {
-    navigate("/levelProfile", { state: { from: '/voiceChat' } });
-  }; 
 
   return (
     <>
@@ -33,25 +25,7 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
         <div className="voice-chat-title-logo">
           <span className="brand-text" onClick={() => navigate('/voiceChat')}>Branch-SPK</span>
         </div>
-        
-        <div className="voice-chat-settings-container">
-          <Dropdown align="end">
-            <Dropdown.Toggle id="voice-chat-setting-icon" className="voice-chat-settings-button">
-              AI
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="voice-chat-dropdown-menu">
-              <Dropdown.Item onClick={handleProfileClick} className="voice-chat-dropdown-list">
-                <FontAwesomeIcon icon={faUser} /> 정보수정
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handlelevelProfileClick} className="voice-chat-dropdown-list">
-                <FontAwesomeIcon icon={faUser} /> 경험치 확인
-              </Dropdown.Item>
-              <Dropdown.Item className="voice-chat-dropdown-list" onClick={handleLogout}>
-                <FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
+        <UserSetDropdown currentPage="/voiceChat" />
       </div>
       <div className={`new-main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         {children}

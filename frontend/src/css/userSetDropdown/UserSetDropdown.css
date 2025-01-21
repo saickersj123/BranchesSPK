@@ -1,0 +1,83 @@
+@import '../set/color.css';
+
+.voice-chat-dropdpown-settings-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+  
+.voice-chat-dropdpown-settings-button { 
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--my-profile-color) !important;
+    color: white !important;
+    font-size: 1.6rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.voice-chat-dropdpown-settings-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+  
+.voice-chat-dropdpown-settings-button::after {
+    display: none !important;
+}
+ 
+.voice-chat-dropdpown-menu { 
+    min-width: 180px;
+    padding: 8px;
+    border-radius: 12px;
+    border: none;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.show > .voice-chat-dropdpown-menu {
+    opacity: 1;
+    transform: translateY(0);
+}
+  
+.voice-chat-dropdpown-list {
+    padding: 10px 16px;
+    color: #333;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    margin: 2px 0;
+    font-weight: 500;
+}
+  
+.voice-chat-dropdpown-list:hover {
+    background-color: var(--my-profile-color-light);
+    color: var(--my-profile-color);
+    transform: translateX(5px);
+}
+  
+.voice-chat-dropdpown-list svg {
+    margin-right: 12px;
+    width: 16px;
+    height: 16px;
+}
+
+/* 마지막 아이템(로그아웃)에 대한 특별한 스타일 */
+.voice-chat-dropdpown-list:last-child {
+    margin-top: 5px;
+    border-top: 1px solid #eee;
+    color: #dc3545;
+}
+
+.voice-chat-dropdpown-list:last-child:hover {
+    background-color: #fff5f5;
+    color: #dc3545;
+}

@@ -18,6 +18,7 @@ import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
 import { Message, Conversation } from '../../@types/types';
 import { url } from 'inspector';
 import { IoRefreshOutline } from 'react-icons/io5';
+import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -469,33 +470,11 @@ const Home: React.FC<HomeProps> = ({
           <div className={`home-header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
             <div className="header-left-section">
               <span className="home_new_conversation" onClick={handleStartConversation}>
-                <IoRefreshOutline  />
+                <IoRefreshOutline />
               </span>
               <span className="brand-text" onClick={() => navigate('/textChat')}>Branch-SPK</span>
             </div>
-            <div className="settings-container">
-              <Dropdown>
-                <Dropdown.Toggle variant="light" id="dropdown-basic" className="FaCog-dropdown-toggle">
-                  <div className="home-set-icon">
-                    {username.charAt(0)}
-                  </div>
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="home-dropdown-menu">
-                  <Dropdown.Item onClick={handleProfileClick} className="home-dropdown-list">
-                    <FontAwesomeIcon icon={faUser} /> 정보수정
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={handlelevelProfileClick} className="home-dropdown-list">
-                    <FontAwesomeIcon icon={faUser} /> 경험치 확인
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={handleSettingsClick} className="home-dropdown-list">
-                    <FontAwesomeIcon icon={faSquareMinus} /> Chatbox 변경
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={handleLogout} className="home-dropdown-list">
-                    <FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
+            <UserSetDropdown currentPage="/textChat" />
           </div>
           
           <NewSidebar 

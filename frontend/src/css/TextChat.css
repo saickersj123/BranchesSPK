@@ -184,57 +184,17 @@
 .grid-item.edit-mode {
   border: none;
 }
-
-/* Settings Dropdown */
-.settings-container {
-  position: fixed;
-  top: 15px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-}
-
-.settings-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.home-dropdown-menu {
-  position: absolute;
-  top: 30px;
-  right: 0; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  overflow: hidden;
-  z-index: 1200;
-} 
-
-.home-dropdown-list { 
-  display: block;
-  width: 100%;
-  padding: 10px 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-}
-
-.home-dropdown-list:hover {
-  background-color: #f0f0f0;
-}
+ 
 
 .home-header-container {
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 유지 */
+  align-items: center;
+  justify-content: space-between; /* 좌우 정렬을 위해 추가 */
   position: fixed;
-  top: 16px;
+  top: 8px;
   left: 4em;
-  z-index: 1100;
-  transition: margin-left 0.3s ease;
+  right: 10px; /* 오른쪽 여백 추가 */
+  z-index: 1100; 
 }
 
 .home-header-container.shifted-header {
@@ -265,7 +225,7 @@
 .home-login-container {
   position: fixed;
   top: 21px;
-  right: 32px;
+  right: 4em; /* 오른쪽 여백 일관성 유지 */
   display: flex;
   align-items: center;
   z-index: 1100;
@@ -280,44 +240,7 @@
 
 .home-login-button:hover {
   background-color: black;
-}
-
-.settings-container .save-button,
-.settings-container .cancel-button,
-.settings-container .reset-button { 
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  padding: 10px 15px;
-  margin: 5px;
-  cursor: pointer;
-}
-
-.settings-container .save-button:hover,
-.settings-container .cancel-button:hover,
-.settings-container .reset-button:hover {
-  background-color: #e0e0e0;
-}
-
-.FaCog-dropdown-toggle{ 
-  background-color: transparent !important;
-  border: none !important;    
-}
-
-.FaCog-dropdown-toggle:after {
-  display: none !important;
-}
-
-.home-set-icon { 
-  width: 39px;
-  height: 39px; 
-  border-radius: 50%;
-  background: var(--my-profile-color); 
-  display: flex;
-  align-items: center;
-  justify-content: center; 
-  font-size: 1.6rem;  
-  color: white; 
-}
+} 
 
 /* 채팅 메시지에 CSS 변수 적용 */
 .chat-message {
@@ -341,22 +264,22 @@
 }
 
 .header-left-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: relative; /* 위치 고정을 위해 추가 */
-    z-index: 1000; /* 항상 보이도록 z-index 설정 */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1000;
 }
 
 .home_new_conversation {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    position: relative; /* 위치 고정을 위해 추가 */
-    z-index: 2000; /* 항상 보이도록 z-index 설정 */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  position: relative;
+  z-index: 2000;
 }
 
 .home_new_conversation:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }

@@ -11,54 +11,6 @@
   text-align: center;
 }
 
-.voice-chat-settings-container {
-  position: fixed;
-  top: 21px;
-  right: 32px;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-}
-
-.voice-chat-settings-button {
-  width: 39px;
-  height: 39px;
-  border-radius: 50%; /* 버튼을 동그랗게 */
-  background: var(--my-profile-color); /* 버튼 배경색 */
-  color: white; /* 텍스트 색상 */
-  font-size: 1.6rem; /* 텍스트 크기 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none; /* 테두리 제거 */
-  cursor: pointer;
-}
-
-/* 화살표 제거 */
-#voice-chat-setting-icon::after {
-  display: none !important;
-}
-
-/* 드롭다운 메뉴 스타일 */
-.voice-chat-dropdown-menu {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  overflow: hidden;
-  margin-top: 10px;
-}
-
-.home-dropdown-list {
-  padding: 10px 20px;
-  cursor: pointer;
-  background-color: white;
-  border: none;
-  text-align: left;
-}
-
-.voice-chat-dropdown-list:hover {
-  background-color: #f0f0f0;
-}
-
 .voice-chat-header {
   display: flex;
   align-items: center;
