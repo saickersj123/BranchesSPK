@@ -22,6 +22,7 @@ const MyEx: React.FC = () => {
     const [userName, setUserName] = useState<string>("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [gameHistory, setGameHistory] = useState<GameHistory[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,13 +40,20 @@ const MyEx: React.FC = () => {
                 const history = await getPastGames();
                 setGameHistory(history);
                 setCompletedCourses(history.length); // 게임 히스토리의 길이를 완료한 코스 수로 사용
+
+                setLoading(false);
             } catch (error) {
                 console.error('데이터 불러오기 실패:', error);
+                setLoading(false);
             }
         };
 
         fetchData();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     const calculateProgress = () => {
         if (experience === null) return 0;
