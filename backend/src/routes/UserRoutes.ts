@@ -58,10 +58,10 @@ userRoutes.post("/cbox", validate(chatboxValidator), verifyToken, saveChatbox);
 
 userRoutes.put("/cbox/reset", verifyToken, resetChatbox);
 
-userRoutes.post("/:userId/exp", verifyToken, addUserExp);
+userRoutes.post("/exp", verifyToken, addUserExp);
 
-userRoutes.delete("/:userId/exp", verifyToken, deleteUserExp);
+userRoutes.delete("/exp", verifyToken, deleteUserExp);
 
-userRoutes.get("/:userId/exp", verifyToken, seeUserExp);
+userRoutes.get("/exp", verifyToken, seeUserExp);
 
 export default userRoutes;

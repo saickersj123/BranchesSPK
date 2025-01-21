@@ -1,59 +1,47 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import multer from "multer";
 import { verifyToken } from "../utils/Token.js";
-import { fineTuneValidator, validate } from "../utils/Validators.js";
+import { fineTuneValidator, chatCompletionValidator, validate } from "../utils/Validators.js";
 import { 
-		 startNewConversation,
-		 deleteConversation, 
-         getConversation, 
-         deleteAllConversations, 
-         getAllConversations, 
-         getAllScenarioConversations,
-         startNewConversationUnified,
-         generateChatCompletion,
-         createCustomModel,
-         deleteCustomModel,
-         getCustomModels,
-         getModelbyId,
-         getAllScenarios,
-         handleScenarioConversation
-         } from "../controllers/ChatController.js";
+    startNewConversation, 
+    deleteConversation, 
+    getConversation, 
+    deleteAllConversations, 
+    getAllConversations, 
+    getAllScenarioConversations, 
+    generateChatCompletion, 
+    createCustomModel, 
+    deleteCustomModel, 
+    getCustomModels, 
+    getModelbyId, 
+    startNewConversationwith, 
+    getVoiceConversation, 
+    getAllVoiceConversations, 
+    getAllScenarios, 
+    handleScenarioConversation, 
+    handleGeneralConversation, 
+    startNewConversationVoice 
+} from "../controllers/ChatController.js";
 
 const chatRoutes = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Test route
-chatRoutes.get("/", (req, res) => {
+chatRoutes.get("/", (req: Request, res: Response) => {
     console.log("hi");
     res.send("hello from chatRoutes");
 });
 
-//new conversation
+// New conversation
 chatRoutes.get("/c/new", verifyToken, startNewConversation);
 
-// Unified route for general conversations (text, voice)
-chatRoutes.post(
-    "/c/new",
-    verifyToken,
-    upload.single("audio"),
-    (req, res, next) => {
-        if (req.body.scenarioId) {
-            handleScenarioConversation(req, res);
-        } else {
-            startNewConversationUnified(req, res);
-        }
-    }
-);
+// New conversation with message
+chatRoutes.post("/c/new", validate(chatCompletionValidator), verifyToken, startNewConversationwith);
 
 // Resume conversation (text or voice)
-chatRoutes.post(
-    "/c/:conversationId",
-    verifyToken,
-    upload.single("audio"),
-    generateChatCompletion
-);
+chatRoutes.post("/c/:conversationId", verifyToken, upload.single("audio"), generateChatCompletion);
 
-// Get all conversations (general + voice)
+// Get all conversations 
 chatRoutes.get("/all-c", verifyToken, getAllConversations);
 
 // Get all scenario conversations
@@ -79,6 +67,18 @@ chatRoutes.get("/all-g", verifyToken, getCustomModels);
 
 // Get a specific custom model
 chatRoutes.get("/g/:modelId/", verifyToken, getModelbyId);
+
+// New voice conversation
+chatRoutes.get("/v/new", verifyToken, startNewConversationVoice);
+
+// Get all conversations (general + voice)
+chatRoutes.get("/v/all", verifyToken, getAllVoiceConversations);
+
+// Get a specific voice conversation
+chatRoutes.get("/v/:conversationId", verifyToken, getVoiceConversation);
+
+// New scenario conversation
+chatRoutes.post("/s/new", verifyToken, upload.single("audio"), handleScenarioConversation);
 
 // Get all scenarios
 chatRoutes.get("/scenarios", verifyToken, getAllScenarios);
