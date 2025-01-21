@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
 import VoiceChatHeader from './VoiceChatHeader';  
 import VoisChatList from '../../components/voiceChat/VoisChatList';  
-import NewSidebar from '../../components/newSIdebar/NewSIdevar';
+import NewSidebar from '../../components/newSIdebar/NewSIdebar';
 interface VoiceChatProps {
   isSidebarOpen: boolean;
 }

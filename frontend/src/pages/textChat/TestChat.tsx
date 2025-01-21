@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import ChatBox from '../../components/testChat/ChatBox';
 import ChatList from '../../components/testChat/ChatList';
-import NewSidebar from '../../components/newSIdebar/NewSIdevar';
+import NewSidebar from '../../components/newSIdebar/NewSIdebar';
 import GridLayout from 'react-grid-layout'; 
 import useLogout from '../../utils/Logout'; 
 import { fetchMessages, fetchConversations, startNewConversation } from '../../api/AiTextChat'; 
