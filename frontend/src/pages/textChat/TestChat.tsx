@@ -1,22 +1,15 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'; 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { TbLayoutSidebar } from "react-icons/tb";
-import { LuSquarePlus } from "react-icons/lu";
-import { faRightFromBracket, faSquareMinus, faUser } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, useCallback, useRef } from 'react';  
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import ChatBox from '../../components/testChat/ChatBox';
 import ChatList from '../../components/testChat/ChatList';
 import NewSidebar from '../../components/newSIdebar/NewSIdevar';
 import GridLayout from 'react-grid-layout'; 
-import useLogout from '../../utils/Logout';
-import { Dropdown } from 'react-bootstrap';
-import { fetchMessages, fetchConversations, startNewConversation } from '../../api/AiTextChat';
-import { getChatboxes, saveChatbox, resetChatbox } from '../../api/ChatUi';
+import useLogout from '../../utils/Logout'; 
+import { fetchMessages, fetchConversations, startNewConversation } from '../../api/AiTextChat'; 
 import '../../css/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
-import { Message, Conversation } from '../../@types/types';
-import { url } from 'inspector';
+import { Message, Conversation } from '../../@types/types'; 
 import { IoRefreshOutline } from 'react-icons/io5';
 import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
 
@@ -352,41 +345,8 @@ const Home: React.FC<HomeProps> = ({
   const handleDragStop = (layout: LayoutItem[]) => {
     const validatedLayout = validateLayout(layout);
     setCurrentLayout(validatedLayout);
-  };
-
-  const handleResetLayout = async () => {
-    try {
-      await resetChatbox();
-      setCurrentLayout(INITIAL_LAYOUT);
-      originalLayoutRef.current = INITIAL_LAYOUT;
-    } catch (error) {
-      console.error('Failed to reset chatbox layout:', error);
-    }
-  };
-
-  const handleSaveLayout = async () => {
-    try {
-      const chatbox = {
-        cbox_x: currentLayout[0].x,
-        cbox_y: currentLayout[0].y,
-        cbox_w: currentLayout[0].w,
-        cbox_h: currentLayout[0].h,
-      };
-      await saveChatbox(chatbox);
-      originalLayoutRef.current = currentLayout;
-      toggleLayoutEditing();
-      setIsSidebarOpen(previousSidebarState);
-    } catch (error) {
-      console.error('Failed to save chatbox layout:', error);
-    }
-  };
-
-  const handleCancelLayout = () => {
-    setCurrentLayout(originalLayoutRef.current);
-    toggleLayoutEditing();
-    setIsSidebarOpen(previousSidebarState);
-  };
-
+  }; 
+ 
   const handleSettingsClick = () => {
     setPreviousSidebarState(isSidebarOpen);
     setIsSidebarOpen(false);
@@ -427,42 +387,7 @@ const Home: React.FC<HomeProps> = ({
     setIsSidebarOpen(newState);
     saveSidebarState(newState);
   };
-
-  useEffect(() => {
-    const loadChatboxLayout = async () => {
-      try {
-        const fetchedChatbox = await getChatboxes();
-
-        if (fetchedChatbox) {
-          const validatedChatbox = [{
-            i: 'chatContainer',
-            x: Number(fetchedChatbox.cbox_x),
-            y: Number(fetchedChatbox.cbox_y),
-            w: Number(fetchedChatbox.cbox_w),
-            h: Number(fetchedChatbox.cbox_h),
-            minH: 4,
-            minW: 3,
-            maxW: 12,
-            maxH: 9
-          }];
-          setCurrentLayout(validatedChatbox);
-          originalLayoutRef.current = validatedChatbox;
-        } else {
-          setCurrentLayout(INITIAL_LAYOUT);
-          originalLayoutRef.current = INITIAL_LAYOUT;
-        }
-      } catch (error) {
-        console.error('Failed to fetch chatbox layout:', error);
-        setCurrentLayout(INITIAL_LAYOUT);
-        originalLayoutRef.current = INITIAL_LAYOUT;
-      }
-    };
-
-    if (isLoggedIn) {
-      loadChatboxLayout();
-    }
-  }, [isLoggedIn]);
-
+ 
   return (
     <main className={`main-section`}>
       {isLoggedIn ? (
