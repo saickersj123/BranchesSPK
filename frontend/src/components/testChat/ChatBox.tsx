@@ -13,13 +13,12 @@ interface ChatBoxProps {
   onChatInputAttempt: () => void;
   isLoggedIn: boolean;
   selectedModel: string;
-  onNewConversation: (newConversationId: string) => Promise<void>;
-  isEditMode: boolean;
+  onNewConversation: (newConversationId: string) => Promise<void>; 
   setSelectedConversationId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const ChatBox: React.FC<ChatBoxProps> = ({
-  conversationId, onNewMessage, onUpdateMessage, isEditMode, isNewChat, selectedModel,
+  conversationId, onNewMessage, onUpdateMessage, isNewChat, selectedModel,
   onChatInputAttempt, isLoggedIn, onNewConversation, setSelectedConversationId
 }) => {
   const [message, setMessage] = useState<string>('');
@@ -112,11 +111,26 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       sendMessageToServer();
     }}>
       <div className="input-button-wrapper"> 
-        <Form.Control as="textarea" ref={textareaRef} rows={1} value={message} onChange={handleMessageChange} onKeyDown={handleKeyPress} onFocus={handleInputFocus} onBlur={handleInputBlur} placeholder="Type a message..." className="chat-container" disabled={isEditMode} />
-        <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-          event.preventDefault();
-          sendMessageToServer();
-        }} className="chat-box-button send-button" disabled={isEditMode || !message.trim()}>
+        <Form.Control 
+          as="textarea" 
+          ref={textareaRef} 
+          rows={1} 
+          value={message} 
+          onChange={handleMessageChange} 
+          onKeyDown={handleKeyPress} 
+          onFocus={handleInputFocus} 
+          onBlur={handleInputBlur} 
+          placeholder="Type a message..." 
+          className="chat-container" 
+        />
+        <Button 
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
+            sendMessageToServer();
+          }} 
+          className="chat-box-button send-button" 
+          disabled={!message.trim()}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-right" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
           </svg>

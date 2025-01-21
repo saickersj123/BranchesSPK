@@ -17,34 +17,13 @@ interface HomeProps {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   user: { name: string } | null;
-  isLayoutEditing: boolean;
-  loadMessages: (conversationId: string) => Promise<void>;
-  messages: Message[];
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
-  toggleLayoutEditing: () => void;
   username: string;
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   nicknameChanged: boolean;
   setNicknameChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface LayoutItem {
-  i: string;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  minH?: number;
-  minW?: number;
-  maxW?: number;
-  maxH?: number;
-}
-
-const MAX_Y_H_SUM = 9;
 const DEFAULT_MODEL = "gpt-3.5-turbo";
-const INITIAL_LAYOUT: LayoutItem[] = [
-  { i: 'chatContainer', x: 2, y: 0.5, w: 8, h: 8, minH: 4, minW: 3, maxW: 12, maxH: 9 }
-];
 
 const Home: React.FC<HomeProps> = ({
   isLoggedIn,
@@ -60,13 +39,10 @@ const Home: React.FC<HomeProps> = ({
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [viewportHeight, setViewportHeight] = useState<number>(window.innerHeight);
   const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
-  const [maxYHSum] = useState<number>(MAX_Y_H_SUM); 
-  const [currentLayout, setCurrentLayout] = useState<LayoutItem[]>(INITIAL_LAYOUT);
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
   const [isNewChat, setIsNewChat] = useState<boolean>(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedModel, setSelectedModel] = useState<string>(DEFAULT_MODEL);
-  const originalLayoutRef = useRef<LayoutItem[]>(INITIAL_LAYOUT);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -80,8 +56,6 @@ const Home: React.FC<HomeProps> = ({
   const [chatContainerBgColor, setChatContainerBgColor] = useState<string>('#FFFFFF'); 
   const [previousSidebarState, setPreviousSidebarState] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isLayoutEditing, setIsLayoutEditing] = useState<boolean>(false);
-  const [chatInputBgColor, setChatInputBgColor] = useState<string>('#f0f0f0');
 
   const loadMessages = useCallback(async (conversationId: string) => {
     try {
@@ -210,17 +184,6 @@ const Home: React.FC<HomeProps> = ({
     }
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    const chatInputBgColorSetting = localStorage.getItem('chatInputBgColor');
-    if (chatInputBgColorSetting) {
-      setChatInputBgColor(chatInputBgColorSetting);
-    }
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.style.setProperty('--chat-input-bg-color', chatInputBgColor);
-  }, [chatInputBgColor]);
-
   const handleLoginClick = () => {
     navigate('/login');
   };
@@ -293,93 +256,21 @@ const Home: React.FC<HomeProps> = ({
     }
   };
 
-  const validateLayout = (layout: LayoutItem[]): LayoutItem[] => {
-    const occupiedPositions = new Set<string>();
-    return layout.map(item => {
-      let { x, y, w, h } = item;
-      if (y < 0) y = 0;
-      if (y + h > maxYHSum) y = 0;
-      while (isPositionOccupied(x, y, w, h, occupiedPositions)) {
-        x = (x + 1) % 12;
-        if (x === 0) {
-          y = (y + 1) % maxYHSum;
-        }
-        if (y + h > maxYHSum) {
-          y = 0;
-        }
-      }
-      markPosition(x, y, w, h, occupiedPositions);
-      return { ...item, x, y, w, h };
-    });
-  };
-
-  const isPositionOccupied = (x: number, y: number, w: number, h: number, occupiedPositions: Set<string>): boolean => {
-    for (let i = 0; i < w; i++) {
-      for (let j = 0; j < h; j++) {
-        if (occupiedPositions.has(`${x + i},${y + j}`)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
-
-  const markPosition = (x: number, y: number, w: number, h: number, occupiedPositions: Set<string>): void => {
-    for (let i = 0; i < w; i++) {
-      for (let j = 0; j < h; j++) {
-        occupiedPositions.add(`${x + i},${y + j}`);
-      }
-    }
-  };
-
-  const handleLayoutChange = (newLayout: LayoutItem[]) => {
-    const validatedLayout = validateLayout(newLayout);
-    setCurrentLayout(validatedLayout);
-  };
-
-  const handleResizeStop = (layout: LayoutItem[]) => {
-    const validatedLayout = validateLayout(layout);
-    setCurrentLayout(validatedLayout);
-  };
-
-  const handleDragStop = (layout: LayoutItem[]) => {
-    const validatedLayout = validateLayout(layout);
-    setCurrentLayout(validatedLayout);
-  }; 
- 
-  const handleSettingsClick = () => {
-    setPreviousSidebarState(isSidebarOpen);
-    setIsSidebarOpen(false);
-    toggleLayoutEditing();
-  }; 
-
-  const handleNewConversation = async (newConversationId: string) => {
-    setSelectedConversationId(newConversationId);
-    setIsNewChat(false);
-    navigate(`/textChat/${newConversationId}`);
-  };
-
-  const handleConversationDelete = async (resetChat: boolean = false) => {
-    try {
-      const updatedConversations = await fetchConversations();
-      setConversations(updatedConversations);
-      if (resetChat) {
-        setSelectedConversationId(null);
-        setIsNewChat(true);
-        navigate('/textChat');
-      }
-    } catch (error) {
-      console.error('Failed to update conversations list:', error);
-    }
-  };
-
   const handleStartConversation = async () => {
     const newConversationId = await startNewConversation();
     handleConversationSelect(newConversationId);
   };
 
-  const toggleLayoutEditing = () => {
-    setIsLayoutEditing(prev => !prev);
+  const handleNewConversation = async () => {
+    try {
+      const newConversationId = await startNewConversation();
+      setSelectedConversationId(newConversationId);
+      setIsNewChat(false);
+      setMessages([]);
+      navigate(`/textChat/${newConversationId}`);
+    } catch (error) {
+      console.error('Failed to start new conversation:', error);
+    }
   };
 
   const toggleSidebar = () => {
@@ -408,55 +299,31 @@ const Home: React.FC<HomeProps> = ({
           />
           
           <div className={`main-content ${isSidebarOpen ? 'shifted-right' : ''}`}>
-            <div className="grid-container">
-              <GridLayout
-                className="layout"
-                layout={currentLayout}
-                cols={12}
-                rowHeight={(viewportHeight - 56) / 9}
-                width={viewportWidth}
-                isResizable={isLayoutEditing}
-                isDraggable={isLayoutEditing}
-                onLayoutChange={handleLayoutChange}
-                onResizeStop={handleResizeStop}
-                onDragStop={handleDragStop}
-                margin={[0, 0]}
-                containerPadding={[0, 0]}
-                compactType={null}
-                preventCollision={true} 
-              >
-                <div
-                  key="chatContainer"
-                  className={`grid-item chat-container ${isLayoutEditing ? 'edit-mode' : ''} ${!isLayoutEditing ? 'no-border' : ''}`}
-                  data-grid={{ ...currentLayout.find(item => item.i === 'chatContainer'), resizeHandles: isLayoutEditing ? ['s', 'e', 'w', 'n'] : [] }}
-                >
-                  <div className="chat-list-container">
-                    {isNewChat ? (
-                      <div className="alert alert-info text-center">
-                        새로운 대화를 시작해 보세요!
-                      </div>
-                    ) : (
-                      <ChatList
-                        messages={messages}
-                        username={username}
-                        showTime={true}
-                      />
-                    )}
+            <div className="chat-container">
+              <div className="chat-list-container">
+                {isNewChat ? (
+                  <div className="alert alert-info text-center">
+                    새로운 대화를 시작해 보세요!
                   </div>
-                  <ChatBox
-                    onNewMessage={handleNewMessage}
-                    onUpdateMessage={handleUpdateMessage}
-                    conversationId={selectedConversationId}
-                    isNewChat={isNewChat}
-                    onChatInputAttempt={handleChatInputAttempt}
-                    isLoggedIn={isLoggedIn}
-                    selectedModel={selectedModel}
-                    onNewConversation={handleNewConversation}
-                    isEditMode={isLayoutEditing}
-                    setSelectedConversationId={setSelectedConversationId}
+                ) : (
+                  <ChatList
+                    messages={messages}
+                    username={username}
+                    showTime={true}
                   />
-                </div>
-              </GridLayout>
+                )}
+              </div>
+              <ChatBox 
+                onNewMessage={handleNewMessage}
+                onUpdateMessage={handleUpdateMessage}
+                conversationId={selectedConversationId}
+                isNewChat={isNewChat}
+                onChatInputAttempt={handleChatInputAttempt}
+                isLoggedIn={isLoggedIn}
+                selectedModel={selectedModel}
+                onNewConversation={handleNewConversation} 
+                setSelectedConversationId={setSelectedConversationId}
+              />
             </div>
           </div>
         </>

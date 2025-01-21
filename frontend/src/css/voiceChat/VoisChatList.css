@@ -20,6 +20,11 @@
   flex-direction: column; /* 기존의 column-reverse를 column으로 변경 */
   overflow-y: auto;
 }
+/* Chrome, Safari and Opera */
+.vois-chat-list::-webkit-scrollbar {
+  display: none;
+}
+
 
 .voice-message-container {
   display: flex;
