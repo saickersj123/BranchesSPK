@@ -35,7 +35,7 @@ const NewSidebar: React.FC<NewSidebarProps> = ({ isOpen, onToggle }) => {
                             <FontAwesomeIcon icon={faComments} />
                             <span>문자 대화</span>
                         </div>
-                        <div className="new-menu-item" onClick={() => navigate('/scenario')}>
+                        <div className="new-menu-item" onClick={() => navigate('/scenarios')}>
                             <FontAwesomeIcon icon={faBook} />
                             <span>시나리오</span>
                         </div> 
