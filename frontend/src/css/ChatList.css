@@ -132,11 +132,11 @@
 }
 
 .chat-list {
-  padding: 20px;
-  height: calc(100vh - 180px);
+  padding: 10px 20px;
+  height: calc(100vh - 180px); /* 상하 여백 90px(50px + 40px)을 고려하여 조정 */
   overflow-y: auto;
   background-color: var(--chat-container-bg-color); 
-  margin: 0 auto;
+  margin: 50px auto 40px; /* 상단 50px, 하단 40px 마진 설정 */
   width: 80%;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */

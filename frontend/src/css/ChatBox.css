@@ -10,7 +10,7 @@
   max-width: 800px;
   padding: 10px;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 18px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
@@ -23,7 +23,9 @@
 .input-button-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 /* 채팅 컨테이너 (텍스트 입력 영역) */
@@ -74,14 +76,31 @@
 
 /* 전송 버튼 */
 .send-button {
-  margin-left: 10px;
-} 
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2196f3;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.send-button:hover {
+  background-color: #1976d2;
+}
+
+.send-button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
 
 /* SVG 아이콘 스타일 */
 .send-button svg {
-  width: 20px;
-  height: 20px;
-} 
+  color: white;
+}
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
@@ -94,5 +113,22 @@
 /* 버튼 포커스 시 아웃라인 제거 */
 .chat-box-button:focus {
   outline: none;
+  box-shadow: none;
+}
+
+.chat-input {
+  border: 1px solid #e0e0e0;
+  border-radius: 24px;
+  padding: 12px 16px;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.4;
+  max-height: 120px;
+  transition: border-color 0.2s ease;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: #2196f3;
   box-shadow: none;
 }
