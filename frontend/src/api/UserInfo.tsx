@@ -185,21 +185,4 @@ export const mypage = async (password: string): Promise<any> => {
       console.error('비밀번호 인증 실패:', error);
       throw error;
     } 
-  };
- 
-
-// 사용자 이름을 가져오는 함수
-export const getUserName = async (): Promise<string> => {
-    if(TEST_MODE) {
-        return "JEONGJIN"; // 테스트용 기본값
-    }
-    else{
-      try { 
-        const response = await axiosInstance.get('/user/profile');
-        return response.data.name; 
-      } catch (error) {
-          console.error('사용자 이름 가져오기 실패:', error);
-          return "User Name"; // 에러 발생시 기본값 반환
-      }
-    } 
-};
+  }; 

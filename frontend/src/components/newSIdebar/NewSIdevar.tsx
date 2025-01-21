@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/newsidebar/NewSidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faTrophy, faComments, faMicrophone, faBook } from '@fortawesome/free-solid-svg-icons';
-import { TbLayoutSidebar } from "react-icons/tb";
+import { TbLayoutSidebar } from "react-icons/tb"; 
 
 interface NewSidebarProps {
     isOpen: boolean;

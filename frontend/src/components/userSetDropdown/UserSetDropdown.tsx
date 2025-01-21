@@ -8,14 +8,27 @@ import {
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../../utils/Logout';
 import '../../css/userSetDropdown/UserSetDropdown.css';
+import { checkAuthStatus } from '../../api/axiosInstance';
+import { useState, useEffect } from 'react';
 
 interface UserSetDropdownProps {
-  currentPage: string;
+  currentPage: string; 
 }
 
 const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
   const navigate = useNavigate();
   const handleLogout = useLogout();
+  const [userName, setUserName] = useState<string>("");
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const userInfo = await checkAuthStatus();
+      console.log(userInfo);
+      const name = userInfo.user?.name || "";
+      setUserName(name.charAt(0).toUpperCase() + name.slice(1));
+    };
+    fetchData();
+  }, []); 
 
   const handleProfileClick = () => {
     navigate('/mypage', { state: { from: currentPage } });
@@ -29,7 +42,7 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
     <div className="voice-chat-dropdpown-settings-container">
       <Dropdown align="end">
         <Dropdown.Toggle id="voice-chat-dropdpown-setting-icon" className="voice-chat-dropdpown-settings-button">
-          AI
+          {userName.charAt(0)}
         </Dropdown.Toggle>
         <Dropdown.Menu className="voice-chat-dropdpown-menu">
           <Dropdown.Item onClick={handleProfileClick} className="voice-chat-dropdpown-list">

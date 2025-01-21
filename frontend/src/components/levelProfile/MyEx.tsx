@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { gethUserExperience, getUserName, getPastGames } from '../../api/UserInfo';
+import { gethUserExperience, getPastGames } from '../../api/UserInfo';
+import { checkAuthStatus } from '../../api/axiosInstance';
 import '../../css/levelProfilePage/MyEx.css';
 import LevelIcon from '../../utils/LevelIcon';
 import GameHistoryModal from './GameHistoryModal';
+import ProfileHeader from './ProfileHeader';
+import StatItem from './StatItem';
+import ProgressBar from './ProgressBar';
 
 interface GameHistory {
     gameName: string;
@@ -15,7 +19,7 @@ const MyEx: React.FC = () => {
     const [experience, setExperience] = useState<number | null>(null);
     const [level, setLevel] = useState<number | null>(null);
     const [completedCourses, setCompletedCourses] = useState<number>(0);
-    const [userName, setUserName] = useState<string>("USER_NAME");
+    const [userName, setUserName] = useState<string>("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [gameHistory, setGameHistory] = useState<GameHistory[]>([]);
 
@@ -28,8 +32,8 @@ const MyEx: React.FC = () => {
                 setLevel(level);
 
                 // 사용자 이름 가져오기
-                const name = await getUserName();
-                setUserName(name);
+                const name = await checkAuthStatus();
+                setUserName(name.user?.name || "");
 
                 // 게임 히스토리 가져오기 및 완료한 코스 수 계산
                 const history = await getPastGames();
@@ -51,25 +55,20 @@ const MyEx: React.FC = () => {
 
     return (
         <div className="experience-container">
-            <div className="profile-header">
-                <div className="profile-circle">B</div>
-                <div className="profile-name">{userName}</div>
-            </div>
+            <ProfileHeader userName={userName} />
             <div className="profile-stats">
-                <div 
-                    className="stat-item clickable-stat" 
+                <StatItem 
+                    value={completedCourses} 
+                    label="Courses Complete"
                     onClick={() => setIsModalOpen(true)}
+                    isClickable={true}
                 >
-                    <div className="stat-value">{completedCourses}</div>
-                    <div className="stat-label">
-                        Courses Complete
-                        <span className="view-details">👆 Click to view details</span>
-                    </div>
-                </div>
-                <div className="stat-item">
-                    <div className="stat-value">{experience || 0}</div>
-                    <div className="stat-label">Total Points</div>
-                </div>
+                    <span className="view-details">👆 Click to view details</span>
+                </StatItem>
+                <StatItem 
+                    value={experience || 0} 
+                    label="Total Points"
+                />
             </div>
             
             <div className="level-progress-container">
@@ -78,12 +77,7 @@ const MyEx: React.FC = () => {
                 </div>
                 <div className="progress-section">
                     <div className="exp-text">{calculateProgress().toFixed(1)}% exp points</div>
-                    <div className="progress-bar">
-                        <div 
-                            className="progress-fill"
-                            style={{ width: `${calculateProgress()}%` }}
-                        ></div>
-                    </div>
+                    <ProgressBar progress={calculateProgress()} />
                     <div className="level-text">LEVEL {level || 1}</div>
                 </div>
             </div>
