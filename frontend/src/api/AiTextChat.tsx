@@ -51,7 +51,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
       // 실제 서버 통신 모드
       try {
         const response = await axiosInstance.get('/chat/scenarios');
-        //console.log(response.data);  
+        //console.log(" 가지고 온 시나리오 목록 = ", response.data); 
         return response.data;
       } catch (error) {
         console.error('시나리오 목록 가져오기 실패:', error);

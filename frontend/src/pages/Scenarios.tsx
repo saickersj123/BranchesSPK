@@ -7,12 +7,16 @@ import '../css/scenarioPage/Scenarios.css';
 import '../css/set/color.css';  
 import IMAGE_NOT_FOUND from '../img/ErrorIMG.png';
 import { AIScenario } from '../@types/scenarios';
-import DifficultyFilter from '../components/ScenariosPage/DifficultyFilter'; // 추가된 부분
-import ScenarioCard from '../components/ScenariosPage/ScenarioCard'; // 추가된 부분
-import ScenarioModal from '../components/ScenariosPage/ScenarioModal'; // 추가된 부분
+import DifficultyFilter from '../components/scenariosPage/DifficultyFilter'; // 추가된 부분
+import ScenarioCard from '../components/scenariosPage/ScenarioCard'; // 추가된 부분
+import ScenarioModal from '../components/scenariosPage/ScenarioModal'; // 추가된 부분
 import { Button } from 'react-bootstrap'; // React Bootstrap의 Button 컴포넌트 추가
 
-const Scenarios: React.FC = () => {
+interface ScenariosProps {
+  page: string; // Add a prop for the page to navigate to
+}
+
+const Scenarios: React.FC<ScenariosProps> = ({ page }) => {
   const [scenarios, setScenarios] = useState<AIScenario[]>([]);
   const [filteredScenarios, setFilteredScenarios] = useState<AIScenario[]>([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState<number | null>(null);
@@ -48,11 +52,11 @@ const Scenarios: React.FC = () => {
     if (!selectedScenario) return;
     try {
       const conversation = await startNewConversationWithScenario(selectedScenario._id, selectedRole, selectedScenario.game_id, selectedScenario.difficulty);
-      navigate(`/chat/${conversation._id}`);
+      navigate(`/voiceChat/${conversation._id}`);
     } catch (error) {
       console.error('시나리오 시작에 실패했습니다:', error);
       alert('시나리오를 시작하는데 실패했습니다.');
-    }``
+    }
   };
 
   const handleScenarioClick = (scenario: AIScenario) => {
@@ -61,7 +65,7 @@ const Scenarios: React.FC = () => {
   };
 
   const handleBack = () => {
-    window.history.back();
+    navigate(`/${page}`); 
   };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {

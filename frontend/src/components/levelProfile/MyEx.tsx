@@ -15,7 +15,7 @@ const MyEx: React.FC = () => {
     const [experience, setExperience] = useState<number | null>(null);
     const [level, setLevel] = useState<number | null>(null);
     const [completedCourses, setCompletedCourses] = useState<number>(0);
-    const [userName, setUserName] = useState<string>("");
+    const [userName, setUserName] = useState<string>("USER_NAME");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [gameHistory, setGameHistory] = useState<GameHistory[]>([]);
 
