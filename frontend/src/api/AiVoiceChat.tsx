@@ -6,7 +6,7 @@ import axios from 'axios';
 export const fetchVoiceMessages = async (conversationId: string): Promise<Message[]> => {
   const response = await axiosInstance.get(`/chat/v/${conversationId}`); 
   try {
-      //console.log("받은 fetchVoiceMessages" +JSON.stringify(response.data, null, 2));
+      //  console.log("받은 fetchVoiceMessages" +JSON.stringify(response.data, null, 2));
       return response.data.conversation.chats || [];
     } catch (error) {
       console.error('메시지 가져오기 실패:', error);

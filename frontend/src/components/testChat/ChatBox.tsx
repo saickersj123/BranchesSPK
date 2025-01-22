@@ -120,8 +120,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({
           onKeyDown={handleKeyPress} 
           onFocus={handleInputFocus} 
           onBlur={handleInputBlur} 
-          placeholder="Type a message..." 
-          className="chat-container" 
+          placeholder="Type your message here..." 
+          className="chat-container-input"  
         />
         <Button 
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {

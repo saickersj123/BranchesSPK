@@ -27,7 +27,7 @@
   --other-chat-text-color: #000000; /* 다른 사람의 채팅 텍스트 색상 */
   --chat-container-bg-color: #FFFFFF; /* 채팅 컨테이너 배경 색상 */  
 
-  --chatbox-bg-color: #f0f0f0; /* 기본 ChatBox 배경 색상 */
-  --chat-input-bg-color: red; /* 입력창 배경색 */
+  --chatbox-bg-color: #EBEDF0; /* 기본 ChatBox 배경 색상 */
+  --chat-input-bg-color: #EBEDF0; /* 입력창 배경색 */
 
 }

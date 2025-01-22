@@ -7,8 +7,14 @@ interface ChatResetButtonProps {
 }
 
 const ChatResetButton: React.FC<ChatResetButtonProps> = ({ onClick }) => {
+  const handleClick = () => {
+    if (window.confirm('대화를 초기화하시겠습니까?')) {
+      onClick();
+    }
+  };
+
   return (
-    <button className="chat-reset-button" onClick={onClick}>
+    <button className="chat-reset-button" onClick={handleClick}>
       <IoRefreshOutline />
     </button>
   );
