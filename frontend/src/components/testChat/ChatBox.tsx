@@ -96,6 +96,12 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     }
   }, [shouldSendMessage, sendMessageToServer]);
 
+  useEffect(() => {
+    if (!responseWait && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [responseWait]);
+
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
