@@ -159,3 +159,17 @@
 .copy-button:hover {
   background: transparent;
 }
+
+.no-messages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #6c757d; /* Gray color for the text */
+  font-size: 18px; /* Slightly larger font size */
+  text-align: center;
+  padding: 20px; /* Add some padding for spacing */
+  background-color: #f8f9fa; /* Light background to highlight the message */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}

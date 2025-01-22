@@ -34,41 +34,47 @@ const VoisChatList: React.FC<VoisChatListProps> = ({ messages }) => {
 
   return (
     <div className="vois-chat-list">
-      {messages.map((msg, index) => (
-        <div
-          key={index}
-          className={`voice-message-container ${msg.role}`}
-        >
-          {msg.role === 'assistant' && (
-            <div className="chatbot-icon">AI</div>
-          )}
-          <div className={`voice-message ${msg.role}`}>
-            {msg.content}
-            {msg.role === 'user' ? (
-              <span className="user-time">
-                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
-              </span>
-            ) : (
-              <>
-                <span className="ai-time">
+      {messages.length === 0 ? (
+        <div className="no-messages"> 
+          🎤 음성 대화를 시작해보세요! 마이크를 사용하여 메시지를 보내보세요.
+        </div>
+      ) : (
+        messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`voice-message-container ${msg.role}`}
+          >
+            {msg.role === 'assistant' && (
+              <div className="chatbot-icon">AI</div>
+            )}
+            <div className={`voice-message ${msg.role}`}>
+              {msg.content}
+              {msg.role === 'user' ? (
+                <span className="user-time">
                   {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                 </span>
-                <button 
-                  onClick={() => navigator.clipboard.writeText(msg.content)}
-                  className="copy-button"
-                >
-                  <CopyButton />
+              ) : (
+                <>
+                  <span className="ai-time">
+                    {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                  </span>
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(msg.content)}
+                    className="copy-button"
+                  >
+                    <CopyButton />
+                  </button>
+                </>
+              )}
+              {msg.audioUrl && (
+                <button onClick={() => handlePlayAudio(msg.audioUrl)} className="voice-chat-play-button">
+                  <SoundButton />
                 </button>
-              </>
-            )}
-            {msg.audioUrl && (
-              <button onClick={() => handlePlayAudio(msg.audioUrl)} className="voice-chat-play-button">
-                <SoundButton />
-              </button>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
       <div ref={endOfMessagesRef} />
     </div>
   );
