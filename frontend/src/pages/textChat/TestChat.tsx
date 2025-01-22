@@ -5,13 +5,14 @@ import ChatList from '../../components/testChat/ChatList';
 import NewSidebar from '../../components/newSidebar/NewSidebar';
 import GridLayout from 'react-grid-layout'; 
 import useLogout from '../../utils/Logout'; 
-import { fetchMessages, fetchConversations, startNewConversation } from '../../api/AiTextChat'; 
+import { fetchMessages, fetchConversations, startNewConversation, deleteConversation, deleteAllChats } from '../../api/AiTextChat'; 
 import '../../css/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
 import { Message, Conversation } from '../../@types/types'; 
 import { IoRefreshOutline } from 'react-icons/io5';
 import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
+import ChatResetButton from '../../utils/ChatResetButton';
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -56,7 +57,7 @@ const Home: React.FC<HomeProps> = ({
   const [chatContainerBgColor, setChatContainerBgColor] = useState<string>('#FFFFFF'); 
   const [previousSidebarState, setPreviousSidebarState] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
-
+  let latestConversationId: string;
   const loadMessages = useCallback(async (conversationId: string) => {
     try {
       const fetchedMessages = await fetchMessages(conversationId);
@@ -100,7 +101,7 @@ const Home: React.FC<HomeProps> = ({
         // URL에 대화 ID가 없는 경우, 가장 최근 대화를 로드하거나 새 대화 시작
         const conversations = await fetchConversations();
         if (conversations.length > 0) {
-          const latestConversationId = conversations[conversations.length - 1]._id;
+          latestConversationId = conversations[conversations.length - 1]._id;
           await loadMessages(latestConversationId);
           setSelectedConversationId(latestConversationId);
           setIsNewChat(false);
@@ -255,10 +256,28 @@ const Home: React.FC<HomeProps> = ({
       console.error('Failed to update conversations:', error);
     }
   };
-
   const handleStartConversation = async () => {
-    const newConversationId = await startNewConversation();
-    handleConversationSelect(newConversationId);
+    if (selectedConversationId) {
+      try {
+        await deleteConversation(selectedConversationId);   
+      } catch (error) {
+        await deleteAllChats();
+      }
+    }
+    else {
+      await deleteAllChats();
+    }
+    try {
+      const newConversationId = await startNewConversation();
+      console.log("새로운 대화 아이디 : ", newConversationId);
+      setSelectedConversationId(newConversationId);
+      setIsNewChat(false);
+      setMessages([]);
+      navigate(`/textChat/${newConversationId}`, { replace: true });
+    } catch (error) { 
+      const fetchedConversations = await fetchConversations();
+      setConversations(fetchedConversations);
+    }
   };
 
   const handleNewConversation = async () => {
@@ -279,6 +298,7 @@ const Home: React.FC<HomeProps> = ({
     saveSidebarState(newState);
   };
  
+
   return (
     <main className={`main-section`}>
       {isLoggedIn ? (
@@ -337,6 +357,7 @@ const Home: React.FC<HomeProps> = ({
         handleClose={() => setShowLoginModal(false)}
         handleLogin={handleLoginClick}
       />
+      <ChatResetButton onClick={handleStartConversation} />
     </main>
   );
 };

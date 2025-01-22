@@ -2,7 +2,8 @@ import React, { useState, useEffect , useCallback} from 'react';
 import { Container } from 'react-bootstrap';
 import VoiceRecorder from '../../components/voiceChat/VoiceRecorder'; 
 import { sendVoiceMessage } from '../../api/AiVoiceChat';
-import { fetchMessages, fetchConversations, startNewConversation } from '../../api/AiTextChat';
+import { startNewConversationVoice ,fetchAllConversationIds, fetchVoiceMessages, deleteVoiceConversation, deleteAllVoiceChats } from '../../api/AiVoiceChat';
+//import { fetchMessages, fetchConversations, startNewConversation } from '../../api/AiTextChat';
 import { Message } from '../../@types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +11,8 @@ import '../../css/voiceChat/VoiceChat.css';
 import VoiceChatHeader from './VoiceChatHeader';  
 import VoisChatList from '../../components/voiceChat/VoisChatList';  
 import NewSidebar from '../../components/newSidebar/NewSidebar';
+import ChatResetButton from '../../utils/ChatResetButton';
+
 interface VoiceChatProps {
   isSidebarOpen: boolean;
 }
@@ -22,12 +25,12 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const navigate = useNavigate();
   const { conversationId: routeConversationId } = useParams<{ conversationId: string }>();
-  
+  let latestConversationId: string | null = null;
   const loadMessages = useCallback(async (conversationId: string) => {
     try {
-      const fetchedMessages = await fetchMessages(conversationId);
+      const fetchedMessages = await fetchVoiceMessages(conversationId);
       if (fetchedMessages.length > 0) {
-        //console.log("fetchedMessages : " + fetchedMessages);
+        console.log("fetchedMessages : " + fetchedMessages);
         setMessages(fetchedMessages);  
       } else {
         console.warn(`No messages found for conversation ${conversationId}`); 
@@ -44,17 +47,18 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       if (urlConversationId) {
         try {
           await loadMessages(urlConversationId);
-          //console.log("urlConversationId : " + urlConversationId);
           setSelectedConversationId(urlConversationId); 
         } catch (error) {
           console.error('Error loading conversation messages:', error);
-          // 에러 처리 (예: 사용자에게 알림)
         }
       } else {
-        // URL에 대화 ID가 없는 경우, 가장 최근 대화를 로드하거나 새 대화 시작
-        const conversations = await fetchConversations();
+        const conversations = await fetchAllConversationIds();
+        console.log("모든 대화 아이디 가져오기 응답 : ", conversations);
         if (conversations.length > 0) {
-          const latestConversationId = conversations[conversations.length - 1]._id;
+          // Sort conversations by createdAt to find the latest one
+          const latestConversation = conversations.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+          latestConversationId = latestConversation._id;
+          console.log("가장 최근 대화 아이디 : ", latestConversationId);
           await loadMessages(latestConversationId);
           setSelectedConversationId(latestConversationId); 
           navigate(`/voiceChat/${latestConversationId}`);
@@ -74,23 +78,20 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       } else {
         try {
           // 기존 대화가 있는지 먼저 확인
-          const conversations = await fetchConversations();
+          const conversations = await fetchAllConversationIds();
           if (conversations.length > 0) {
             const lastConversation = conversations[conversations.length - 1];
             setConversationId(lastConversation._id);
             navigate(`/voiceChat/${lastConversation._id}`, { replace: true });
           } else {
             // 기존 대화가 없을 때만 새 대화 시작
-            const newConvId = await startNewConversation();
+            const newConvId = await startNewConversationVoice();
             setConversationId(newConvId);
             navigate(`/voiceChat/${newConvId}`, { replace: true });
           }
         } catch (error: any) {
           console.error('대화 초기화 실패:', error);
-          // 에러 메시지가 있다면 사용자에게 표시할 수 있습니다
-          if (error.message) {
-            // TODO: 에러 메시지를 사용자에게 보여주는 로직 추가
-          }
+          // 에러 메시지가 있다면 사용자에게 표시할 수 있습니다 
         }
       }
     };
@@ -98,12 +99,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
     initializeConv();
   }, [routeConversationId, navigate]);
 
-  const handleVoiceSend = async (audioBlob: Blob) => {
-    if (!conversationId) {
-      console.error('대화 ID가 없습니다.');
-      return;
-    }
-
+  const handleVoiceSend = async (audioBlob: Blob) => { 
     try {
       const response = await sendVoiceMessage(conversationId, audioBlob);
       const newMessage: Message = { 
@@ -131,11 +127,39 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
     }
   };
 
+  const handleReset = async () => {
+    try {
+      if (latestConversationId) {
+        await deleteVoiceConversation(latestConversationId);
+        console.log(`Conversation ${latestConversationId} deleted successfully.`);
+      } else {
+        throw new Error('No latest conversation ID available.');
+      }
+    } catch (error) {
+      console.error('Failed to delete specific conversation, attempting to delete all:', error);
+      try {
+        await deleteAllVoiceChats();
+        console.log('All voice chats deleted successfully.');
+      } catch (allDeleteError) {
+        console.error('Failed to delete all voice chats:', allDeleteError);
+      }
+    }
+
+    try {
+      const newConversationId = await startNewConversationVoice();
+      console.log('New conversation started with ID:', newConversationId);
+      navigate(`/voiceChat/${newConversationId}`, { replace: true });
+    } catch (newConvError) {
+      console.error('Failed to start a new conversation:', newConvError);
+    }
+  };
+
   return (
     <Container>  
       <VoiceChatHeader 
         isSidebarOpen={sidebarOpen} 
         setIsSidebarOpen={setSidebarOpen}
+        onReset={handleReset}
       >
         <div className={`voice-chat-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
           <div className="voice-chat-content-container">
@@ -150,6 +174,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
         isOpen={sidebarOpen} 
         onToggle={() => setSidebarOpen(!sidebarOpen)}
       />
+      <ChatResetButton onClick={handleReset} />
     </Container>
   );
 };

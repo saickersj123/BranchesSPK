@@ -23,7 +23,7 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
   useEffect(() => {
     const fetchData = async () => {
       const userInfo = await checkAuthStatus();
-      console.log(userInfo);
+      //  console.log(userInfo);
       const name = userInfo.user?.name || "";
       setUserName(name.charAt(0).toUpperCase() + name.slice(1));
     };

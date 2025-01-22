@@ -1,3 +1,4 @@
+@import '../set/color.css';
 .voice-chat-header-container {
     position: fixed;
     display: flex;
@@ -46,4 +47,29 @@
   margin-bottom: 10px;
   background-color: #f9f9f9;
   margin-bottom: 10px;
+}
+
+.fixed-reset-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--button-color-2); /* A pleasant green color */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+  font-size: 24px; /* Adjust font size for the icon */
+}
+
+.fixed-reset-button:hover {
+  background-color: var(--button-color-2-hover); /* Darker green on hover */
+  transform: scale(1.1);
 }  

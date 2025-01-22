@@ -24,7 +24,7 @@ export const checkAuthStatus = async (): Promise<AuthResponse> => {
     if (response.data && response.data.message === "OK") {  
       return { valid: true, user: { name: response.data.name }, email: response.data.email };
     } else {
-      console.log("인증 상태 확인 실패:", response.data);
+      //console.log("인증 상태 확인 실패:", response.data);
       return { valid: false };
     }
   } catch (error) {

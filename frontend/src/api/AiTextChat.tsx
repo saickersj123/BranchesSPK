@@ -6,21 +6,23 @@ import { Message, Conversation } from '../@types/types';
 
 // 새로운 대화 시작 API - 새로운 대화를 시작하는 함수
 export const startNewConversation = async (): Promise<string> => {
-    try {
-      const response = await axiosInstance.get('/chat/c/new'); 
-      return response.data.conversation.id;
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        console.error('새로운 대화 시작 실패:', error.response.data);
-        throw new Error(error.response.data.cause || '새로운 대화 시작에 실패했습니다.');
-      } else {
-        console.error('새로운 대화 시작 실패:', error);
-        throw error;
-      }
+  try {
+    const messageContent = "hello~"; // 메시지를 함수 내부에서 직접 설정
+    const response = await axiosInstance.post('/chat/c/new', { message: messageContent });
+    //console.log("새로운 대화 시작 응답 :", JSON.stringify(response.data, null, 2)); // 객체를 문자열로 변환하여 출력
+    return response.data.conversation._id;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('새로운 대화 시작 실패:', error.response.data);
+      throw new Error(error.response.data.cause || '새로운 대화 시작에 실패했습니다.');
+    } else {
+      console.error('새로운 대화 시작 실패:', error);
+      throw error;
     }
-  };
-  
-  // 메시지 보내기 API => {
+  }
+};
+
+// 메시지 보내기 API => {
 export const startNewConversationwithmsg = async (messageContent: string, role: string = 'user'): Promise<Conversation> => {
   const message: Message = {
     role: role,
@@ -69,17 +71,17 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
   ): Promise<Conversation> => {
     if (TEST_MODE) {
       // 더미 데이터 모드에서 선택된 정보 출력
-      console.log('=== 시나리오 선택 정보 (테스트 모드) ===');
-      console.log('선택된 시나리오 ID:', scenarioId);
-      console.log('선택된 역할:', selectedRole);
-      console.log('게임 ID : :', game_id)
-      console.log('난이도 : :', difficulty)
+      //console.log('=== 시나리오 선택 정보 (테스트 모드) ===');
+      //console.log('선택된 시나리오 ID:', scenarioId);
+      //console.log('선택된 역할:', selectedRole);
+      //console.log('게임 ID : :', game_id)
+      //console.log('난이도 : :', difficulty)
       const selectedScenario = DUMMY_SCENARIOS.find(s => s._id === scenarioId);
       if (!selectedScenario) {
         throw new Error('선택된 시나리오를 찾을 수 없습니다.');
       }
-      console.log('선택된 시나리오 상세:', selectedScenario);
-      console.log('===============================');
+      //console.log('선택된 시나리오 상세:', selectedScenario);
+      //console.log('===============================');
       return Promise.resolve({
         _id: `temp_conversation_${Date.now()}`,
         chats: [],
@@ -125,7 +127,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
   export const deleteConversation = async (conversationId: string): Promise<any> => {
     try {
       const response = await axiosInstance.delete(`/chat/c/${conversationId}`);
-      return response.data;
+      return response.status;
     } catch (error) {
       console.error('대화 삭제 실패:', error);
       throw error;
@@ -136,7 +138,7 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
   export const deleteAllChats = async (): Promise<any> => { 
     try {
       const response = await axiosInstance.delete('/chat/all-c');
-      return response.data;
+      return response.status;
     } catch (error) {
       console.error('모든 채팅 기록 삭제 실패:', error);
       throw error;
@@ -170,6 +172,7 @@ export const starNewConversationwithmsg = async (messageContent: string, role: s
   export const fetchConversations = async (): Promise<Conversation[]> => {
     try {
       const response = await axiosInstance.get('/chat/all-c');
+      //console.log("대화 목록 가져오기 응답 : ", response.data);
       return response.data.conversations.map((conv: any) => ({
         _id: conv._id,
         chats: conv.chats,

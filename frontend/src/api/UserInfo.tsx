@@ -78,7 +78,7 @@ export const gethUserExperience = async (): Promise<{ exp: number, level: number
     else{
       try {
         const response = await axiosInstance.get('/user/past-games');
-        console.log(response.data);
+        //console.log(response.data);
         return response.data.games.map((game: any) => ({
           gameName: game.name,
           participationTime: game.participationTime,

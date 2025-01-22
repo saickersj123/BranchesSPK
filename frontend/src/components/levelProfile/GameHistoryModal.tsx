@@ -24,34 +24,33 @@ const GameHistoryModal: React.FC<GameHistoryModalProps> = ({ isOpen, onClose, hi
                     <h2>Game History</h2>
                     <button className="game-history-close-button" onClick={onClose}>&times;</button>
                 </div>
-                <div className="game-history-list">
-                    {history.map((game, index) => (
-                        <div key={index} className="game-history-item">
-                            <div className="game-history-info">
-                                <h3>{game.gameName}</h3>
-                                <p className="game-history-date">
-                                    {new Date(game.participationTime).toLocaleDateString('ko-KR', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit'
-                                    })}
-                                </p>
-                            </div>
-                            <div className="game-history-stats">
-                                <div className="game-history-stat">
-                                    <span className="game-history-label" data-type="answers">맞춘 정답의 수</span>
-                                    <span className="game-history-value">{game.correctAnswers}</span>
-                                </div>
-                                <div className="game-history-stat">
-                                    <span className="game-history-label" data-type="exp">얻은 경험치</span>
-                                    <span className="game-history-value">+{game.experienceGained}</span>
+                {history.length > 0 ? (
+                    <div className="game-history-list">
+                        {history.map((game, index) => (
+                            <div key={index} className="game-history-item">
+                                <div className="game-history-info">
+                                    <h3>{game.gameName}</h3>
+                                    <p className="game-history-date">
+                                        {new Date(game.participationTime).toLocaleDateString('ko-KR', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}
+                                    </p>
                                 </div>
                             </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="game-history-empty">
+                        <div className="game-history-info">
+                            <h3>No Game History Available</h3>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                )}
+
             </div>
         </div>
     );

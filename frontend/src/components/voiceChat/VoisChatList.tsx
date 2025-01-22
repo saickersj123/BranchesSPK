@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Message } from '../../@types/types';
-import '../../css/voiceChat/VoisChatList.css';
+import '../../css/voiceChat/VoiceChatList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LuVolume2, LuFiles } from "react-icons/lu";
 
