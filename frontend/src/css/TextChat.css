@@ -187,6 +187,7 @@
  
 
 .home-header-container {
+  transition: margin-left 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: space-between; /* 좌우 정렬을 위해 추가 */
@@ -198,28 +199,15 @@
 }
 
 .home-header-container.shifted-header {
-  margin-left: 300px; /* 사이드바 너비만큼만 이동 */
+  margin-left: 200px; /* 사이드바 너비만큼만 이동 */
+  transition: margin-left 0.3s ease;
 }
-
-.home_new_conversation {
+ 
+.brand-text-chat { 
   font-weight: bold;
-  font-size: 31px;
-  margin-left: 10px;
-  margin-right: 0.0em;
-  display: flex;         
-  align-items: center;   
-  line-height: 1;        
-  height: 43px;       
-}
-
-.home_new_conversation:hover {
-  color: green;
-} 
-
-.brand-text { 
-  font-weight: bold;
-  font-size: 1.3em;
+  font-size: 2.0em !important;
   cursor: pointer;
+  margin-left: 20px !important;
 }
 
 .home-login-container {
@@ -269,17 +257,4 @@
   gap: 10px;
   position: relative;
   z-index: 1000;
-}
-
-.home_new_conversation {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 5px;
-  position: relative;
-  z-index: 2000;
-}
-
-.home_new_conversation:hover {
-  opacity: 0.8;
-}
+} 

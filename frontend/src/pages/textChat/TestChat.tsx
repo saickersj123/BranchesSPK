@@ -2,15 +2,13 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import ChatBox from '../../components/testChat/ChatBox';
 import ChatList from '../../components/testChat/ChatList';
-import NewSidebar from '../../components/newSidebar/NewSidebar';
-import GridLayout from 'react-grid-layout'; 
+import NewSidebar from '../../components/newSidebar/NewSidebar'; 
 import useLogout from '../../utils/Logout'; 
 import { fetchMessages, fetchConversations, startNewConversation, deleteConversation, deleteAllChats } from '../../api/AiTextChat'; 
 import '../../css/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
-import { Message, Conversation } from '../../@types/types'; 
-import { IoRefreshOutline } from 'react-icons/io5';
+import { Message, Conversation } from '../../@types/types';  
 import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
 import ChatResetButton from '../../utils/ChatResetButton';
 
@@ -234,21 +232,6 @@ const Home: React.FC<HomeProps> = ({
     updateConversations();
   }, []);
 
-  const handleConversationSelect = async (conversationId: string) => {
-    try {
-      await loadMessages(conversationId);
-      setSelectedConversationId(conversationId);
-      setIsNewChat(false);
-      navigate(`/textChat/${conversationId}`);
-    } catch (error) {
-      console.error('Failed to load conversation messages:', error);
-    }
-  };
-
-  const handleModelSelect = (modelId: string) => {
-    setSelectedModel(modelId);
-  };
-
   const updateConversations = async () => {
     try {
       const fetchedConversations = await fetchConversations();
@@ -305,11 +288,8 @@ const Home: React.FC<HomeProps> = ({
       {isLoggedIn ? (
         <>
           <div className={`home-header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
-            <div className="header-left-section">
-              <span className="home_new_conversation" onClick={handleStartConversation}>
-                <IoRefreshOutline />
-              </span>
-              <span className="brand-text" onClick={() => navigate('/textChat')}>Branch-SPK</span>
+            <div className="header-left-section"> 
+              <span className="brand-text-chat" onClick={() => navigate('/textChat')}>Branch-SPK</span>
             </div>
             <UserSetDropdown currentPage="/textChat" />
           </div>

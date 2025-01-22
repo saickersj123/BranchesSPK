@@ -38,12 +38,9 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
 
   return (
     <>
-      <div className={`voice-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}>
-        <span className="voice_chat_reset" onClick={onReset}>
-          <IoRefreshOutline />
-        </span>
+      <div className={`voice-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
         <div className="voice-chat-title-logo">
-          <span className="brand-text" onClick={() => navigate('/voiceChat')}>Branch-SPK</span>
+          <span className="brand-text-voice" onClick={() => navigate('/voiceChat')}>Branch-SPK</span>
         </div>
         <UserSetDropdown currentPage="/voiceChat" />
       </div>
