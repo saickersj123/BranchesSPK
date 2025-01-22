@@ -23,8 +23,9 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
   useEffect(() => {
     const fetchData = async () => {
       const userInfo = await checkAuthStatus();
-      //  console.log(userInfo);
+      //  console.log(userInfo); 
       const name = userInfo.user?.name || "";
+      //const email = userInfo.email || "";
       setUserName(name.charAt(0).toUpperCase() + name.slice(1));
     };
     fetchData();
@@ -46,8 +47,8 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
         </Dropdown.Toggle>
         <Dropdown.Menu className="voice-chat-dropdpown-menu">
           <Dropdown.Item onClick={handleProfileClick} className="voice-chat-dropdpown-list">
-            <FontAwesomeIcon icon={faUserGear} /> 정보수정
-          </Dropdown.Item>
+            <FontAwesomeIcon icon={faUserGear} /> {userName}
+          </Dropdown.Item> 
           <Dropdown.Item onClick={handlelevelProfileClick} className="voice-chat-dropdpown-list">
             <FontAwesomeIcon icon={faChartLine} /> 경험치 확인
           </Dropdown.Item>
