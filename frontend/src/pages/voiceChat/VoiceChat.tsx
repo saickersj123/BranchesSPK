@@ -25,12 +25,13 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const navigate = useNavigate();
   const { conversationId: routeConversationId } = useParams<{ conversationId: string }>();
+  const [responseWait, setResponseWait] = useState(false);
   let latestConversationId: string | null = null;
   const loadMessages = useCallback(async (conversationId: string) => {
     try {
       const fetchedMessages = await fetchVoiceMessages(conversationId);
       if (fetchedMessages.length > 0) {
-        //console.log("fetchedMessages : " + fetchedMessages);
+        //console.log("fetchedMessages :", JSON.stringify(fetchedMessages, null, 2)); // 객체를 문자열로 변환하여 출력
         setMessages(fetchedMessages);  
       } else {
         console.warn(`No messages found for conversation ${conversationId}`); 
@@ -101,6 +102,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
 
   const handleVoiceSend = async (audioBlob: Blob) => { 
     try {
+      setResponseWait(true); // Set responseWait to true when sending a message
       const response = await sendVoiceMessage(conversationId, audioBlob);
       const newMessage: Message = { 
         role: 'user',
@@ -124,6 +126,8 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       
     } catch (error) {
       console.error('음성 메시지 전송 실패:', error);
+    } finally {
+      setResponseWait(false); // Reset responseWait to false after message is sent
     }
   };
 
@@ -166,7 +170,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
             <div className="messages-container">
               <VoisChatList messages={messages} />
             </div> 
-            <VoiceRecorder onSend={handleVoiceSend} />  
+            <VoiceRecorder onSend={handleVoiceSend} responseWait={responseWait} />  
           </div>
         </div>
       </VoiceChatHeader>

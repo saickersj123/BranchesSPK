@@ -1,14 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faStop, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faStop, faSpinner  } from '@fortawesome/free-solid-svg-icons';
 import '../../css/voiceChat/VoiceRecorder.css';
 
 interface VoiceRecorderProps {
   onSend: (audioBlob: Blob) => void;
+  responseWait: boolean;
 }
 
-const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onSend }) => {
+const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onSend, responseWait }) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [audioURL, setAudioURL] = useState<string>('');
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -52,16 +53,34 @@ const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onSend }) => {
 
   return (
     <div className="voice-recorder">
-      {!isRecording && (
-        <Button variant="primary" onClick={startRecording} className="voice-recorder-button-start">
-          <FontAwesomeIcon icon={faMicrophone} />
-        </Button>
+      {responseWait ? (
+        <div className="voice-recorder-button-wait">
+          <FontAwesomeIcon icon={faSpinner} spin />
+        </div>
+      ) : (
+        <>
+          {!isRecording && (
+            <Button
+              variant="primary"
+              onClick={startRecording}
+              className="voice-recorder-button-start"
+              disabled={responseWait}
+            >
+              <FontAwesomeIcon icon={faMicrophone} />
+            </Button>
+          )}
+          {isRecording && (
+            <Button
+              variant="danger"
+              onClick={stopRecording}
+              className="voice-recorder-button-stop"
+              disabled={responseWait}
+            >
+              <FontAwesomeIcon icon={faStop} />
+            </Button>
+          )}
+        </>
       )}
-      {isRecording && (
-        <Button variant="danger" onClick={stopRecording} className="voice-recorder-button-stop">
-          <FontAwesomeIcon icon={faStop} />
-        </Button>
-      )} 
     </div>
   );
 };
