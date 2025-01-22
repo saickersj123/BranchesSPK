@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/newsidebar/NewSidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faTrophy, faComments, faMicrophone, faBook } from '@fortawesome/free-solid-svg-icons';
-import SidebarIcon from '../../utils/SidebarIcon';
+import SidebarIcon from '../../utils/SidebarIcon'; 
 
 interface NewSidebarProps {
     isOpen: boolean;
@@ -12,6 +12,7 @@ interface NewSidebarProps {
 
 const NewSidebar: React.FC<NewSidebarProps> = ({ isOpen, onToggle }) => {
     const navigate = useNavigate();
+ 
 
     return (
         <>
@@ -38,7 +39,7 @@ const NewSidebar: React.FC<NewSidebarProps> = ({ isOpen, onToggle }) => {
                         <div className="new-menu-item" onClick={() => navigate('/scenarios')}>
                             <FontAwesomeIcon icon={faBook} />
                             <span>시나리오</span>
-                        </div> 
+                        </div>  
                     </div>
                 </div>
             </div>

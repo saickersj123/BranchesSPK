@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../css/levelProfilePage/GameHistoryModal.css';
+import '../../css/levelProfilePage/GameHistoryModal.css'; 
 
 interface GameHistory {
     gameName: string;
@@ -16,7 +16,7 @@ interface GameHistoryModalProps {
 
 const GameHistoryModal: React.FC<GameHistoryModalProps> = ({ isOpen, onClose, history }) => {
     if (!isOpen) return null;
-
+    //console.log(history);
     return (
         <div className="game-history-modal-overlay" onClick={onClose}>
             <div className="game-history-modal-content" onClick={e => e.stopPropagation()}>
@@ -39,6 +39,16 @@ const GameHistoryModal: React.FC<GameHistoryModalProps> = ({ isOpen, onClose, hi
                                             minute: '2-digit'
                                         })}
                                     </p>
+                                    <div className="game-history-stats">
+                                        <div className="game-history-stat">
+                                            <span className="game-history-label" data-type="answers">맞춘 정답의 수</span>
+                                            <span className="game-history-value">{game.correctAnswers}</span>
+                                        </div>
+                                        <div className="game-history-stat">
+                                            <span className="game-history-label" data-type="exp">얻은 경험치</span>
+                                            <span className="game-history-value">+{game.experienceGained}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ))}
