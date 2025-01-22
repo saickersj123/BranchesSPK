@@ -11,6 +11,7 @@ import DifficultyFilter from '../components/scenariosPage/DifficultyFilter'; // 
 import ScenarioCard from '../components/scenariosPage/ScenarioCard'; // 추가된 부분
 import ScenarioModal from '../components/scenariosPage/ScenarioModal'; // 추가된 부분
 import { Button } from 'react-bootstrap'; // React Bootstrap의 Button 컴포넌트 추가
+import NewSidebar from '../components/newSidebar/NewSidebar';
 
 interface ScenariosProps {
   page: string; // Add a prop for the page to navigate to
@@ -24,6 +25,7 @@ const Scenarios: React.FC<ScenariosProps> = ({ page }) => {
   const [selectedRole, setSelectedRole] = useState<'role1' | 'role2'>('role1');
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     const fetchScenarios = async () => {
@@ -62,21 +64,19 @@ const Scenarios: React.FC<ScenariosProps> = ({ page }) => {
   const handleScenarioClick = (scenario: AIScenario) => {
     setSelectedScenario(scenario);
     setShowModal(true);
-  };
-
-  const handleBack = () => {
-    navigate(`/${page}`); 
-  };
+  }; 
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = IMAGE_NOT_FOUND;
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prevState => !prevState);
+  };
+
   return (
-    <div className="scenarios-container">
-      <Button className="scenarios-backbutton" onClick={handleBack}>
-        <FontAwesomeIcon icon={faArrowLeft} />
-      </Button>
+    <div className="scenarios-container"> 
+      <NewSidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} /> 
       <h1>시나리오 선택</h1> 
       <DifficultyFilter selectedDifficulty={selectedDifficulty} onDifficultyChange={handleDifficultyFilter} />  
       <div className="scenarios-grid">
