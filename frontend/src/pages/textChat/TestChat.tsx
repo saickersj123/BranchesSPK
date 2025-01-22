@@ -122,10 +122,8 @@ const Home: React.FC<HomeProps> = ({
         const fetchedConversations = await fetchConversations();
         setConversations(fetchedConversations); 
         if (fetchedConversations.length === 0) {
-          setIsNewChat(true);
-          console.log("fetchedConversations.length === 0 호출됨");
-          if (!selectedConversationId && !isCreatingConversationRef.current) {
-            console.log("if문 통과"); 
+          setIsNewChat(true); 
+          if (!selectedConversationId && !isCreatingConversationRef.current) { 
             await handleStartConversation(); 
           }
         } else if (fetchedConversations.length > 0 && !urlConversationId) {
@@ -228,11 +226,9 @@ const Home: React.FC<HomeProps> = ({
     }
   };
 
-  const handleStartConversation = async () => { 
-    console.log("handleStartConversation 진입");
+  const handleStartConversation = async () => {  
     if (isCreatingConversationRef.current) return;
-    isCreatingConversationRef.current = true;
-    console.log("handleStartConversation  통과 호출됨");
+    isCreatingConversationRef.current = true; 
     setIsLoading(true);
     try {
       const newConversationId = await startNewConversation();
