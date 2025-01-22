@@ -22,6 +22,7 @@ interface HomeProps {
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   nicknameChanged: boolean;
   setNicknameChanged: React.Dispatch<React.SetStateAction<boolean>>;
+  loadMessages: (conversationId: string) => Promise<void>;
 }
 
 const DEFAULT_MODEL = "gpt-3.5-turbo";

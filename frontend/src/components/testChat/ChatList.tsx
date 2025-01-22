@@ -1,4 +1,3 @@
- 
 import React, { useRef, useEffect } from 'react';
 import '../../css/ChatList.css';
 import AI_Logo from '../../img/Nlogo3.png';
@@ -59,7 +58,7 @@ interface ChatListProps {
   showTime: boolean;
 }
 
-const ChatList: React.FC<ChatListProps> = ({ messages, username, showTime }) => {
+const ChatList: React.FC<ChatListProps> = React.memo(({ messages, username, showTime }) => { 
   const chatListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -96,6 +95,6 @@ const ChatList: React.FC<ChatListProps> = ({ messages, username, showTime }) => 
       )}
     </div>
   );
-};
+});
 
 export default ChatList;

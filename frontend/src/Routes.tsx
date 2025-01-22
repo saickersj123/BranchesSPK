@@ -16,9 +16,7 @@ interface RoutesProps {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  isLayoutEditing: boolean;
-  toggleLayoutEditing: () => void;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;   
   messages: Message[];
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
   username: string;
@@ -31,9 +29,7 @@ const Routes: React.FC<RoutesProps> = ({
   isLoggedIn,
   setIsLoggedIn,
   user,
-  setUser,
-  isLayoutEditing,
-  toggleLayoutEditing,
+  setUser,  
   messages,
   setMessages,
   username,
@@ -56,7 +52,7 @@ const Routes: React.FC<RoutesProps> = ({
       <Route path="/service" element={<ServicePage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
-      <Route path="/scenarios" element={<Scenarios />} />
+      <Route path="/scenarios" element={<Scenarios page={''} />} />
       <Route path="/mypage" element={<MyPage user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} username={username} setUsername={setUsername} setNicknameChanged={setNicknameChanged} />} />
       <Route path="/levelProfile" element={<LevelProfilePage />} />
       <Route path="/voiceChat" element={<VoiceChat isSidebarOpen={false} />} />
@@ -65,12 +61,8 @@ const Routes: React.FC<RoutesProps> = ({
         <TestChat
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
-          user={user}
-          isLayoutEditing={isLayoutEditing}
-          loadMessages={loadMessages}
-          messages={messages}
-          setMessages={setMessages}
-          toggleLayoutEditing={toggleLayoutEditing}
+          user={user} 
+          loadMessages={loadMessages}  
           username={username}
           setUsername={setUsername}
           nicknameChanged={nicknameChanged}
@@ -81,12 +73,8 @@ const Routes: React.FC<RoutesProps> = ({
         <TestChat
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
-          user={user}
-          isLayoutEditing={isLayoutEditing}
-          loadMessages={loadMessages}
-          messages={messages}
-          setMessages={setMessages}
-          toggleLayoutEditing={toggleLayoutEditing}
+          user={user} 
+          loadMessages={loadMessages}   
           username={username}
           setUsername={setUsername}
           nicknameChanged={nicknameChanged}
