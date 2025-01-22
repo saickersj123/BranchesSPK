@@ -30,7 +30,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
     try {
       const fetchedMessages = await fetchVoiceMessages(conversationId);
       if (fetchedMessages.length > 0) {
-        console.log("fetchedMessages : " + fetchedMessages);
+        //console.log("fetchedMessages : " + fetchedMessages);
         setMessages(fetchedMessages);  
       } else {
         console.warn(`No messages found for conversation ${conversationId}`); 
@@ -53,12 +53,12 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
         }
       } else {
         const conversations = await fetchAllConversationIds();
-        console.log("모든 대화 아이디 가져오기 응답 : ", conversations);
+       //console.log("모든 대화 아이디 가져오기 응답 : ", conversations);
         if (conversations.length > 0) {
           // Sort conversations by createdAt to find the latest one
           const latestConversation = conversations.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
           latestConversationId = latestConversation._id;
-          console.log("가장 최근 대화 아이디 : ", latestConversationId);
+         //console.log("가장 최근 대화 아이디 : ", latestConversationId);
           await loadMessages(latestConversationId);
           setSelectedConversationId(latestConversationId); 
           navigate(`/voiceChat/${latestConversationId}`);
@@ -131,7 +131,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
     try {
       if (latestConversationId) {
         await deleteVoiceConversation(latestConversationId);
-        console.log(`Conversation ${latestConversationId} deleted successfully.`);
+       //console.log(`Conversation ${latestConversationId} deleted successfully.`);
       } else {
         throw new Error('No latest conversation ID available.');
       }
@@ -139,7 +139,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       console.error('Failed to delete specific conversation, attempting to delete all:', error);
       try {
         await deleteAllVoiceChats();
-        console.log('All voice chats deleted successfully.');
+       //console.log('All voice chats deleted successfully.');
       } catch (allDeleteError) {
         console.error('Failed to delete all voice chats:', allDeleteError);
       }
@@ -147,7 +147,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
 
     try {
       const newConversationId = await startNewConversationVoice();
-      console.log('New conversation started with ID:', newConversationId);
+     //console.log('New conversation started with ID:', newConversationId);
       navigate(`/voiceChat/${newConversationId}`, { replace: true });
     } catch (newConvError) {
       console.error('Failed to start a new conversation:', newConvError);

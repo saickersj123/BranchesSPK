@@ -4,7 +4,7 @@
     position: fixed;
     left: 0;
     top: 0; 
-    width: 280px; /* 픽셀 단위로 고정 */
+    width: 250px; /* 픽셀 단위로 고정 */
     height: 100vh;
     background-color: var(--sidebar-background-color);
     color: var(--sidebar-text-color);
