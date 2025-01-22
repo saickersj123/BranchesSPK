@@ -5,7 +5,7 @@ import ChatList from '../../components/testChat/ChatList';
 import NewSidebar from '../../components/newSidebar/NewSidebar'; 
 import useLogout from '../../utils/Logout'; 
 import { fetchMessages, fetchConversations, startNewConversation, deleteConversation, deleteAllChats } from '../../api/AiTextChat'; 
-import '../../css/TextChat.css';
+import '../../css/textChat/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
 import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
 import { Message, Conversation } from '../../@types/types';  

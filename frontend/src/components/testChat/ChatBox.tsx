@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import '../../css/ChatBox.css';
+import '../../css/textChat/ChatBox.css';
 import { useNavigate } from 'react-router-dom';
 import { sendMessage, startNewConversationwithmsg } from '../../api/AiTextChat';
 import { Message } from '../../@types/types';

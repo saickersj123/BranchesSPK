@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import '../../css/LoginModal.css'
+import '../../css/login/LoginModal.css'
 
 interface LoginModalProps {
   show: boolean;

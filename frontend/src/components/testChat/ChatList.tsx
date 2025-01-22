@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import '../../css/ChatList.css';
+import '../../css/textChat/ChatList.css';
 import AI_Logo from '../../img/Nlogo3.png';
 
 interface Message {

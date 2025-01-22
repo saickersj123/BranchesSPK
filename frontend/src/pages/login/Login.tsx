@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '../../components/login/LoginForm';
-import '../../css/Login.css';
+import '../../css/login/Login.css';
 import branchImage from '../../img/PRlogo2.png';
 
 interface LoginProps {

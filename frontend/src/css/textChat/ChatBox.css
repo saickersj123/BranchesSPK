@@ -1,4 +1,4 @@
-@import './set/color.css';
+@import '../set/color.css';
 
 /* 채팅 입력 컨테이너 */
 .chat-input-container {

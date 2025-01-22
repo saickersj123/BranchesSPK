@@ -1,6 +1,6 @@
 /* Login.css */
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@800&display=swap');
-@import url('./set/color.css');
+@import url('../set/color.css');
 .loginPage { 
   height: 100%;
   display: flex;

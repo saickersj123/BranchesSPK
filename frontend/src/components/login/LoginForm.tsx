@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../api/UserInfo';
-import '../../css/Login.css'; 
+import '../../css/login/Login.css'; 
 
 interface LoginFormProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
