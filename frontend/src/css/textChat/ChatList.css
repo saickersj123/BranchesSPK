@@ -1,9 +1,10 @@
 @import url('../set/color.css');
-
+ 
 .bubble-wrapper {
   display: flex;
   flex-direction: column;
 }
+
 
 .message-container {
   display: flex;
@@ -114,6 +115,8 @@
 }
 
 .alert-info {
+  margin-left : 30%;
+  margin-right : 30%; 
   background-color: lightgrey;
 }
 
@@ -225,6 +228,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  width: 50vw !important;
   color: var(--empty-chat-text-color);
   text-align: center;
   gap: 10px;

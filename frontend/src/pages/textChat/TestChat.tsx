@@ -7,7 +7,7 @@ import useLogout from '../../utils/Logout';
 import { fetchMessages, fetchConversations, startNewConversation, deleteConversation, deleteAllChats } from '../../api/AiTextChat'; 
 import '../../css/textChat/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
-import { saveSidebarState, loadSidebarState } from '../../utils/sidebarUtils';
+import { loadSidebarState } from '../../utils/sidebarUtils';
 import { Message, Conversation } from '../../@types/types';  
 import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
 import ChatResetButton from '../../utils/ChatResetButton';
@@ -56,8 +56,11 @@ const Home: React.FC<HomeProps> = ({
   const [chatContainerBgColor, setChatContainerBgColor] = useState<string>('#FFFFFF'); 
   const [previousSidebarState, setPreviousSidebarState] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isCreatingConversationRef = useRef<boolean>(false);
   let latestConversationId: string;
-  const loadMessages = useCallback(async (conversationId: string) => {
+
+  const loadMessages = useCallback(async (conversationId: string) => { 
     try {
       const fetchedMessages = await fetchMessages(conversationId);
       if (fetchedMessages.length > 0) {
@@ -86,30 +89,18 @@ const Home: React.FC<HomeProps> = ({
   }, []);
 
   useEffect(() => {
-    const loadConversationMessages = async () => {
-      if (urlConversationId) {
+    const loadConversationMessages = async () => { 
+      if (urlConversationId) {  
         try {
-          await loadMessages(urlConversationId);
+          await loadMessages(urlConversationId);  
           setSelectedConversationId(urlConversationId);
           setIsNewChat(false);
         } catch (error) {
           console.error('Error loading conversation messages:', error);
           // 에러 처리 (예: 사용자에게 알림)
         }
-      } else {
-        // URL에 대화 ID가 없는 경우, 가장 최근 대화를 로드하거나 새 대화 시작
-        const conversations = await fetchConversations();
-        if (conversations.length > 0) {
-          latestConversationId = conversations[conversations.length - 1]._id;
-          await loadMessages(latestConversationId);
-          setSelectedConversationId(latestConversationId);
-          setIsNewChat(false);
-          navigate(`/textchat/${latestConversationId}`);
-        } else {
-          setIsNewChat(true);
-          setMessages([]);
-        }
-      }
+        return;
+      }  
     };
 
     loadConversationMessages();
@@ -129,10 +120,14 @@ const Home: React.FC<HomeProps> = ({
     const loadConversations = async () => {
       try {
         const fetchedConversations = await fetchConversations();
-        setConversations(fetchedConversations);
-  
+        setConversations(fetchedConversations); 
         if (fetchedConversations.length === 0) {
           setIsNewChat(true);
+          if (!selectedConversationId && !isCreatingConversationRef.current) {
+            isCreatingConversationRef.current = true;
+            await handleStartConversation();
+            isCreatingConversationRef.current = false;
+          }
         } else if (fetchedConversations.length > 0 && !urlConversationId) {
           setSelectedConversationId(fetchedConversations[fetchedConversations.length-1]._id);
           navigate(`/textChat/${fetchedConversations[fetchedConversations.length-1]._id}`);
@@ -144,7 +139,7 @@ const Home: React.FC<HomeProps> = ({
     if (isLoggedIn) {
       loadConversations();
     }
-  }, [isLoggedIn, navigate, urlConversationId]);
+  }, [isLoggedIn, navigate, urlConversationId, selectedConversationId]);
 
   useEffect(() => {
     const loadStyleSettings = () => {
@@ -186,14 +181,6 @@ const Home: React.FC<HomeProps> = ({
 
   const handleLoginClick = () => {
     navigate('/login');
-  };
-
-  const handleProfileClick = async () => {
-    navigate("/mypage", { state: { from: '/textChat' } });
-  }; 
-
-  const handlelevelProfileClick = async () => {
-    navigate("/levelProfile", { state: { from: '/textChat' } });
   }; 
   
   const handleChatInputAttempt = () => {
@@ -240,20 +227,11 @@ const Home: React.FC<HomeProps> = ({
       console.error('Failed to update conversations:', error);
     }
   };
-  const handleStartConversation = async () => {
-    if (selectedConversationId) {
-      try {
-        await deleteConversation(selectedConversationId);   
-      } catch (error) {
-        await deleteAllChats();
-      }
-    }
-    else {
-      await deleteAllChats();
-    }
+
+  const handleStartConversation = async () => { 
+    setIsLoading(true);
     try {
       const newConversationId = await startNewConversation();
-      console.log("새로운 대화 아이디 : ", newConversationId);
       setSelectedConversationId(newConversationId);
       setIsNewChat(false);
       setMessages([]);
@@ -262,83 +240,94 @@ const Home: React.FC<HomeProps> = ({
       const fetchedConversations = await fetchConversations();
       setConversations(fetchedConversations);
     }
+    setIsLoading(false);
   };
 
-  const handleNewConversation = async () => {
+  const handleResetConversation = async () => {
+    setIsLoading(true);
+    if (selectedConversationId) {
+      try {
+        await deleteConversation(selectedConversationId);   
+      } catch (error) {
+        await deleteAllChats();
+      }
+    } else {
+      await deleteAllChats();
+    }
     try {
       const newConversationId = await startNewConversation();
       setSelectedConversationId(newConversationId);
       setIsNewChat(false);
       setMessages([]);
-      navigate(`/textChat/${newConversationId}`);
-    } catch (error) {
-      console.error('Failed to start new conversation:', error);
+      navigate(`/textChat/${newConversationId}`, { replace: true });
+    } catch (error) { 
+      const fetchedConversations = await fetchConversations();
+      setConversations(fetchedConversations);
     }
-  };
-
-  const toggleSidebar = () => {
-    const newState = !isSidebarOpen;
-    setIsSidebarOpen(newState);
-    saveSidebarState(newState);
-  };
+    setIsLoading(false);
+  }; 
  
 
   return (
     <main className={`main-section`}>
-      {isLoggedIn ? (
-        <>
-          <div className={`home-header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
-            <div className="header-left-section"> 
-              <span className="brand-text-chat" onClick={() => navigate('/textChat')}>Branch-SPK</span>
-            </div>
-            <UserSetDropdown currentPage="/textChat" />
-          </div>
-          
-          <NewSidebar 
-            isOpen={isSidebarOpen} 
-            onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-          />
-          
-          <div className={`main-content ${isSidebarOpen ? 'shifted-right' : ''}`}>
-            <div className="chat-container">
-              <div className="chat-list-container">
-                {isNewChat ? (
-                  <div className="alert alert-info text-center">
-                    새로운 대화를 시작해 보세요!
-                  </div>
-                ) : (
-                  <ChatList
-                    messages={messages}
-                    username={username}
-                    showTime={true}
-                  />
-                )}
-              </div>
-              <ChatBox 
-                onNewMessage={handleNewMessage}
-                onUpdateMessage={handleUpdateMessage}
-                conversationId={selectedConversationId}
-                isNewChat={isNewChat}
-                onChatInputAttempt={handleChatInputAttempt}
-                isLoggedIn={isLoggedIn}
-                selectedModel={selectedModel}
-                onNewConversation={handleNewConversation} 
-                setSelectedConversationId={setSelectedConversationId}
-              />
-            </div>
-          </div>
-        </>
+      {isLoading ? (
+        <div className="loading-spinner">Loading...</div>
       ) : (
-        <div className="home-login-container">
-          <button className="home-login-button" onClick={handleLoginClick}>로그인</button>
-        </div>
+        isLoggedIn ? (
+          <>
+            <div className={`home-header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
+              <div className="header-left-section"> 
+                <span className="brand-text-chat" onClick={() => navigate('/textChat')}>Branch-SPK</span>
+              </div>
+              <UserSetDropdown currentPage="/textChat" />
+            </div>
+            
+            <NewSidebar 
+              isOpen={isSidebarOpen} 
+              onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+            />
+            
+            <div className={`main-content ${isSidebarOpen ? 'shifted-right' : ''}`}>
+              <div className="chat-container">
+                <div className="chat-list-container">
+                  {isNewChat ? (
+                    <div className="alert alert-info text-center">
+                      새로운 대화를 시작해 보세요!
+                    </div>
+                  ) : (
+                    <ChatList
+                      messages={messages}
+                      username={username}
+                      showTime={true}
+                    />
+                  )}
+                </div>
+                <ChatBox 
+                  onNewMessage={handleNewMessage}
+                  onUpdateMessage={handleUpdateMessage}
+                  conversationId={selectedConversationId}
+                  isNewChat={isNewChat}
+                  onChatInputAttempt={handleChatInputAttempt}
+                  isLoggedIn={isLoggedIn}
+                  selectedModel={selectedModel}
+                  onNewConversation={handleResetConversation} 
+                  setSelectedConversationId={setSelectedConversationId}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="home-login-container">
+            <button className="home-login-button" onClick={handleLoginClick}>로그인</button>
+          </div>
+        )
       )}
       <LoginModal
         show={showLoginModal}
         handleClose={() => setShowLoginModal(false)}
         handleLogin={handleLoginClick}
       />
-      <ChatResetButton onClick={handleStartConversation} />
+      <ChatResetButton onClick={handleResetConversation} />
     </main>
   );
 };

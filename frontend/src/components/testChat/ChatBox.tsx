@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import '../../css/textChat/ChatBox.css';
 import { useNavigate } from 'react-router-dom';
-import { sendMessage, startNewConversationwithmsg } from '../../api/AiTextChat';
+import { sendMessage   } from '../../api/AiTextChat';
 import { Message } from '../../@types/types';
 
 interface ChatBoxProps {
@@ -58,20 +58,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
 
     try {
       setResponseWait(true);
-      if (isNewChat) {
-        const response = await startNewConversationwithmsg(fullMessage);
-        const newConversationId = response._id;
-        await onNewConversation(newConversationId);
-        setSelectedConversationId(newConversationId);
-        navigate(`/chat/${newConversationId}`);
-        if (response?.chats?.length > 0) {
-          const aiMessage: Message = {
-            content: response.chats[response.chats.length - 1].content, role: 'assistant', createdAt: new Date().toISOString(),
-            audioUrl: ''
-          };
-          onUpdateMessage(aiMessage);
-        }
-      } else if (conversationId) {
+       if (conversationId) {
         const response = await sendMessage(conversationId, fullMessage);
         if (response?.length > 0) {
           const aiMessage: Message = {
