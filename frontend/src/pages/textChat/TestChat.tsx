@@ -123,10 +123,10 @@ const Home: React.FC<HomeProps> = ({
         setConversations(fetchedConversations); 
         if (fetchedConversations.length === 0) {
           setIsNewChat(true);
+          console.log("fetchedConversations.length === 0 호출됨");
           if (!selectedConversationId && !isCreatingConversationRef.current) {
-            isCreatingConversationRef.current = true;
-            await handleStartConversation();
-            isCreatingConversationRef.current = false;
+            console.log("if문 통과"); 
+            await handleStartConversation(); 
           }
         } else if (fetchedConversations.length > 0 && !urlConversationId) {
           setSelectedConversationId(fetchedConversations[fetchedConversations.length-1]._id);
@@ -229,6 +229,10 @@ const Home: React.FC<HomeProps> = ({
   };
 
   const handleStartConversation = async () => { 
+    console.log("handleStartConversation 진입");
+    if (isCreatingConversationRef.current) return;
+    isCreatingConversationRef.current = true;
+    console.log("handleStartConversation  통과 호출됨");
     setIsLoading(true);
     try {
       const newConversationId = await startNewConversation();
@@ -241,30 +245,36 @@ const Home: React.FC<HomeProps> = ({
       setConversations(fetchedConversations);
     }
     setIsLoading(false);
+    isCreatingConversationRef.current = false;
   };
 
   const handleResetConversation = async () => {
+    if (isCreatingConversationRef.current) return;
+    isCreatingConversationRef.current = true;
     setIsLoading(true);
-    if (selectedConversationId) {
-      try {
-        await deleteConversation(selectedConversationId);   
-      } catch (error) {
+
+    try {
+      if (selectedConversationId) {
+        if (messages.length > 0) {
+          await deleteConversation(selectedConversationId);
+        } else {
+          await deleteAllChats();
+        }
+      } else {
         await deleteAllChats();
       }
-    } else {
-      await deleteAllChats();
-    }
-    try {
+
       const newConversationId = await startNewConversation();
       setSelectedConversationId(newConversationId);
       setIsNewChat(false);
       setMessages([]);
       navigate(`/textChat/${newConversationId}`, { replace: true });
-    } catch (error) { 
-      const fetchedConversations = await fetchConversations();
-      setConversations(fetchedConversations);
+    } catch (error) {
+      console.error('Failed to reset conversation:', error);
     }
+
     setIsLoading(false);
+    isCreatingConversationRef.current = false;
   }; 
  
 
