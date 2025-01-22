@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/newsidebar/NewSidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faTrophy, faComments, faMicrophone, faBook } from '@fortawesome/free-solid-svg-icons';
-import { TbLayoutSidebar } from "react-icons/tb"; 
+import SidebarIcon from '../../utils/SidebarIcon';
 
 interface NewSidebarProps {
     isOpen: boolean;
@@ -16,7 +16,7 @@ const NewSidebar: React.FC<NewSidebarProps> = ({ isOpen, onToggle }) => {
     return (
         <>
             <button className="new-sidebar-toggle-button" onClick={onToggle}>
-                <TbLayoutSidebar size={35} />
+                <SidebarIcon />
             </button>
             
             <div className={`new-sidebar ${isOpen ? 'open' : ''}`}>

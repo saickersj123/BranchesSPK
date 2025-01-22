@@ -1,16 +1,17 @@
 /* VoisChatList.css */
-.voice-chat-play-button {
-  margin-left: 10px;
+.voice-chat-play-button { 
+  height: 40px;
+  width: 40px;
+  margin-left: 8px;
   padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
+  background-color: transparent; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .voice-chat-play-button:hover {
-  background-color: #0056b3;
+  background-color: transparent;
 }
 
 .vois-chat-list {
@@ -140,12 +141,21 @@
 }
 
 .copy-button {
-  color: black;
+  width: 33px; /* Set the desired width */
+  height: 30px; /* Set the desired height */
   background: transparent;
   border: none;
   cursor: pointer;
-  position: absolute; /* 절대 위치 설정 */
-  bottom: -35px; /* 말풍선 위쪽에 위치 */
-  left: 58px; /* 왼쪽 정렬 */
-  font-size: 20px; /* 작은 글씨 크기 */ 
+  position: absolute; /* Absolute positioning */
+  bottom: -35px; /* Adjust as needed */
+  left: 58px; /* Adjust as needed */
+  margin-left: 5px; 
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-button:hover {
+  background: transparent;
 }

@@ -2,7 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { Message } from '../../@types/types';
 import '../../css/voiceChat/VoiceChatList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { LuVolume2, LuFiles } from "react-icons/lu";
+import { LuFiles } from "react-icons/lu";
+import SoundButton from '../../utils/SoundButton';
+import CopyButton from '../../utils/CopyButton';
 
 interface VoisChatListProps {
   messages: Message[];
@@ -55,13 +57,13 @@ const VoisChatList: React.FC<VoisChatListProps> = ({ messages }) => {
                   onClick={() => navigator.clipboard.writeText(msg.content)}
                   className="copy-button"
                 >
-                  <LuFiles/>
+                  <CopyButton />
                 </button>
               </>
             )}
             {msg.audioUrl && (
               <button onClick={() => handlePlayAudio(msg.audioUrl)} className="voice-chat-play-button">
-                <LuVolume2/>
+                <SoundButton />
               </button>
             )}
           </div>
