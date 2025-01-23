@@ -55,8 +55,8 @@
     color: #333;
     transition: all 0.2s ease;
     border-radius: 8px;
-    margin: 2px 0;
-    font-weight: 500;
+    margin: 1px;
+    font-weight: 600;
 }
   
 .UserSet-voice-chat-dropdpown-list:hover {
@@ -66,14 +66,14 @@
 }
   
 .UserSet-voice-chat-dropdpown-list svg {
-    margin-right: 12px;
+    margin-right: 15px;
     width: 18px;
     height: 18px;
 }
 
 /* 마지막 아이템(로그아웃)에 대한 특별한 스타일 */
 .UserSet-voice-chat-dropdpown-list:last-child {
-    margin-top: 10px;
+    margin-top: 0px;
     border-top: 1px solid #eee;
     color: #dc3545;
 }
@@ -87,16 +87,16 @@
     display: flex;
     align-items: center;
     text-align: left;
-    padding: 20px; 
-    margin-bottom: 5px;
+    padding: 10px; 
+    margin-bottom: 0px;
 }
 
 .UserSet-user-icon {
     width: 80px;
     height: 80px;
     border-radius: 50%; 
-    margin-left : 10px;
-    margin-right: 10px;
+    margin-left : 15px;
+    margin-right: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -158,8 +158,8 @@
 
 .UserSet-divider {
     border: none;
-    border-top: 1px solid saddlebrown;
     margin: 10px 0;
+    border-top: 1px solid saddlebrown;
 }
 
 .scrolling-text {
