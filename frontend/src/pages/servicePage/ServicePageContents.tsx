@@ -19,7 +19,7 @@ const ServicePageContents = () => {
             </div>
     
             <div className="service-main-page-mode-button">
-            <button className="service-main-start-button" onClick={openModal}>모드 선택</button>
+            <button className="service-main-start-button" onClick={openModal}>옵션</button>
             </div>
             
             <ServiceModal isOpen={isModalOpen} onClose={closeModal} />

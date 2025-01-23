@@ -90,7 +90,7 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
             <FontAwesomeIcon icon={faUserGear} /> 내 프로필
           </Dropdown.Item> 
           <Dropdown.Item onClick={handlelevelProfileClick} className="UserSet-voice-chat-dropdpown-list">
-            <FontAwesomeIcon icon={faChartLine} /> 계정 설정
+            <FontAwesomeIcon icon={faChartLine} /> 경험치 확인
           </Dropdown.Item>
           <Dropdown.Item className="UserSet-voice-chat-dropdpown-list" onClick={handleLogout}>
             <FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃
