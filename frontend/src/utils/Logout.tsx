@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../api/UserInfo';
+import { set_routes } from '../Routes';
 
 const useLogout = () => {
     const navigate = useNavigate();
@@ -8,7 +9,7 @@ const useLogout = () => {
         try {
             const logoutSuccess = await logout();
             if (logoutSuccess) {
-                navigate('/'); // 홈으로 이동
+                navigate(set_routes.LANDING_PAGE); // 홈으로 이동
             } else {
                 console.error('로그아웃 실패');
             }

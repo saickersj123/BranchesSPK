@@ -64,16 +64,14 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
   
 // 시나리오 기반 대화 시작 API - 시나리오 기반 대화를 시작하는 함수
   export const startNewConversationWithScenario = async (
-    scenarioId: string, 
-    selectedRole: 'role1' | 'role2',
+    scenarioId: string,  
     game_id: string,
     difficulty: number
   ): Promise<Conversation> => {
     if (TEST_MODE) {
       // 더미 데이터 모드에서 선택된 정보 출력
       //console.log('=== 시나리오 선택 정보 (테스트 모드) ===');
-      //console.log('선택된 시나리오 ID:', scenarioId);
-      //console.log('선택된 역할:', selectedRole);
+      //console.log('선택된 시나리오 ID:', scenarioId); 
       //console.log('게임 ID : :', game_id)
       //console.log('난이도 : :', difficulty)
       const selectedScenario = DUMMY_SCENARIOS.find(s => s._id === scenarioId);
@@ -83,17 +81,17 @@ export const getAllScenarios = async (): Promise<AIScenario[]> => {
       //console.log('선택된 시나리오 상세:', selectedScenario);
       //console.log('===============================');
       return Promise.resolve({
+        conversation: 12345667,
         _id: `temp_conversation_${Date.now()}`,
         chats: [],
         createdAt: new Date().toISOString(),
-        title: selectedScenario.name // Assuming title is a required property in Conversation
+        title: selectedScenario.name // Assuming title is a required property in Conversation 
       });
     } else {
       // 실제 서버 통신 모드
       try {
         const response = await axiosInstance.post('/chat/c/new', {
-          scenarioId,
-          selectedRole,
+          scenarioId, 
           game_id,
           difficulty
         });

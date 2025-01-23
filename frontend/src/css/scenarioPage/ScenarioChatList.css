@@ -1,5 +1,5 @@
 /* VoisChatList.css */
-.voice-chat-play-button { 
+.scenario-chat-play-button { 
   height: 40px;
   width: 40px;
   margin-left: 8px;
@@ -10,11 +10,11 @@
   cursor: pointer;
 }
 
-.voice-chat-play-button:hover {
+.scenario-chat-play-button:hover {
   background-color: transparent;
 }
 
-.voice-chat-list {
+.scenario-chat-list {
   margin-bottom: 0px;
   height: 100%;
   display: flex;
@@ -22,29 +22,29 @@
   overflow-y: auto;
 }
 /* Chrome, Safari and Opera */
-.voice-chat-list::-webkit-scrollbar {
+.scenario-chat-list::-webkit-scrollbar {
   display: none;
 }
 
 
-.voice-message-container {
+.scenario-message-container {
   display: flex;
   margin-bottom: 5px; /* 여백을 줄이기 위해 10px에서 5px로 변경 */
   width: 100%; /* 부모의 100% 너비 사용 */
 }
 
-.voice-message-container.user {
+.scenario-message-container.user {
   justify-content: flex-end; /* 사용자 메시지: 오른쪽 끝으로 정렬 */ 
   margin-top: 5px; /* 상단 여백을 줄이기 위해 추가 */
   margin-bottom: 5px; /* 하단 여백을 줄이기 위해 추가 */
 }
 
-.voice-message-container.ai {
+.scenario-message-container.ai {
   justify-content: flex-start; /* AI 메시지: 왼쪽 끝으로 정렬 */
   background-color: #151d0d; /* AI 메시지 색상 */
 }
 
-.voice-message { 
+.scenario-message { 
   padding: 8px 12px;
   border-radius: 16px;
   max-width: 80%;
@@ -52,7 +52,7 @@
   background-color: inherit; /* 부모의 배경색을 상속받음 */
 }
 
-.voice-message.user { 
+.scenario-message.user { 
   margin-top: 10px; 
   background-color: #b2ebf2; /* 사용자 메시지 배경색 */
   text-align: left; /* 사용자 메시지 오른쪽 정렬 */
@@ -66,7 +66,7 @@
   margin-bottom: 5px; /* 하단 여백 */
 }
 
-.voice-message.assistant {
+.scenario-message.assistant {
   margin-top: 10px;
   background-color: #c8e6c9; /* AI 메시지 배경색 */
   text-align: left; /* AI 메시지 왼쪽 정렬 */
@@ -88,7 +88,7 @@
   font-weight : bold;
 } 
 
-.voice-message small {
+.scenario-message small {
   position: absolute;
   bottom: -15px;
   right: 10px;
@@ -125,7 +125,7 @@
   color: #6c757d; /* 회색 색상 */
 }
 
-.voice-chat-play-button {
+.scenario-chat-play-button {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -136,7 +136,7 @@
   color: black;
 }
 
-.voice-chat-play-button:hover {
+.scenario-chat-play-button:hover {
   background: transparent;
 }
 

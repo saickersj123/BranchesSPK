@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../css/scenarioPage/Scenarios.css';
+import '../../css/scenarioPage/ScenarioList.css';
 import '../../css/scenarioPage/DifficultyFilter.css'; 
 
 interface DifficultyFilterProps {

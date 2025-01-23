@@ -10,7 +10,7 @@ import useLogout from '../../utils/Logout';
 import '../../css/userSetDropdown/UserSetDropdown.css';
 import { checkAuthStatus } from '../../api/axiosInstance';
 import { useState, useEffect } from 'react';
-
+import { set_routes } from '../../Routes';
 interface UserSetDropdownProps {
   currentPage: string; 
 }
@@ -32,11 +32,11 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
   }, []); 
 
   const handleProfileClick = () => {
-    navigate('/mypage', { state: { from: currentPage } });
+    navigate(set_routes.MY_PAGE, { state: { from: currentPage } });
   };
 
   const handlelevelProfileClick = async () => {
-    navigate("/levelProfile", { state: { from: currentPage } });
+    navigate(set_routes.LEVEL_PROFILE_PAGE, { state: { from: currentPage } });
   };
 
   return (

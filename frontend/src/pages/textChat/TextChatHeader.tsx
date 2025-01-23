@@ -1,7 +1,7 @@
 import React from 'react'; 
-import '../../css/voiceChat/VoiceChatHeader.css';  
+import '../../css/textChat/TextChatHeader.css';  
 import { useNavigate } from 'react-router-dom';
-import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
+import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown'; 
 import { set_routes } from '../../Routes';
 
 interface VoiceChatHeaderProps {
@@ -21,11 +21,11 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
 
   return (
     <>
-      <div className={`voice-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
-        <div className="voice-chat-title-logo">
-          <span className="brand-text-voice" onClick={() => navigate(set_routes.VOICE_CHAT)}>Branches-SPK</span>
+      <div className={`text-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
+        <div className="text-chat-title-logo">
+          <span className="brand-text-text" onClick={() => navigate(set_routes.TEXT_CHAT)}>Branches-SPK</span>
         </div>
-        <UserSetDropdown currentPage="/voiceChat" />
+        <UserSetDropdown currentPage="/textChat" />
       </div>
       <div className={`new-main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         {children}

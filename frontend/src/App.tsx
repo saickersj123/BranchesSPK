@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './css/App.css';
 import Routes from './Routes';
-import { checkAuthStatus } from './api/axiosInstance';
-import { fetchMessages } from './api/AiTextChat';
+import { checkAuthStatus } from './api/axiosInstance'; 
 import { Message } from './@types/types';
 
 export interface User {

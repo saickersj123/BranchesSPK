@@ -8,7 +8,7 @@ import { Message } from '../../@types/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
-import VoiceChatHeader from './VoiceChatHeader';  
+import VoiceChatHeader from './ScenarioHeader';  
 import VoisChatList from '../../components/voiceChat/VoisChatList';  
 import NewSidebar from '../../components/newSidebar/NewSidebar';
 import ChatResetButton from '../../utils/ChatResetButton';
@@ -17,7 +17,7 @@ interface VoiceChatProps {
   isSidebarOpen: boolean;
 }
 
-const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
+const ScenarioChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>(''); 
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
@@ -143,9 +143,9 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       console.error('Failed to delete specific conversation, attempting to delete all:', error);
       try {
         await deleteAllVoiceChats();
-       //console.log('All voice chats deleted successfully.');
+       //console.log('All scenario chats deleted successfully.');
       } catch (allDeleteError) {
-        console.error('Failed to delete all voice chats:', allDeleteError);
+        console.error('Failed to delete all scenario chats:', allDeleteError);
       }
     }
 
@@ -165,8 +165,8 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
         setIsSidebarOpen={setSidebarOpen}
         onReset={handleReset}
       >
-        <div className={`voice-chat-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
-          <div className="voice-chat-content-container">
+        <div className={`scenario-chat-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
+          <div className="scenario-chat-content-container">
             <div className="messages-container">
               <VoisChatList messages={messages} />
             </div> 
@@ -183,4 +183,4 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
   );
 };
 
-export default VoiceChat;
+export default ScenarioChat;

@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../../css/levelProfilePage/levelProfilePage.css';
 import '../../css/levelProfilePage/levelProfilePageHeader.css';
 import logo from '../../img/branch_BL.png';
+import { set_routes } from '../../Routes';
 
 interface LocationState {
   from?: string;
@@ -15,10 +16,18 @@ const LevelProfilePage = () => {
   const state = location.state as LocationState;
 
   const handleBackClick = () => {
-    if (state && state.from) {
-      navigate(state.from);
-    } else {
-      navigate('/service');
+    if (state && state.from) { 
+      if (state.from == 'textChat' || state.from == '/textChat') {
+        navigate(set_routes.TEXT_CHAT);
+      } else if (state.from == 'voiceChat' || state.from == '/voiceChat') {
+        navigate(set_routes.VOICE_CHAT);
+      }
+      else  {
+        navigate(state.from);
+      }
+    } 
+    else {
+      navigate(set_routes.SERVICE_PAGE);
     }
   };
 

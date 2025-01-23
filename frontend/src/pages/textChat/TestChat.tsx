@@ -8,9 +8,10 @@ import { fetchMessages, fetchConversations, startNewConversation, deleteConversa
 import '../../css/textChat/TextChat.css';
 import LoginModal from '../../components/login/LoginModal';
 import { loadSidebarState } from '../../utils/sidebarUtils';
-import { Message, Conversation } from '../../@types/types';  
-import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
+import { Message, Conversation } from '../../@types/types';   
 import ChatResetButton from '../../utils/ChatResetButton';
+import { set_routes } from '../../Routes';
+import TextChatHeader from './TextChatHeader';
 
 interface HomeProps {
   isLoggedIn: boolean;
@@ -128,7 +129,7 @@ const Home: React.FC<HomeProps> = ({
           }
         } else if (fetchedConversations.length > 0 && !urlConversationId) {
           setSelectedConversationId(fetchedConversations[fetchedConversations.length-1]._id);
-          navigate(`/textChat/${fetchedConversations[fetchedConversations.length-1]._id}`);
+          navigate(`${set_routes.TEXT_CHAT}/${fetchedConversations[fetchedConversations.length-1]._id}`);
         }
       } catch (error) {
         console.error('Failed to fetch conversations:', error);
@@ -178,7 +179,7 @@ const Home: React.FC<HomeProps> = ({
   }, [isLoggedIn]);
 
   const handleLoginClick = () => {
-    navigate('/login');
+    navigate(set_routes.LOGIN);
   }; 
   
   const handleChatInputAttempt = () => {
@@ -235,7 +236,7 @@ const Home: React.FC<HomeProps> = ({
       setSelectedConversationId(newConversationId);
       setIsNewChat(false);
       setMessages([]);
-      navigate(`/textChat/${newConversationId}`, { replace: true });
+      navigate(`${set_routes.TEXT_CHAT}/${newConversationId}`, { replace: true });
     } catch (error) { 
       const fetchedConversations = await fetchConversations();
       setConversations(fetchedConversations);
@@ -264,7 +265,7 @@ const Home: React.FC<HomeProps> = ({
       setSelectedConversationId(newConversationId);
       setIsNewChat(false);
       setMessages([]);
-      navigate(`/textChat/${newConversationId}`, { replace: true });
+      navigate(`${set_routes.TEXT_CHAT}/${newConversationId}`, { replace: true });
     } catch (error) {
       console.error('Failed to reset conversation:', error);
     }
@@ -281,12 +282,11 @@ const Home: React.FC<HomeProps> = ({
       ) : (
         isLoggedIn ? (
           <>
-            <div className={`home-header-container ${isSidebarOpen ? 'shifted-header' : ''}`}>
-              <div className="header-left-section"> 
-                <span className="brand-text-chat" onClick={() => navigate('/textChat')}>Branch-SPK</span>
-              </div>
-              <UserSetDropdown currentPage="/textChat" />
-            </div>
+            <TextChatHeader 
+              isSidebarOpen={isSidebarOpen} 
+              setIsSidebarOpen={setIsSidebarOpen}
+              onReset={handleResetConversation}
+            />
             
             <NewSidebar 
               isOpen={isSidebarOpen} 

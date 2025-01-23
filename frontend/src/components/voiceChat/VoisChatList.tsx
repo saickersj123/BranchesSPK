@@ -31,7 +31,7 @@ const VoisChatList: React.FC<VoisChatListProps> = ({ messages }) => {
   };
 
   return (
-    <div className="vois-chat-list">
+    <div className="voice-chat-list">
       {messages.length === 0 ? (
         <div className="no-messages"> 
           🎤 음성 대화를 시작해보세요! 마이크를 사용하여 메시지를 보내보세요.

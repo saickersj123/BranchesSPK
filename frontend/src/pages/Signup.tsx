@@ -7,7 +7,7 @@ import branchImage from '../img/PRlogo2.png';
 import AlertMessage from '../components/signup/AlterMessage';
 import FormInput from '../components/signup/FormInput'; // 변경된 부분
 import SignupButton from '../components/signup/SignupButton';
-
+import { set_routes } from '../Routes';
 const Signup: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -46,7 +46,7 @@ const Signup: React.FC = () => {
       if (response && response.success) {
         setSuccess(true);
         setTimeout(() => {
-            navigate('/login');
+            navigate(set_routes.LOGIN);
         }, 1000);
         setError('');
       } else {
@@ -73,7 +73,7 @@ const Signup: React.FC = () => {
             src={branchImage}
             alt="Logo"
             className="signupLogo"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(set_routes.LANDING_PAGE)}
           />
         </div>
       </div>

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import '../../css/login/LoginModal.css'
+import { set_routes } from '../../Routes';
 
 interface LoginModalProps {
   show: boolean;
@@ -15,7 +16,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ show, handleClose, handleLogin 
 
   const handleLoginClick = () => {
     handleClose();
-    navigate('/login');
+    navigate(set_routes.LOGIN);
   };
 
   useEffect(() => {
