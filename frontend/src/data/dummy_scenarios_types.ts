@@ -13,6 +13,7 @@ export const DUMMY_SCENARIOS: AIScenario[] = [
       roles: { role1: "선생님", role2: "학생" },
       description: "영어 회화를 연습하는 시나리오입니다.",
       imageUrl: defaultBgImage,
+      selected_game: { true: "예", false: "아니오" },
       difficulty: 1,
     },
     {
@@ -21,6 +22,7 @@ export const DUMMY_SCENARIOS: AIScenario[] = [
       roles: { role1: "면접관", role2: "지원자" },
       description: "직장 면접 상황을 연습하는 시나리오입니다.",
       imageUrl: companyinterview,
+      selected_game: { true: "예", false: "아니오" },
       difficulty: 3,
     },
     {
@@ -29,6 +31,7 @@ export const DUMMY_SCENARIOS: AIScenario[] = [
       roles: { role1: "알바생", role2: "손님" },
       description: "카페 알바 상황을 연습하는 시나리오입니다.",
       imageUrl: cafe,
+      selected_game: { true: "예", false: "아니오" },
       difficulty: 1,
     },
     {
@@ -37,6 +40,7 @@ export const DUMMY_SCENARIOS: AIScenario[] = [
       roles: { role1: "직원", role2: "손님" },
       description: "숙소 체크인 상황을 연습하는 시나리오입니다.",
       imageUrl: checkin,
+      selected_game: { true: "예", false: "아니오" },
       difficulty: 2,
     },
     {
@@ -45,6 +49,7 @@ export const DUMMY_SCENARIOS: AIScenario[] = [
       roles: { role1: "직원", role2: "고객" },
       description: "영화 예매 상황을 연습하는 시나리오입니다.",
       imageUrl: cinema,
+      selected_game: { true: "예", false: "아니오" },
       difficulty: 1,
     },
     {
@@ -53,6 +58,7 @@ export const DUMMY_SCENARIOS: AIScenario[] = [
       roles: { role1: "직원", role2: "손님" },
       description: "유실물 센터 상황을 연습하는 시나리오입니다.",
       imageUrl: null,
+      selected_game: { true: "예", false: "아니오" },
       difficulty: 2,
     },
   ];

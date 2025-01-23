@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../css/MainPage.css';
 import branchImage from '../img/branch_BL.png';
 import { checkAuthStatus } from '../api/axiosInstance';
+import { set_routes } from '../Routes';
 
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const MainPage: React.FC = () => {
       try {
         const response = await checkAuthStatus();
         if (response.valid) {
-          navigate('/service');
+          navigate(set_routes.SERVICE_PAGE);
         }
       } catch (error) {
         console.error('Error checking auth status:', error);
@@ -25,11 +26,11 @@ const MainPage: React.FC = () => {
   }, [navigate]);
 
   const LoginClick = useCallback(() => {
-    navigate('/login');
+    navigate(set_routes.LOGIN);
   }, [navigate]);
 
   const NewSignupClick = useCallback(() => {
-    navigate('/signup');
+    navigate(set_routes.SIGNUP);
   }, [navigate]);
 
   const handleClick = () => {

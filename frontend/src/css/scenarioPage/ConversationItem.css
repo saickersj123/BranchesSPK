@@ -1,0 +1,14 @@
+.conversation-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s;
+  }
+  
+  .conversation-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .conversation-item.active {
+    background-color: #d1e7dd;
+  }

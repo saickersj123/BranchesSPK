@@ -86,12 +86,21 @@
   bottom: 0;
   left: 0;
   background-color: transparent;
-  transition: height 0.3s, background-color 0.3s;
+  transition: height 0.3s, background-color 0.3s; 
 }
 
-.My-inputField:focus + .MainUnderline {
+/* 입력 필드가 비어있을 때 언더라인 표시 */
+.My-inputField:placeholder-shown + .MainUnderline {
   height: 5.71%;
-  background-color: #007f3a;
+  background-color: var(--input-field-underline-color);
+  border-radius: 0 0 8px 8px; /* 하단 굴곡 추가 */
+}
+
+/* focus 스타일 제거 (필요한 경우) */
+.MainUnderline {
+  height: 0;
+  background-color: transparent;
+  border-radius: 0 0 8px 8px; /* 하단 굴곡 추가 */
 }
 
 .edit-button {
@@ -113,11 +122,12 @@
   justify-content: space-between;
   width: 100%;
   margin-top: 15px; /* 마진 확대 */
+  
 }
 
 .my-save-button {
   width: 49%; 
-  background-color: #007f3a; 
+  background-color: var(--button-color); 
   border: none;
   border-radius: 6px;
   color: #fff;
@@ -129,7 +139,7 @@
 }
 
 .my-save-button:hover {
-  background-color: #005a1e; 
+  background-color: var(--button-hover-color); 
   box-shadow: 0px 6px 20px rgba(0, 127, 58, 0.3);
 }
 
@@ -171,7 +181,7 @@
   box-shadow: 0px 4px 30px rgba(38, 58, 67, 0.15);
   border-radius: 12px;
   border: none;
-  background-color: #b5b5b6;
+  background-color: var(--button-color);
   height: 70px; /* 버튼 높이 확대 */
   display: flex;
   align-items: center;
@@ -185,7 +195,7 @@
 }
 
 .MypageButton:hover, .MypageButton:active {
-  background-color: #111111 !important;
+  background-color: var(--button-hover-color) !important;
 } 
 
 

@@ -18,6 +18,7 @@ export interface User {
 export interface AuthResponse {
   valid: boolean;
   user?: User;
+  email?: string;
 }
 
 export interface ChatboxCoordinates {

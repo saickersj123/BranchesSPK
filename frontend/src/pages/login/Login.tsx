@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '../../components/login/LoginForm';
-import '../../css/Login.css';
+import '../../css/login/Login.css';
 import branchImage from '../../img/PRlogo2.png';
+import { set_routes } from '../../Routes';
 
 interface LoginProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +18,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn, setUser }) => {
       <div className='loginPage'>
         <div className="login-center-box">
           <div className='logininputGroup'>
-            <img src={branchImage} alt="logo" onClick={() => navigate('/')}/>
+            <img src={branchImage} alt="logo" onClick={() => navigate(set_routes.LANDING_PAGE)}/>
           </div>
         </div> 
         <div className="login-center-box">

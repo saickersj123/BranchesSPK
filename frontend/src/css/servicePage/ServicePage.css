@@ -1,0 +1,26 @@
+.service-main-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+} 
+
+.service-main-page-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  position: relative;
+  height: 20vh; /* 전체 높이의 20% */
+  min-height: 100px; /* 최소 높이 설정 */
+}
+
+.service-main-page-contents {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 상단에서부터 컨텐츠 시작 */
+  width: 100%;
+  height: 80vh; /* 전체 높이의 80% */
+  flex: 1; /* 남은 공간 모두 차지 */
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 */
+}

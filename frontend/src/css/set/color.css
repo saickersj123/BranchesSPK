@@ -1,18 +1,19 @@
-:root { 
-  
+:root {  
+  --input-field-underline-color : #8CD2F5;
+
   --main-background-color: #ffffff; /* 전체 배경 색상 */
   --button-color: #007AFF; /* 마이크 버튼 색상 */
-  --button-disabled-color: #6c757d; /* 버튼 비활성화 색상 */
-  --button-hover-color: #8CD2F5; /* 버튼 호버 색상 */
+  --button-disabled-color: #6c757d; /* 버튼 비활성화 색상 */  
+  --button-hover-color: #B5B5B6; /* 버튼 호버 색상 */
   --button-stop-color: #d64955; /* 버튼 멈춤 색상 */
   --button-stop-hover-color: #d7959a; /* 버튼 멈춤 호버 색상 */
 
   --button-color-2: #007AFF; /* 로그인, 회원가입쪽의 버튼 색상 */ 
-  --button-color-2-hover: #8CD2F5; /* 로그인, 회원가입쪽의 버튼 색상 */
+  --button-color-2-hover: #B5B5B6; /* 로그인, 회원가입쪽의 버튼 색상 */
 
   --sidebar-background-color: #8CD2F5; /* 사이드바 색상 */
   --sidebar-text-color: #F0F0F0; /* 사이드바 텍스트 색상 */
-  --sidebar-text-hover-color: #007AFF; /* 사이드바 호버 색상 */
+  --sidebar-text-hover-color: #000102; /* 사이드바 호버 색상 */
 
   --main-loading-page-color: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
   --ai-profile-color:  linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%); /* AI 프로필 배경 색상  */
@@ -21,12 +22,30 @@
   --level-profile-bg-color: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%); /* 레벨 프로필 배경 색상  */
   
   --my-chat-bubble-color: #F0F0F0; /* 내 채팅 말풍선 색상 */
-  --my-chat-text-color: red; /* 내 채팅 텍스트 색상 */
+  --my-chat-text-color: rgb(11, 5, 5); /* 내 채팅 텍스트 색상 */
   --other-chat-bubble-color: #DCF8C6; /* 다른 사람의 채팅 말풍선 색상 */
   --other-chat-text-color: #000000; /* 다른 사람의 채팅 텍스트 색상 */
   --chat-container-bg-color: #FFFFFF; /* 채팅 컨테이너 배경 색상 */  
 
-  --chatbox-bg-color: #f0f0f0; /* 기본 ChatBox 배경 색상 */
-  --chat-input-bg-color: red; /* 입력창 배경색 */
+  --chat-input-bg-color: #EBEDF0; /* 기본 ChatBox 배경 색상 */
+  --chat-input-field-color: #EBEDF0; /* 입력창 배경색 */
 
+  /* 시나리오 - 음성대화 페이지의 색상 정려*/
+  --sv-my-chat-bubble-color: #F0F0F0; /* 내 채팅 말풍선 색상 */
+  --sv-my-chat-text-color: rgb(11, 5, 5); /* 내 채팅 텍스트 색상 */
+  --sv-other-chat-bubble-color: #DCF8C6; /* 다른 사람의 채팅 말풍선 색상 */
+  --sv-other-chat-text-color: #000000; /* 다른 사람의 채팅 텍스트 색상 */
+  --sv-icon-color: #ffffff; /* 아이콘 색상 */
+
+
+  /* 우상단의 드랍다운과 관련된 색상 */
+  --user-set-dropdown-user-level-bar: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
+  --user-set-dropdown-icon :  linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
+  --user-set-dropdown-bg-color: #2C2F4880; 
+  
+  --user-set-dropdown-text-color: #ffffff;
+  --user-set-dropdown-text-color-hover: rgb(0, 0, 0);
+
+  --user-set-dropdown-logout-color: rgb(185, 0, 0);
+  --user-set-dropdown-logout-color-hover: #030000;
 }

@@ -8,7 +8,7 @@ import '../css/mypage/Mypage.css';
 import { updatename, updatePassword, mypage } from '../api/UserInfo';
 import branchImage from '../img/PRlogo2.png'; 
 import { User } from '../@types/types';
-
+import { set_routes } from '../Routes';
 interface MyPageProps {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -126,9 +126,17 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
 
   const handleBackClick = () => {
     if (state && state.from) {
-      navigate(state.from);
+      if (state.from == 'textChat' || state.from == '/textChat') {
+        navigate(set_routes.TEXT_CHAT);
+      } 
+      else if (state.from == 'voiceChat' || state.from == '/voiceChat') {
+        navigate(set_routes.VOICE_CHAT);
+      } 
+      else {
+        navigate(state.from);
+      }
     } else {
-      navigate('/voiceChat');
+      navigate(set_routes.VOICE_CHAT);
     }
   };
 
@@ -155,6 +163,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
                 onFocus={() => setIsPasswordFocused(true)}
                 onBlur={() => setIsPasswordFocused(false)}
                 className="My-inputField"
+                placeholder=" "
               />
               <div className={`MainUnderline ${isPasswordFocused ? 'focused' : ''}`}></div>
             </Form.Group>
@@ -185,6 +194,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
                     onFocus={() => setIsNewnameFocused(true)}
                     onBlur={() => setIsNewnameFocused(false)}
                     className="My-inputField"
+                    placeholder=" "
                   />
                   <div className={`MainUnderline ${isNewnameFocused ? 'focused' : ''}`}></div>
                 </Form.Group>
@@ -215,6 +225,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
                     onFocus={() => setIsNewPasswordFocused(true)}
                     onBlur={() => setIsNewPasswordFocused(false)}
                     className="My-inputField"
+                    placeholder=" "
                   />
                   <div className={`MainUnderline ${isNewPasswordFocused ? 'focused' : ''}`}></div>
                 </Form.Group>
@@ -227,6 +238,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
                     onFocus={() => setIsConfirmNewPasswordFocused(true)}
                     onBlur={() => setIsConfirmNewPasswordFocused(false)}
                     className="My-inputField"
+                    placeholder=" "
                   />
                   <div className={`MainUnderline ${isConfirmNewPasswordFocused ? 'focused' : ''}`}></div>
                 </Form.Group>

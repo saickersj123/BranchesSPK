@@ -1,21 +1,153 @@
+@import '../set/color.css';
+
 .experience-container {
-    text-align: center;
-    margin: 20px;
-    padding: 20px;
-    border: 2px solid #4CAF50; /* Green border */
-    border-radius: 10px; /* Rounded corners */
-    background-color: #f9f9f9; /* Light background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    position: absolute;
+    width: 42.4vw;
+    height: 68vh;
+    left: 29.3vw;
+    top: 21.9vh;
+    padding: 2.5vh 1vw;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-rows: 32% 31% 31%;  /* 상단 비율 증가, 중단 비율 감소 */
+    gap: 2vh;  /* 그리드 아이템 간 간격 추가 */
 }
 
-.experience-title {
-    font-size: 24px;
-    color: #4CAF50; /* Green color */
+/* 상단 영역 */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 3vw; 
+    margin-left: 1vw; 
+}
+
+.profile-circle {
+    width: 8vw;
+    height: 8vw;
+    background: var(--my-profile-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6vw;   
+    color: white;
     font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.experience-value {
-    font-size: 20px;
-    color: #333; /* Darker text color */
-    margin-top: 10px;
+.profile-name {
+    font-size: 2.5vw;
+    font-weight: bold;
+    color: #333; 
+}
+
+/* 중단 영역 */
+.profile-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5vh 1vw;  /* 상하 패딩 감소 */
+    align-items: center;
+    text-align: center;
+    background: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 2.5vw;
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-label {
+    font-size: 1vw;
+    color: #666;
+    margin-top: 0.5vh;
+}
+
+/* 하단 영역 */
+.level-progress-container {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    padding: 2vh 1.5vw;
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin: 1vh 0;
+}
+
+.level-icon-container {
+    background:transparent;
+    width: 3.5vw;
+    height: 3.5vw;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.level-icon {
+    font-size: 1.8vw;
+    color: white;
+}
+
+.progress-section {
+    flex: 1;
+}
+
+.progress-bar {
+    height: 1vh;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1vh 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #5CEBDF, #3EAEFF);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.level-text {
+    font-size: 1.8vw;
+    font-weight: bold;
+    color: #2E7D32;
+}
+
+.exp-text {
+    color: #4CAF50;
+    font-size: 1.2vw;
+    margin-bottom: 0.5vh;
+}
+
+.clickable-stat {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.clickable-stat:hover {
+    transform: translateY(-2px);
+    background: rgba(37, 174, 117, 0.1);
+}
+
+.view-details {
+    display: block;
+    font-size: 0.8rem;
+    color: #25AE75;
+    margin-top: 4px;
+    opacity: 0.8;
+}
+
+.clickable-stat:hover .view-details {
+    opacity: 1;
 }

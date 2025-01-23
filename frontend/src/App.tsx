@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './css/App.css';
 import Routes from './Routes';
-import { checkAuthStatus } from './api/axiosInstance';
-import { fetchMessages } from './api/AiTextChat';
+import { checkAuthStatus } from './api/axiosInstance'; 
 import { Message } from './@types/types';
 
 export interface User {
@@ -12,8 +11,7 @@ export interface User {
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [isLayoutEditing, setIsLayoutEditing] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null); 
   const [messages, setMessages] = useState<Message[]>([]);
   const [username, setUsername] = useState<string>('');
   const [nicknameChanged, setNicknameChanged] = useState<boolean>(false);
@@ -34,19 +32,7 @@ const App: React.FC = () => {
 
     checkAuth();
   }, []);
-
-  const toggleLayoutEditing = () => {
-    setIsLayoutEditing((prevLayoutEditing) => !prevLayoutEditing);
-  };
-
-  const loadMessages = useCallback(async (conversationId: string) => {
-    try {
-      const data = await fetchMessages(conversationId);
-      setMessages(data);
-    } catch (error) {
-      console.error('Error loading messages:', error);
-    }
-  }, []);
+ 
 
   return (
     <Router>
@@ -55,9 +41,7 @@ const App: React.FC = () => {
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
           user={user}
-          setUser={setUser}
-          isLayoutEditing={isLayoutEditing}
-          toggleLayoutEditing={toggleLayoutEditing}
+          setUser={setUser}  
           messages={messages}
           setMessages={setMessages}
           username={username}

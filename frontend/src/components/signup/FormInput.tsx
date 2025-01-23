@@ -21,6 +21,11 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, val
     if (type === 'password') {
       return value && (isValidPassword(value) ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />);
     }
+
+    if (type === 'passwordConfirm') {
+       isValidPassword(value);
+    }
+
     if (type === 'passwordConfirm' && confirmValue) {
       // 비밀번호와 비밀번호 확인을 비교
       return value === confirmValue ? <FaCheckCircle color="green" /> : <FaTimesCircle color="red" />;
@@ -32,7 +37,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, placeholder, val
     <InputField
       id={id}
       label={label}
-      type={type}
+      type={type === 'passwordConfirm' ? 'password' : type}
       placeholder={placeholder}
       value={value}
       onChange={onChange}

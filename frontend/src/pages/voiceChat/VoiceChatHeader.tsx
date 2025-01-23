@@ -1,62 +1,36 @@
-import { Dropdown } from 'react-bootstrap';
-import '../../css/voiceChat/VoiceChatHeader.css'; 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import useLogout from '../../utils/Logout';  
+import React from 'react'; 
+import '../../css/voiceChat/VoiceChatHeader.css';  
 import { useNavigate } from 'react-router-dom';
-import { TbLayoutSidebar } from 'react-icons/tb';  
-
+import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
+import { set_routes } from '../../Routes';
 
 interface VoiceChatHeaderProps {
-    isSidebarOpen: boolean; // isSidebarOpen 추가
-  }
-  
-  const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({ isSidebarOpen }) => {
-    const handleLogout = useLogout();
-    const navigate = useNavigate(); 
-    const handleProfileClick = () => {
-        navigate('/mypage', { state: { from: '/voiceChat' } });
-    };
+  children?: React.ReactNode;
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (isOpen: boolean) => void;
+  onReset: () => void;
+}
 
-    const toggleSidebar = () => { 
-        setIsSidebarOpen(!isSidebarOpen); 
-    };
+const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({ 
+    children, 
+    isSidebarOpen, 
+    setIsSidebarOpen,
+    onReset
+}) => {
+  const navigate = useNavigate(); 
 
-    const setIsSidebarOpen = (isSidebarOpen: boolean) => {    
-        setIsSidebarOpen(isSidebarOpen);
-    };
-
-    const handlelevelProfileClick = async () => {
-      navigate("/levelProfile", { state: { from: '/voiceChat' } });
-    }; 
-    
   return (
-    <div className={`voice-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}>
-      <button className="toggle-sidebar-button" onClick={toggleSidebar}>
-        <TbLayoutSidebar size={35} />
-      </button>
-      <div className="voice-chat-title-logo" onClick={() => navigate('/voiceChat')}>
-        Branch-SPK
+    <>
+      <div className={`voice-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
+        <div className="voice-chat-title-logo">
+          <span className="brand-text-voice" onClick={() => navigate(set_routes.VOICE_CHAT)}>Free-Talking</span>
+        </div>
+        <UserSetDropdown currentPage="/voiceChat" />
       </div>
-      <div className="voice-chat-settings-container">
-        <Dropdown align="end">
-          <Dropdown.Toggle id="voice-chat-setting-icon" className="voice-chat-settings-button">
-            AI
-          </Dropdown.Toggle>
-          <Dropdown.Menu className="voice-chat-dropdown-menu">
-            <Dropdown.Item onClick={handleProfileClick} className="voice-chat-dropdown-list">
-              <FontAwesomeIcon icon={faUser} /> 정보수정
-            </Dropdown.Item>
-            <Dropdown.Item onClick={handlelevelProfileClick} className="voice-chat-dropdown-list">
-              <FontAwesomeIcon icon={faUser} /> 경험치 확인
-            </Dropdown.Item>
-            <Dropdown.Item className="voice-chat-dropdown-list" onClick={handleLogout}>
-              <FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+      <div className={`new-main-content ${isSidebarOpen ? 'shifted' : ''}`}>
+        {children}
       </div>
-    </div>
+    </>
   );
 };
 

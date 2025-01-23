@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import '../../css/ChatBox.css';
+import '../../css/textChat/ChatBox.css';
 import { useNavigate } from 'react-router-dom';
-import { sendMessage, startNewConversationwithmsg } from '../../api/AiTextChat';
+import { sendMessage   } from '../../api/AiTextChat';
 import { Message } from '../../@types/types';
 
 interface ChatBoxProps {
@@ -13,13 +13,12 @@ interface ChatBoxProps {
   onChatInputAttempt: () => void;
   isLoggedIn: boolean;
   selectedModel: string;
-  onNewConversation: (newConversationId: string) => Promise<void>;
-  isEditMode: boolean;
+  onNewConversation: (newConversationId: string) => Promise<void>; 
   setSelectedConversationId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const ChatBox: React.FC<ChatBoxProps> = ({
-  conversationId, onNewMessage, onUpdateMessage, isEditMode, isNewChat, selectedModel,
+  conversationId, onNewMessage, onUpdateMessage, isNewChat, selectedModel,
   onChatInputAttempt, isLoggedIn, onNewConversation, setSelectedConversationId
 }) => {
   const [message, setMessage] = useState<string>('');
@@ -30,6 +29,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const [responseWait, setResponseWait] = useState(false);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -50,30 +50,29 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     const fullMessage = message.trim();
     if (fullMessage === '') return;
 
-    const newMessage: Message = { content: fullMessage, role: 'user', createdAt: new Date().toISOString() };
+    const newMessage: Message = {
+      content: fullMessage, role: 'user', createdAt: new Date().toISOString(),
+      audioUrl: ''
+    };
     onNewMessage(newMessage);
 
     try {
-      if (isNewChat) {
-        const response = await startNewConversationwithmsg(fullMessage);
-        const newConversationId = response._id;
-        await onNewConversation(newConversationId);
-        setSelectedConversationId(newConversationId);
-        navigate(`/chat/${newConversationId}`);
-        if (response?.chats?.length > 0) {
-          const aiMessage: Message = { content: response.chats[response.chats.length - 1].content, role: 'assistant', createdAt: new Date().toISOString() };
-          onUpdateMessage(aiMessage);
-        }
-      } else if (conversationId) {
+      setResponseWait(true);
+       if (conversationId) {
         const response = await sendMessage(conversationId, fullMessage);
         if (response?.length > 0) {
-          const aiMessage: Message = { content: response[response.length - 1].content, role: 'assistant', createdAt: new Date().toISOString() };
+          const aiMessage: Message = {
+            content: response[response.length - 1].content, role: 'assistant', createdAt: new Date().toISOString(),
+            audioUrl: ''
+          };
           onUpdateMessage(aiMessage);
         }
       }
       setMessage('');
     } catch (error) {
       console.error('Message sending failed:', error);
+    } finally {
+      setResponseWait(false);
     }
   }, [message, isNewChat, conversationId, onNewMessage, onUpdateMessage, onNewConversation, setSelectedConversationId, navigate]);
 
@@ -83,6 +82,12 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       setShouldSendMessage(false);
     }
   }, [shouldSendMessage, sendMessageToServer]);
+
+  useEffect(() => {
+    if (!responseWait && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [responseWait]);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -103,11 +108,27 @@ const ChatBox: React.FC<ChatBoxProps> = ({
       sendMessageToServer();
     }}>
       <div className="input-button-wrapper"> 
-        <Form.Control as="textarea" ref={textareaRef} rows={1} value={message} onChange={handleMessageChange} onKeyDown={handleKeyPress} onFocus={handleInputFocus} onBlur={handleInputBlur} placeholder="Type a message..." className="chat-container" disabled={isEditMode} />
-        <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-          event.preventDefault();
-          sendMessageToServer();
-        }} className="chat-box-button send-button" disabled={isEditMode || !message.trim()}>
+        <Form.Control 
+          as="textarea" 
+          ref={textareaRef} 
+          rows={1} 
+          value={message} 
+          onChange={handleMessageChange} 
+          onKeyDown={handleKeyPress} 
+          onFocus={handleInputFocus} 
+          onBlur={handleInputBlur} 
+          placeholder="Type your message here..." 
+          className="chat-container-input"  
+          disabled={responseWait}
+        />
+        <Button 
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
+            sendMessageToServer();
+          }} 
+          className="chat-box-button send-button" 
+          disabled={!message.trim() || responseWait}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-right" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
           </svg>
