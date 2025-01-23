@@ -178,7 +178,7 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
         isOpen={sidebarOpen} 
         onToggle={() => setSidebarOpen(!sidebarOpen)}
       />
-      <ChatResetButton onClick={handleReset} />
+      <ChatResetButton onClick={handleReset} OriginUrl={set_routes.VOICE_CHAT}/>
     </Container>
   );
 };

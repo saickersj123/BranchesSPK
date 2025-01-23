@@ -1,5 +1,5 @@
 @import '../set/color.css';
-.scenario-chat-header-container {
+.scenarios-chat-header-container {
     position: fixed;
     display: flex;
     align-items: center; 
@@ -11,7 +11,7 @@
     transition: left 1.3s ease; 
 } 
 
-.scenario-chat-content-container{ 
+.scenarios-chat-content-container{ 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@
   justify-content: center;
 }
 
-.scenario-chat-container {
+.scenarios-chat-container {
   transition: transform 0.3s ease, width 0.3s ease; /* transform 사용 */
   transform: translateX(0); /* 기본 상태 */
   margin-left: 50px;
@@ -33,7 +33,7 @@
   height: 100vh;
 }
 
-.scenario-chat-container.sidebar-open {
+.scenarios-chat-container.sidebar-open {
   transform: translateX(-120px); /* 사이드바 닫힘 상태 */
 }
 

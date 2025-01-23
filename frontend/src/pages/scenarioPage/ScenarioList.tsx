@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllScenarios, startNewConversationWithScenario } from '../../api/AiTextChat'; 
+import { getAllScenarioList, startNewScenarioConversation, getGameList } from '../../api/AiScenariosChat';  
 import '../../css/scenarioPage/ScenarioList.css';
 import '../../css/set/color.css';  
 import IMAGE_NOT_FOUND from '../../img/ErrorIMG.png';
@@ -20,6 +20,7 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
   const [filteredScenarios, setFilteredScenarios] = useState<AIScenario[]>([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState<number | null>(null);
   const [selectedScenario, setSelectedScenario] = useState<AIScenario | null>(null);
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<'role1' | 'role2'>('role1');
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
   useEffect(() => {
     const fetchScenarios = async () => {
       try {
-        const data = await getAllScenarios();
+        const data = await getAllScenarioList();
         const sortedData = [...data].sort((a, b) => a.difficulty - b.difficulty);
         setScenarios(sortedData);
         setFilteredScenarios(sortedData);
@@ -49,12 +50,30 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
   }; 
 
   const handleStartScenario = async () => {
-    if (!selectedScenario) return;
+    console.log('handleStartScenario called'); // Debugging log
+    if (!selectedScenario) {
+      console.log('Scenario not selected'); // Debugging log
+      return;
+    }
+
+    const gameId = selectedGame || '0'; // Default to '0' if no game is selected
+
     try {
-      const conversation = await startNewConversationWithScenario(selectedScenario._id, selectedScenario.game_id, selectedScenario.difficulty);
-      navigate(`${set_routes.SCENARIO_CHAT}/${conversation._id}`);
+      console.log('Starting scenario with game ID:', gameId); // Debugging log
+      const conversation = await startNewScenarioConversation(
+        selectedScenario._id,
+        selectedRole,
+        gameId, // Use the default or selected game ID
+        selectedScenario.difficulty
+      );
+      if (typeof conversation === 'string') {
+        console.log('Navigating to conversation:', conversation); // Debugging log
+        navigate(`${set_routes.SCENARIO_CHAT}/${conversation}`);
+      } else {
+        throw new Error('Invalid conversation response');
+      }
     } catch (error) {
-      console.error('시나리오 시작에 실패했습니다:', error);
+      console.error('Failed to start scenario:', error);
       alert('시나리오를 시작하는데 실패했습니다.');
     }
   };
@@ -86,7 +105,7 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
               key={scenario._id} 
               scenario={scenario} 
               onClick={handleScenarioClick} 
-              onImageError={handleImageError}
+              onImageError={handleImageError} 
             /> 
           ))
         )}
@@ -98,6 +117,8 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
         onStart={handleStartScenario} 
         selectedRole={selectedRole} 
         onRoleChange={setSelectedRole} 
+        selectedGame={selectedGame} 
+        onGameChange={setSelectedGame} 
       />
     </div>
   );

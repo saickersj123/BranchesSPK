@@ -1,6 +1,6 @@
 @import '../set/color.css';
 
-.scenario-recorder {
+.scenarios-recorder {
   display: flex; 
   width: 60px;
   height: 60px;
@@ -9,7 +9,7 @@
   justify-content: center;
 } 
 
-.scenario-recorder-button-start { 
+.scenarios-recorder-button-start { 
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   background-color: var(--button-color);
   border-radius: 50%;
@@ -19,11 +19,11 @@
   height: 100%;
 }
 
-.scenario-recorder-button-start:hover {
+.scenarios-recorder-button-start:hover {
   background-color: var(--button-hover-color);
 }
 
-.scenario-recorder-button-stop {
+.scenarios-recorder-button-stop {
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   background-color: var(--button-stop-color);
   border-radius: 50%;
@@ -33,6 +33,6 @@
   height: 100%;
 }
 
-.scenario-recorder-button-stop:hover {
+.scenarios-recorder-button-stop:hover {
   background-color: var(--button-stop-hover-color);
 }

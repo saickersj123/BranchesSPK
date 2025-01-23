@@ -20,7 +20,7 @@
   min-height: 400px;
 }
 
-.scenario-card {
+.scenarios-card {
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -51,7 +51,7 @@
   background-color: transparent;
 }
 
-.scenario-image {
+.scenarios-image {
   width: 100%;
   padding-top: 100%;
   position: relative;
@@ -61,7 +61,7 @@
   overflow: hidden;
 }
 
-.scenario-image img {
+.scenarios-image img {
   position: absolute;
   top: 0;
   left: 0;
@@ -92,23 +92,23 @@
   background-color: #007f3a;
 }
 
-.scenario-card:hover {
+.scenarios-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
-.scenario-card.selected {
+.scenarios-card.selected {
   border-color: #007f3a;
 }
 
-.scenario-card h2 {
+.scenarios-card h2 {
   margin: 0 0 1.1rem;
   color: #333;
   font-size: 1.2rem;
   font-weight: 700;
 }
 
-.scenario-card p {
+.scenarios-card p {
   color: #666;
   margin: 0;
   line-height: 1.6;

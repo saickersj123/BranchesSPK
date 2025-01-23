@@ -333,7 +333,7 @@ const Home: React.FC<HomeProps> = ({
         handleClose={() => setShowLoginModal(false)}
         handleLogin={handleLoginClick}
       />
-      <ChatResetButton onClick={handleResetConversation} />
+      <ChatResetButton onClick={handleResetConversation} OriginUrl={set_routes.TEXT_CHAT}/>
     </main>
   );
 };

@@ -12,8 +12,8 @@ interface ScenarioCardProps {
 
 const ScenarioCard: React.FC<ScenarioCardProps> = ({ scenario, onClick, onImageError }) => {
   return (
-    <div className="scenario-card" onClick={() => onClick(scenario)}>
-      <div className="scenario-image">
+    <div className="scenarios-card" onClick={() => onClick(scenario)}>
+      <div className="scenarios-image">
         <img
           src={scenario.imageUrl || IMAGE_NOT_FOUND}
           alt={scenario.name}

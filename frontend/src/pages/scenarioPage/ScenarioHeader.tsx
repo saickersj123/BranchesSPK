@@ -1,17 +1,16 @@
 import React from 'react'; 
-import '../../css/voiceChat/VoiceChatHeader.css';  
+import '../../css/scenarioPage/ScenarioChatHeader.css';  
 import { useNavigate } from 'react-router-dom';
-import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown';
+import UserSetDropdown from '../../components/userSetDropdown/UserSetDropdown'; 
 import { set_routes } from '../../Routes';
-
-interface VoiceChatHeaderProps {
+interface ScenarioHeaderProps {
   children?: React.ReactNode;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
   onReset: () => void;
 }
 
-const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({ 
+const ScenarioHeader: React.FC<ScenarioHeaderProps> = ({ 
     children, 
     isSidebarOpen, 
     setIsSidebarOpen,
@@ -21,11 +20,11 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
 
   return (
     <>
-      <div className={`scenario-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
-        <div className="scenario-chat-title-logo">
-          <span className="brand-text-scenario" onClick={() => navigate(set_routes.VOICE_CHAT)}>Branches-SPK</span>
+      <div className={`scenarios-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
+        <div className="scenarios-chat-title-logo" onClick={() => navigate(set_routes.SCENARIO_CHAT)}>
+          <span className="brand-text-scenario">Branches-SPK</span>
         </div>
-        <UserSetDropdown currentPage="/voiceChat" />
+        <UserSetDropdown currentPage="/scenario" />
       </div>
       <div className={`new-main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         {children}
@@ -34,4 +33,4 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
   );
 };
 
-export default VoiceChatHeader;
+export default ScenarioHeader;

@@ -1,5 +1,5 @@
 /* VoisChatList.css */
-.scenario-chat-play-button { 
+.scenarios-chat-play-button { 
   height: 40px;
   width: 40px;
   margin-left: 8px;
@@ -10,11 +10,11 @@
   cursor: pointer;
 }
 
-.scenario-chat-play-button:hover {
+.scenarios-chat-play-button:hover {
   background-color: transparent;
 }
 
-.scenario-chat-list {
+.scenarios-chat-list {
   margin-bottom: 0px;
   height: 100%;
   display: flex;
@@ -22,29 +22,30 @@
   overflow-y: auto;
 }
 /* Chrome, Safari and Opera */
-.scenario-chat-list::-webkit-scrollbar {
+.scenarios-chat-list::-webkit-scrollbar {
   display: none;
 }
 
 
-.scenario-message-container {
+.scenarios-message-container {
   display: flex;
   margin-bottom: 5px; /* 여백을 줄이기 위해 10px에서 5px로 변경 */
   width: 100%; /* 부모의 100% 너비 사용 */
 }
 
-.scenario-message-container.user {
+.scenarios-message-container.user {
   justify-content: flex-end; /* 사용자 메시지: 오른쪽 끝으로 정렬 */ 
   margin-top: 5px; /* 상단 여백을 줄이기 위해 추가 */
   margin-bottom: 5px; /* 하단 여백을 줄이기 위해 추가 */
+  right: 0;
 }
 
-.scenario-message-container.ai {
+.scenarios-message-container.ai {
   justify-content: flex-start; /* AI 메시지: 왼쪽 끝으로 정렬 */
   background-color: #151d0d; /* AI 메시지 색상 */
 }
 
-.scenario-message { 
+.scenarios-message { 
   padding: 8px 12px;
   border-radius: 16px;
   max-width: 80%;
@@ -52,10 +53,10 @@
   background-color: inherit; /* 부모의 배경색을 상속받음 */
 }
 
-.scenario-message.user { 
+.scenarios-message.user { 
   margin-top: 10px; 
   background-color: #b2ebf2; /* 사용자 메시지 배경색 */
-  text-align: left; /* 사용자 메시지 오른쪽 정렬 */
+  text-align: left; 
   position: relative; /* 상대 위치 설정 */
   padding-top: 4px;
   padding-bottom: 4px;
@@ -66,13 +67,13 @@
   margin-bottom: 5px; /* 하단 여백 */
 }
 
-.scenario-message.assistant {
+.scenarios-message.assistant {
   margin-top: 10px;
   background-color: #c8e6c9; /* AI 메시지 배경색 */
   text-align: left; /* AI 메시지 왼쪽 정렬 */
 }
 
-.chatbot-icon {
+.scenarios-chatbot-icon {
   font-family: 'Gmarket Sans';
   width: 60px; /* 아이콘 크기 */
   height: 60px;
@@ -88,7 +89,7 @@
   font-weight : bold;
 } 
 
-.scenario-message small {
+.scenarios-message small {
   position: absolute;
   bottom: -15px;
   right: 10px;
@@ -96,19 +97,19 @@
   color: #6c757d;
 }
 
-.message-bubble {
+.scenarios-message-bubble {
   display: flex;
   align-items: center;
   justify-content: space-between; /* 내용과 아이콘을 양쪽으로 배치 */
 }
 
-.message-time {
+.scenarios-message-time {
   font-size: 10px; /* 작은 글씨 크기 */
   color: #6c757d; /* 회색 색상 */
   margin-top: 2px; /* 위쪽 여백 */
 }
 
-.user-time {
+.scenarios-user-time {
   position: absolute; /* 절대 위치 설정 */
   bottom: 5px; /* 말풍선 위쪽에 위치 */
   left: -30px; /* 왼쪽 정렬 */
@@ -116,7 +117,7 @@
   color: #6c757d; /* 회색 색상 */
 }
 
-.ai-time {
+.scenarios-ai-time {
   
   position: absolute; /* 절대 위치 설정 */
   bottom: -35px; /* 말풍선 위쪽에 위치 */
@@ -125,7 +126,7 @@
   color: #6c757d; /* 회색 색상 */
 }
 
-.scenario-chat-play-button {
+.scenarios-scenarios-chat-play-button {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -136,11 +137,11 @@
   color: black;
 }
 
-.scenario-chat-play-button:hover {
+.scenarios-chat-play-button:hover {
   background: transparent;
 }
 
-.copy-button {
+.scenarios-copy-button {
   width: 33px; /* Set the desired width */
   height: 30px; /* Set the desired height */
   background: transparent;
@@ -156,11 +157,11 @@
   justify-content: center;
 }
 
-.copy-button:hover {
+.scenarios-copy-button:hover {
   background: transparent;
 }
 
-.no-messages {
+.scenarios-no-messages {
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,4 @@
-.scenario-chat-title-logo {
+.scenarios-chat-title-logo {
   display: flex;
   align-items: center;
   padding-top: 2px;
@@ -11,7 +11,7 @@
   margin-right: auto;
 }
 
-.scenario-chat-header {
+.scenarios-chat-header {
   display: flex;
   align-items: center;
   padding: 10px;
@@ -24,7 +24,7 @@
   transition: margin-left 0.3s ease;
 }
 
-.scenario-chat-header.sidebar-open {
+.scenarios-chat-header.sidebar-open {
   margin-left: 250px;
 }
 
