@@ -93,7 +93,7 @@ export const deleteVoiceConversation = async (conversationId: string): Promise<a
 // 모든 채팅 기록 삭제 API - 모든 채팅 기록을 삭제하는 함수
 export const deleteAllVoiceChats = async (): Promise<any> => { 
   try {
-    const response = await axiosInstance.delete('/chat/all-v');
+    const response = await axiosInstance.delete('/chat/v/all');
     return response.status;
   } catch (error) {
     console.error('모든 음성대화 기록 삭제 실패:', error);
