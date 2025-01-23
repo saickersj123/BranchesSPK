@@ -1,18 +1,18 @@
 @import '../set/color.css';
 
-.voice-chat-dropdpown-settings-container {
+.UserSet-voice-chat-dropdpown-settings-container {
     display: flex;
     align-items: center;
     margin-right: 20px;
 }
   
-.voice-chat-dropdpown-settings-button { 
-    width: 45px;
-    height: 45px;
+.UserSet-voice-chat-dropdpown-settings-button { 
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: var(--my-profile-color) !important;
     color: white !important;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -22,18 +22,18 @@
     transition: all 0.2s ease-in-out;
 }
 
-.voice-chat-dropdpown-settings-button:hover {
+.UserSet-voice-chat-dropdpown-settings-button:hover {
     transform: scale(1.05);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
   
-.voice-chat-dropdpown-settings-button::after {
+.UserSet-voice-chat-dropdpown-settings-button::after {
     display: none !important;
 }
  
-.voice-chat-dropdpown-menu { 
-    min-width: 180px;
-    padding: 8px;
+.UserSet-voice-chat-dropdpown-menu { 
+    min-width: 200px;
+    padding: 10px;
     border-radius: 12px;
     border: none;
     background: white;
@@ -44,40 +44,106 @@
     transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
 }
 
-.show > .voice-chat-dropdpown-menu {
+.show > .UserSet-voice-chat-dropdpown-menu {
     opacity: 1;
     transform: translateY(0);
 }
   
-.voice-chat-dropdpown-list {
-    padding: 10px 16px;
+.UserSet-voice-chat-dropdpown-list {
+    padding: 12px 18px;
     color: #333;
     transition: all 0.2s ease;
     border-radius: 8px;
-    margin: 2px 0;
+    margin: 4px 0;
     font-weight: 500;
 }
   
-.voice-chat-dropdpown-list:hover {
+.UserSet-voice-chat-dropdpown-list:hover {
     background-color: var(--my-profile-color-light);
     color: var(--my-profile-color);
     transform: translateX(5px);
 }
   
-.voice-chat-dropdpown-list svg {
+.UserSet-voice-chat-dropdpown-list svg {
     margin-right: 12px;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
 }
 
 /* 마지막 아이템(로그아웃)에 대한 특별한 스타일 */
-.voice-chat-dropdpown-list:last-child {
-    margin-top: 5px;
+.UserSet-voice-chat-dropdpown-list:last-child {
+    margin-top: 10px;
     border-top: 1px solid #eee;
     color: #dc3545;
 }
 
-.voice-chat-dropdpown-list:last-child:hover {
+.UserSet-voice-chat-dropdpown-list:last-child:hover {
     background-color: #fff5f5;
     color: #dc3545;
+}
+
+.UserSet-user-info {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 20px; 
+    margin-bottom: 10px;
+}
+
+.UserSet-user-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #d3d3d3;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.UserSet-user-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.UserSet-user-level {
+    font-size: 1rem;
+    color: #333;
+}
+
+.UserSet-user-xp-bar {
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 12px;
+    margin-bottom: 5px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.UserSet-user-xp {
+    background-color: #a29bfe;
+    height: 100%;
+}
+
+.UserSet-user-xp-text {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.UserSet-user-next-level {
+    font-size: 0.8rem;
+    color: #999;
+    text-align: center;
+}
+
+.UserSet-divider {
+    border: none;
+    border-top: 1px solid saddlebrown;
+    margin: 10px 0;
 }
