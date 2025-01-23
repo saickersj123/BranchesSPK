@@ -104,6 +104,9 @@
 }
 
 .UserSet-user-name {
+    width: 100px; /* 원하는 너비로 설정 */
+    overflow: hidden;
+    position: relative;
     font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 5px;
@@ -146,4 +149,19 @@
     border: none;
     border-top: 1px solid saddlebrown;
     margin: 10px 0;
+}
+
+.scrolling-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scroll-text 10s linear infinite;
+}
+
+@keyframes scroll-text {
+    0% {
+        transform: translateX(55%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }

@@ -20,13 +20,15 @@ interface UserSetDropdownProps {
   currentPage: string; 
 }
 
+const MAX_NAME_LENGTH = 10; // 최대 표시할 이름 길이
+
 const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
   const navigate = useNavigate();
   const handleLogout = useLogout();
   const [userName, setUserName] = useState<string>("");
   const [userLevel, setUserLevel] = useState<number>(0);
   const [userXP, setUserXP] = useState<number>(0);
-  const [nextLevelXP, setNextLevelXP] = useState<number>(0);
+  const [nextLevelXP, setNextLevelXP] = useState<number | null>(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +59,10 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
     navigate(set_routes.LEVEL_PROFILE_PAGE, { state: { from: currentPage } });
   };  
 
+  const displayName = userName.length > MAX_NAME_LENGTH 
+    ? `${userName.slice(0, MAX_NAME_LENGTH)}...` 
+    : userName;
+
   return (
     <div className="UserSet-voice-chat-dropdpown-settings-container">
       <Dropdown align="end">
@@ -69,18 +75,20 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
               <FontAwesomeIcon icon={faUserCircle} />
             </div>
             <div>
-              <div className="UserSet-user-name">{userName}</div>
+              <div className="UserSet-user-name">
+                <div className="scrolling-text">{userName}</div>
+              </div>
               <div className="UserSet-user-level">LV {userLevel}</div>
             </div>
           </div>
           <div className="UserSet-user-xp-bar">
-            <div className="UserSet-user-xp" style={{ width: `${(userXP / nextLevelXP) * 100}%` }}></div>
+            <div className="UserSet-user-xp" style={{ width: `${(userXP / (nextLevelXP || 1)) * 100}%` }}></div>
           </div>
-          <div className="UserSet-user-xp-text">{userXP}/{nextLevelXP} XP</div>
-          <div className="UserSet-user-next-level">다음 레벨까지 {nextLevelXP - userXP} XP</div>
-
-          <hr className="UserSet-divider" /> 
-          
+          <div className="UserSet-user-xp-text">{userXP}/{nextLevelXP || 0} XP</div>
+          <div className="UserSet-user-next-level">
+            {nextLevelXP === null ? "이미 최고랩입니다!" : `다음 레벨까지 ${(nextLevelXP || 0) - userXP} XP`}
+          </div>
+          <hr className="UserSet-divider" />
           <Dropdown.Item onClick={handleProfileClick} className="UserSet-voice-chat-dropdpown-list">
             <FontAwesomeIcon icon={faUserGear} /> 내 프로필
           </Dropdown.Item> 
