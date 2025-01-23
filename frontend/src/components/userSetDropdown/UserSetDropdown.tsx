@@ -69,7 +69,7 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
         <Dropdown.Menu className="UserSet-voice-chat-dropdpown-menu">
           <div className="UserSet-user-info">
             <div className="UserSet-user-icon">
-              <FontAwesomeIcon icon={faUserCircle} />
+              <FontAwesomeIcon icon={faUserCircle} className="UserSet-user-icon-size"/>
             </div>
             <div>
               <div className="UserSet-user-name">
@@ -78,16 +78,16 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
               <div className="UserSet-user-level">LV {userLevel}</div>
             </div>
           </div>
+          <div className="UserSet-user-xp-text">{userXP} / {nextLevelXP || 0} XP</div>
           <div className="UserSet-user-xp-bar">
             <div className="UserSet-user-xp" style={{ width: `${(userXP / (nextLevelXP || 1)) * 100}%` }}></div>
           </div>
-          <div className="UserSet-user-xp-text">{userXP}/{nextLevelXP || 0} XP</div>
           <div className="UserSet-user-next-level">
-            {nextLevelXP === null ? "이미 최고랩입니다!" : `다음 레벨까지 ${(nextLevelXP || 0) - userXP} XP`}
+            {nextLevelXP === null ? "이미 최고LV입니다!" : `다음 LV까지 ${(nextLevelXP || 0) - userXP} XP`}
           </div>
           <hr className="UserSet-divider" />
           <Dropdown.Item onClick={handleProfileClick} className="UserSet-voice-chat-dropdpown-list">
-            <FontAwesomeIcon icon={faUserGear} /> 내 프로필
+            <FontAwesomeIcon icon={faUserGear} /> 정보 수정
           </Dropdown.Item> 
           <Dropdown.Item onClick={handlelevelProfileClick} className="UserSet-voice-chat-dropdpown-list">
             <FontAwesomeIcon icon={faChartLine} /> 경험치 확인
