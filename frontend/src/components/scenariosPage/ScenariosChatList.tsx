@@ -36,9 +36,9 @@ const ScenariosChatList: React.FC<ScenariosChatListProps> = ({ messages }) => {
         <div className="no-messages"> 
           🎤 음성 대화를 시작해보세요! 마이크를 사용하여 메시지를 보내보세요.
         </div>
-      ) : (
-        messages.map((msg, index) => (
-          <div
+      ) : ( 
+        messages.map((msg, index) => ( 
+          <div 
             key={index}
             className={`scenarios-message-container ${msg.role}`}
           >

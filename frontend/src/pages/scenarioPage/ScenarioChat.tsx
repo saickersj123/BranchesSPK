@@ -1,6 +1,5 @@
 import React, { useState, useEffect , useCallback} from 'react';
-import { Container } from 'react-bootstrap';
-import VoiceRecorder from '../../components/voiceChat/VoiceRecorder';  
+import { Container } from 'react-bootstrap'; 
 import { getAllScenarioConversations, fetchScenarioMessages, 
         sendVoiceMessage, deleteScenarioConversation, 
         deleteAllScenarioChats } from '../../api/AiScenariosChat';
