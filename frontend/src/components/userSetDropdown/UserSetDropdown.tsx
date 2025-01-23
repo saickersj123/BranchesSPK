@@ -92,7 +92,8 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
           <Dropdown.Item onClick={handlelevelProfileClick} className="UserSet-voice-chat-dropdpown-list">
             <FontAwesomeIcon icon={faChartLine} /> 경험치 확인
           </Dropdown.Item>
-          <Dropdown.Item className="UserSet-voice-chat-dropdpown-list" onClick={handleLogout}>
+          <hr className="UserSet-divider" />
+          <Dropdown.Item className="UserSet-voice-chat-dropdpown-list-logout" onClick={handleLogout}>
             <FontAwesomeIcon icon={faRightFromBracket} /> 로그아웃
           </Dropdown.Item>
         </Dropdown.Menu>

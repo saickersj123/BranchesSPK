@@ -37,4 +37,15 @@
   --sv-other-chat-text-color: #000000; /* 다른 사람의 채팅 텍스트 색상 */
   --sv-icon-color: #ffffff; /* 아이콘 색상 */
 
+
+  /* 우상단의 드랍다운과 관련된 색상 */
+  --user-set-dropdown-user-level-bar: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
+  --user-set-dropdown-icon :  linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
+  --user-set-dropdown-bg-color: #2C2F4880; 
+  
+  --user-set-dropdown-text-color: #ffffff;
+  --user-set-dropdown-text-color-hover: rgb(0, 0, 0);
+
+  --user-set-dropdown-logout-color: rgb(185, 0, 0);
+  --user-set-dropdown-logout-color-hover: #030000;
 }
