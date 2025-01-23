@@ -4,8 +4,7 @@ import {
   faUserGear, 
   faChartLine, 
   faRightFromBracket, 
-  faUserCircle,
-  faHome
+  faUserCircle, 
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../../utils/Logout';
@@ -59,10 +58,8 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
     navigate(set_routes.LEVEL_PROFILE_PAGE, { state: { from: currentPage } });
   };  
 
-  const displayName = userName.length > MAX_NAME_LENGTH 
-    ? `${userName.slice(0, MAX_NAME_LENGTH)}...` 
-    : userName;
-
+  const shouldAnimate = userName.length > MAX_NAME_LENGTH;
+ 
   return (
     <div className="UserSet-voice-chat-dropdpown-settings-container">
       <Dropdown align="end">
@@ -76,7 +73,7 @@ const UserSetDropdown: React.FC<UserSetDropdownProps> = ({ currentPage }) => {
             </div>
             <div>
               <div className="UserSet-user-name">
-                <div className="scrolling-text">{userName}</div>
+                <div className={shouldAnimate ? "scrolling-text" : ""}>{userName}</div>
               </div>
               <div className="UserSet-user-level">LV {userLevel}</div>
             </div>
