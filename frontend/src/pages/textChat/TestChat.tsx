@@ -168,8 +168,10 @@ const textChat: React.FC = () => {
           <div className="text-chat-content-container">
             <div className="text-messages-container">
               <TextChatList messages={messages} />
-            </div> 
-            <TextChatBox onSend={handleTextSend} responseWait={responseWait} />  
+            </div>
+            <div className="text-chat-input-container-main">
+              <TextChatBox onSend={handleTextSend} responseWait={responseWait} />  
+            </div>
           </div>
         </div>
       </TextChatHeader>

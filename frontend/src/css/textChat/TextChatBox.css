@@ -2,8 +2,8 @@
 
 
 .text-input-container {
-  position: fixed;
-  bottom: 10px;
+  position: fixed; 
+  bottom: 20px;
   left: 10%;
   right: 10%;  
 }
