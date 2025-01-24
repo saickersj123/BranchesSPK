@@ -82,6 +82,7 @@
 
 .chatbot-icon {
   font-family: 'Gmarket Sans';
+  margin-top: 10px;
   width: 60px; /* 아이콘 크기 */
   height: 60px;
   margin-right: 10px; /* 아이콘과 메시지 사이의 간격 */

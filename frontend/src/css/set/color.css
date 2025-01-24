@@ -55,11 +55,11 @@
   /* 우상단의 드랍다운과 관련된 색상 */
   --user-set-dropdown-user-level-bar: var(--all-background-linear-gradient);
   --user-set-dropdown-icon :  var(--all-background-linear-gradient);
-  --user-set-dropdown-bg-color: #2C2F4880; 
+  --user-set-dropdown-bg-color: #90919e; 
   
   --user-set-dropdown-text-color: #ffffff;
   --user-set-dropdown-text-color-hover: rgb(0, 0, 0);
 
-  --user-set-dropdown-logout-color: rgb(185, 0, 0);
+  --user-set-dropdown-logout-color: rgb(27, 4, 86);
   --user-set-dropdown-logout-color-hover: #030000;
 }

@@ -81,6 +81,7 @@
 }
 
 .scenarios-chatbot-icon {
+  margin-top: 10px;
   font-family: 'Gmarket Sans';
   width: 60px; /* 아이콘 크기 */
   height: 60px;

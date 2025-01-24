@@ -8,20 +8,8 @@ import Signup from './pages/Signup';
 import ScenarioList from './pages/scenarioPage/ScenarioList';
 import ServicePage from './pages/servicePage/ServicePage';
 import VoiceChat from './pages/voiceChat/VoiceChat';
-import LevelProfilePage from './pages/levelProfilePage/levelProfilePage'; 
-import { User } from './@types/types'; 
-import ScenarioChat from './pages/scenarioPage/ScenarioChat';
-
-
-
-interface RoutesProps {
-  isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>; 
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;    
-  username: string;
-  setUsername: React.Dispatch<React.SetStateAction<string>>; 
-}
+import LevelProfilePage from './pages/levelProfilePage/levelProfilePage';  
+import ScenarioChat from './pages/scenarioPage/ScenarioChat'; 
  
 export const set_routes = {
   //시나리오 관련 라우트
@@ -42,13 +30,7 @@ export const set_routes = {
   LEVEL_PROFILE_PAGE: '/levelProfile',
 };
 
-const Routes: React.FC<RoutesProps> = ({
-  isLoggedIn,
-  setIsLoggedIn,
-  user,
-  setUser,    
-  username,
-  setUsername, 
+const Routes: React.FC = ({ 
 }) => { 
  
 
@@ -57,8 +39,8 @@ const Routes: React.FC<RoutesProps> = ({
       <Route path={set_routes.LANDING_PAGE} element={<MainPage />} />
       <Route path={set_routes.SERVICE_PAGE} element={<ServicePage />} />
       <Route path={set_routes.SIGNUP} element={<Signup />} />
-      <Route path={set_routes.LOGIN} element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
-      <Route path={set_routes.MY_PAGE} element={<MyPage username={username} setUsername={setUsername} />} />
+      <Route path={set_routes.LOGIN} element={<Login />} />
+      <Route path={set_routes.MY_PAGE} element={<MyPage />} />
       <Route path={set_routes.LEVEL_PROFILE_PAGE} element={<LevelProfilePage />} />
 
       {/** 시나리오 관련 라우트 */}
