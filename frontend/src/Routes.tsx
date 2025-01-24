@@ -58,13 +58,16 @@ const Routes: React.FC<RoutesProps> = ({
       <Route path="/mypage" element={<MyPage username={username} setUsername={setUsername} />} />
       <Route path="/levelProfile" element={<LevelProfilePage />} />
 
-      <Route path="/scenariolist" element={<ScenarioList page={''} />} />
-      <Route path="/scenarioChat" element={<ScenarioChat isSidebarOpen={false} />} />
-      <Route path="/scenarioChat/:conversationId" element={<ScenarioChat isSidebarOpen={false} />} />
+      {/** 시나리오 관련 라우트 */}
+      <Route path="/scenariolist" element={<ScenarioList page={'/'} />} />
+      <Route path="/scenarioChat" element={<ScenarioChat />} />
+      <Route path="/scenarioChat/:conversationId" element={<ScenarioChat/>} />
+    
+      {/** 음성 채팅 관련 라우트 */}
+      <Route path="/voiceChat" element={<VoiceChat/>} />
+      <Route path="/voiceChat/:conversationId" element={<VoiceChat />} />
 
-      <Route path="/voiceChat" element={<VoiceChat isSidebarOpen={false} />} />
-      <Route path="/voiceChat/:conversationId" element={<VoiceChat isSidebarOpen={false} />} />
-
+      {/** 텍스트 채팅 관련 라우트 */}
       <Route path="/textChat" element={<TestChat/> } />
       <Route path="/textChat/:conversationId" element={<TestChat/> } /> 
       

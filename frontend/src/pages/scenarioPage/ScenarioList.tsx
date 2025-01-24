@@ -12,7 +12,7 @@ import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import { set_routes } from '../../Routes';
 
 interface ScenarioListProps {
-  page: string; // Add a prop for the page to navigate to
+  page: string | null; // Add a prop for the page to navigate to
 }
 
 const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {

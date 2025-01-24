@@ -12,12 +12,9 @@ import ScenariosRecorder from '../../components/scenariosPage/ScenariosRecorder'
 import ScenariosChatList from '../../components/scenariosPage/ScenariosChatList';  
 import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import ChatResetButton from '../../utils/ChatResetButton';
-import { set_routes } from '../../Routes';
-interface VoiceChatProps {
-  isSidebarOpen: boolean;
-}
+import { set_routes } from '../../Routes'; 
 
-const ScenarioChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
+const ScenarioChat: React.FC = ({  }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>(''); 
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);

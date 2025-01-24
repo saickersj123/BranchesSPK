@@ -12,12 +12,9 @@ import VoiceChatHeader from './VoiceChatHeader';
 import VoisChatList from '../../components/voiceChat/VoisChatList';  
 import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import ChatResetButton from '../../utils/ChatResetButton';
-import { set_routes } from '../../Routes';
-interface VoiceChatProps {
-  isSidebarOpen: boolean;
-}
+import { set_routes } from '../../Routes'; 
 
-const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
+const VoiceChat: React.FC = ({  }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>(''); 
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
