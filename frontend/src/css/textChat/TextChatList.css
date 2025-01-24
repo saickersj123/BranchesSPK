@@ -91,7 +91,7 @@
   flex-shrink: 0; /* 아이콘 크기 고정 */
   border-radius: 50%; /* 원형 프로필 이미지 */
   background: var(--ai-profile-color);    
-  color: var(---icon-text-color);
+  color: var(--icon-text-color);
   font-size: 30px;
   font-weight : bold;
 } 
