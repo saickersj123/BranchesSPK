@@ -17,9 +17,9 @@ const LevelProfilePage = () => {
 
   const handleBackClick = () => {
     if (state && state.from) { 
-      if (state.from == 'textChat' || state.from == '/textChat') {
+      if (state.from == 'textChat' || state.from == '/textChat' || state.from == set_routes.TEXT_CHAT)  {
         navigate(set_routes.TEXT_CHAT);
-      } else if (state.from == 'voiceChat' || state.from == '/voiceChat') {
+      } else if (state.from == 'voiceChat' || state.from == '/voiceChat' || state.from == set_routes.VOICE_CHAT) {
         navigate(set_routes.VOICE_CHAT);
       }
       else  {

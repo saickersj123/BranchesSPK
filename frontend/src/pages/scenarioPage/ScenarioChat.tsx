@@ -61,7 +61,7 @@ const ScenarioChat: React.FC = ({  }) => {
          //console.log("가장 최근 대화 아이디 : ", latestConversationId);
           await loadMessages(latestConversationId);
           setSelectedConversationId(latestConversationId); 
-          navigate(`${set_routes.VOICE_CHAT}/${latestConversationId}`);
+          navigate(`${set_routes.SCENARIO_CHAT}/${latestConversationId}`);
         } else { 
           setMessages([]);
         }
@@ -82,7 +82,7 @@ const ScenarioChat: React.FC = ({  }) => {
           if (conversations.length > 0) {
             const lastConversation = conversations[conversations.length - 1];
             setConversationId(lastConversation._id);
-            navigate(`${set_routes.VOICE_CHAT}/${lastConversation._id}`, { replace: true });
+            navigate(`${set_routes.SCENARIO_CHAT}/${lastConversation._id}`, { replace: true });
           } 
         } catch (error: any) {
           console.error('대화 초기화 실패:', error);
