@@ -55,15 +55,19 @@ const Routes: React.FC<RoutesProps> = ({
       <Route path="/service" element={<ServicePage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
+      <Route path="/mypage" element={<MyPage username={username} setUsername={setUsername} />} />
+      <Route path="/levelProfile" element={<LevelProfilePage />} />
+
       <Route path="/scenariolist" element={<ScenarioList page={''} />} />
       <Route path="/scenarioChat" element={<ScenarioChat isSidebarOpen={false} />} />
       <Route path="/scenarioChat/:conversationId" element={<ScenarioChat isSidebarOpen={false} />} />
-      <Route path="/mypage" element={<MyPage username={username} setUsername={setUsername} />} />
-      <Route path="/levelProfile" element={<LevelProfilePage />} />
+
       <Route path="/voiceChat" element={<VoiceChat isSidebarOpen={false} />} />
       <Route path="/voiceChat/:conversationId" element={<VoiceChat isSidebarOpen={false} />} />
+
       <Route path="/textChat" element={<TestChat/> } />
       <Route path="/textChat/:conversationId" element={<TestChat/> } /> 
+      
       <Route path="*" element={<Navigate to={set_routes.LANDING_PAGE} />} />  
     </ReactRouterRoutes>
   );

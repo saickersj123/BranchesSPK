@@ -46,9 +46,9 @@
   margin-bottom: 5px; /* 하단 여백을 줄이기 위해 추가 */ 
 } 
 
-.voice-message { 
-  padding: 8px 12px;
-  border-radius: 16px;
+.voice-message {  
+  border-radius: 12px;
+  padding : 8px 15px; 
   max-width: 80%;
   position: relative; 
 }
@@ -58,11 +58,7 @@
   background-color: var(--sv-my-chat-bubble-color); /* 사용자 메시지 배경색 */
   color: var(--sv-my-chat-text-color); /* 사용자 메시지 텍스트 색상 */
   text-align: left; /* 사용자 메시지 오른쪽 정렬 */
-  position: relative; /* 상대 위치 설정 */
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 10px;
-  padding-right: 10px;
+  position: relative; /* 상대 위치 설정 */ 
   border-radius: 15px; /* 말풍선 모서리 둥글게 */
   max-width: 80%; /* 최대 너비 설정 */
   margin-bottom: 5px; /* 하단 여백 */
@@ -95,7 +91,7 @@
   flex-shrink: 0; /* 아이콘 크기 고정 */
   border-radius: 50%; /* 원형 프로필 이미지 */
   background: var(--ai-profile-color); 
-  color: var(--sv-icon-color);
+  color: var(---icon-text-color);
   font-size: 30px;
   font-weight : bold;
 } 
