@@ -22,7 +22,7 @@ const ScenarioHeader: React.FC<ScenarioHeaderProps> = ({
     <>
       <div className={`scenarios-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
         <div className="scenarios-chat-title-logo" onClick={() => navigate(set_routes.SCENARIO_CHAT)}>
-          <span className="brand-text-scenario">Scenario-Chat</span>
+          <span className="brand-text-scenario">ScenarioChat</span>
         </div>
         <UserSetDropdown currentPage="/scenario" />
       </div>

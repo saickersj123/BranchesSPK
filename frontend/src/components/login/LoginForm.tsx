@@ -5,13 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../api/UserInfo';
 import '../../css/login/Login.css'; 
 import { set_routes } from '../../Routes';
+ 
 
-interface LoginFormProps {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  setUser: React.Dispatch<React.SetStateAction<{ name: string } | null>>;
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({ setIsLoggedIn, setUser }) => {
+const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -41,9 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setIsLoggedIn, setUser }) => {
 
     try {
       const response = await loginUser(email, password);
-      if (response.message === 'OK') {
-        setIsLoggedIn(true);
-        setUser(response.data); // 유저 정보 저장
+      if (response.message === 'OK') { 
         navigate(set_routes.SERVICE_PAGE);
       } else {
         setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.');

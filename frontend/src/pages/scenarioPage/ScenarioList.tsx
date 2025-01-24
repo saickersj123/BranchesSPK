@@ -8,11 +8,11 @@ import { AIScenario } from '../../@types/scenarios';
 import DifficultyFilter from '../../components/scenariosPage/DifficultyFilter'; // 추가된 부분
 import ScenarioCard from '../../components/scenariosPage/ScenarioCard'; // 추가된 부분
 import ScenarioModal from '../../components/scenariosPage/ScenarioModal'; // 추가된 부분 
-import NewSidebar from '../../components/newSidebar/NewSidebar';
+import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import { set_routes } from '../../Routes';
 
 interface ScenarioListProps {
-  page: string; // Add a prop for the page to navigate to
+  page: string | null; // Add a prop for the page to navigate to
 }
 
 const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {

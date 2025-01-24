@@ -1,7 +1,5 @@
 import axios from 'axios';
-import axiosInstance, { TEST_MODE } from './axiosInstance';
-import { AIScenario } from '../@types/scenarios';
-import { DUMMY_SCENARIOS } from '../data/dummy_scenarios_types'; //임시의 더미 시나리오를 불러오는 용도암 
+import axiosInstance  from './axiosInstance'; 
 import { Message, Conversation } from '../@types/types';
 
 // 새로운 대화 시작 API - 새로운 대화를 시작하는 함수
@@ -31,7 +29,7 @@ export const startNewConversationwithmsg = async (messageContent: string, role: 
     audioUrl: ''
   };
   try {
-    const response = await axiosInstance.post('/chat/c/new', {message: message.content});
+    const response = await axiosInstance.post('/chat/c/new', {message: message.content}); 
     return response.data.conversation;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -55,7 +53,7 @@ export const sendMessage = async (conversationId: string, messageContent: string
   };
 
   try {
-    const response = await axiosInstance.post(`/chat/c/${conversationId}`, { message : message.content });
+    const response = await axiosInstance.post(`/chat/c/${conversationId}`, { message: message.content }); 
     return response.data.chats;
   } catch (error) {
     console.error('메시지 보내기 실패:', error);

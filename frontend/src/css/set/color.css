@@ -1,51 +1,65 @@
-:root {  
+:root {   
+  /* 이쪽은 set.css 내에서 색상을 관리하는 부분임*/
+  /* 즉, 밑에서 재활용하는 용도지, 직접 활용은 x */
+  --all-chat-bubble-background-color: #278EFF; /* 나, AI 채팅 말풍선 색상 */
+  --all-chat-bubble-txt-color: #ffffff; /* 나, AI 채팅 말풍선 색상 */
   --input-field-underline-color : #8CD2F5;
+  --all-background-linear-gradient: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
+  --icon-text-color : #ffffff; /* ai의 동그라미 속 글자의 색상 */
+
+  --all-button-background-color: #007AFF; /* 페이지 내의 버튼들을 관리하는 색상 */
+
+/*---------------------------------------------------------------------------*/
 
   --main-background-color: #ffffff; /* 전체 배경 색상 */
-  --button-color: #007AFF; /* 마이크 버튼 색상 */
+  --button-color: var(--all-button-background-color); /* 마이크 버튼 색상 */
   --button-disabled-color: #6c757d; /* 버튼 비활성화 색상 */  
   --button-hover-color: #B5B5B6; /* 버튼 호버 색상 */
   --button-stop-color: #d64955; /* 버튼 멈춤 색상 */
   --button-stop-hover-color: #d7959a; /* 버튼 멈춤 호버 색상 */
 
-  --button-color-2: #007AFF; /* 로그인, 회원가입쪽의 버튼 색상 */ 
+  --button-color-2: var(--all-button-background-color); /* 로그인, 회원가입쪽의 버튼 색상 */ 
   --button-color-2-hover: #B5B5B6; /* 로그인, 회원가입쪽의 버튼 색상 */
 
+  /* 사이드바 색상 정렬 */
   --sidebar-background-color: #8CD2F5; /* 사이드바 색상 */
   --sidebar-text-color: #F0F0F0; /* 사이드바 텍스트 색상 */
   --sidebar-text-hover-color: #000102; /* 사이드바 호버 색상 */
 
-  --main-loading-page-color: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
-  --ai-profile-color:  linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%); /* AI 프로필 배경 색상  */
-  --my-profile-color:  linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%); /* 내 프로필 배경 색상  */
-  --mypage-bg-color: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%); /* 마이페이지 배경 색상  */
-  --level-profile-bg-color: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%); /* 레벨 프로필 배경 색상  */
+  --main-loading-page-color: var(--all-background-linear-gradient);
+
+  /* 프로필 색상 정렬 */
+  --ai-profile-color: var(--all-background-linear-gradient); /* AI 프로필 배경 색상  */ 
+  --my-profile-color: var(--all-background-linear-gradient); /* 내 프로필 배경 색상  */
+  --level-profile-bg-color: var(--all-background-linear-gradient); /* 레벨 프로필 배경 색상  */
+  --mypage-bg-color: var(--all-background-linear-gradient); /* 마이페이지 배경 색상  */
   
-  --my-chat-bubble-color: #F0F0F0; /* 내 채팅 말풍선 색상 */
-  --my-chat-text-color: rgb(11, 5, 5); /* 내 채팅 텍스트 색상 */
-  --other-chat-bubble-color: #DCF8C6; /* 다른 사람의 채팅 말풍선 색상 */
-  --other-chat-text-color: #000000; /* 다른 사람의 채팅 텍스트 색상 */
-  --chat-container-bg-color: #FFFFFF; /* 채팅 컨테이너 배경 색상 */  
-
+  
+  
+  /* 텍스트 채팅 페이지의 색상 정렬 */
+  --my-chat-bubble-color: var(--all-chat-bubble-background-color); /* 내 채팅 말풍선 색상 */
+  --my-chat-text-color: var(--all-chat-bubble-txt-color); /* 내 채팅 텍스트 색상 */
+  --ai-chat-bubble-color: var(--all-chat-bubble-background-color); /* 다른 사람의 채팅 말풍선 색상 */
+  --ai-chat-text-color:  var(--all-chat-bubble-txt-color);  /* 다른 사람의 채팅 텍스트 색상 */
+  --text-container-bg-color: #493333; /* 채팅 컨테이너 배경 색상 */  
+  
   --chat-input-bg-color: #EBEDF0; /* 기본 ChatBox 배경 색상 */
-  --chat-input-field-color: #EBEDF0; /* 입력창 배경색 */
-
-  /* 시나리오 - 음성대화 페이지의 색상 정려*/
-  --sv-my-chat-bubble-color: #F0F0F0; /* 내 채팅 말풍선 색상 */
-  --sv-my-chat-text-color: rgb(11, 5, 5); /* 내 채팅 텍스트 색상 */
-  --sv-other-chat-bubble-color: #DCF8C6; /* 다른 사람의 채팅 말풍선 색상 */
-  --sv-other-chat-text-color: #000000; /* 다른 사람의 채팅 텍스트 색상 */
-  --sv-icon-color: #ffffff; /* 아이콘 색상 */
-
-
+  --chat-input-field-color: #EBEDF0; /* 입력창 배경색 */ 
+  
+  /* 시나리오 - 음성대화 페이지의 색상 정렬 */
+  --sv-my-chat-bubble-color: var(--all-chat-bubble-background-color);/* 내 채팅 말풍선 색상 */
+  --sv-my-chat-text-color: var(--all-chat-bubble-txt-color);  /* 내 채팅 텍스트 색상 */
+  --sv-other-chat-bubble-color: var(--all-chat-bubble-background-color); /* 다른 사람의 채팅 말풍선 색상 */
+  --sv-other-chat-text-color: var(--all-chat-bubble-txt-color);   /* 다른 사람의 채팅 텍스트 색상 */  
+  
   /* 우상단의 드랍다운과 관련된 색상 */
-  --user-set-dropdown-user-level-bar: linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
-  --user-set-dropdown-icon :  linear-gradient(180deg, rgba(55, 236, 186, 0.9) 0%, rgba(0, 158, 253, 0.8) 100%);
-  --user-set-dropdown-bg-color: #2C2F4880; 
+  --user-set-dropdown-user-level-bar: var(--all-background-linear-gradient);
+  --user-set-dropdown-icon :  var(--all-background-linear-gradient);
+  --user-set-dropdown-bg-color: #90919e; 
   
   --user-set-dropdown-text-color: #ffffff;
   --user-set-dropdown-text-color-hover: rgb(0, 0, 0);
 
-  --user-set-dropdown-logout-color: rgb(185, 0, 0);
+  --user-set-dropdown-logout-color: rgb(27, 4, 86);
   --user-set-dropdown-logout-color-hover: #030000;
 }

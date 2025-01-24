@@ -52,35 +52,37 @@ const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onSend, responseWait }) =
   };
 
   return (
-    <div className="voice-recorder">
-      {responseWait ? (
-        <div className="voice-recorder-button-wait">
-          <FontAwesomeIcon icon={faSpinner} spin />
-        </div>
-      ) : (
-        <>
-          {!isRecording && (
-            <Button
-              variant="primary"
-              onClick={startRecording}
-              className="voice-recorder-button-start"
-              disabled={responseWait}
-            >
-              <FontAwesomeIcon icon={faMicrophone} />
-            </Button>
-          )}
-          {isRecording && (
-            <Button
-              variant="danger"
-              onClick={stopRecording}
-              className="voice-recorder-button-stop"
-              disabled={responseWait}
-            >
-              <FontAwesomeIcon icon={faStop} />
-            </Button>
-          )}
-        </>
-      )}
+    <div className="voice-recorder-container">
+      <div className="voice-recorder">
+        {responseWait ? (
+          <div className="voice-recorder-button-wait">
+            <FontAwesomeIcon icon={faSpinner} spin />
+          </div>
+        ) : (
+          <>
+            {!isRecording && (
+              <Button
+                variant="primary"
+                onClick={startRecording}
+                className="voice-recorder-button-start"
+                disabled={responseWait}
+              >
+                <FontAwesomeIcon icon={faMicrophone} />
+              </Button>
+            )}
+            {isRecording && (
+              <Button
+                variant="danger"
+                onClick={stopRecording}
+                className="voice-recorder-button-stop"
+                disabled={responseWait}
+              >
+                <FontAwesomeIcon icon={faStop} />
+              </Button>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

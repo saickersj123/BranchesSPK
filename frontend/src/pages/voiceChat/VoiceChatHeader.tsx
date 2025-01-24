@@ -23,7 +23,7 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
     <>
       <div className={`voice-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
         <div className="voice-chat-title-logo">
-          <span className="brand-text-voice" onClick={() => navigate(set_routes.VOICE_CHAT)}>Free-Talking</span>
+          <span className="brand-text-voice" onClick={() => navigate(set_routes.VOICE_CHAT)}>FreeTalking</span>
         </div>
         <UserSetDropdown currentPage="/voiceChat" />
       </div>
