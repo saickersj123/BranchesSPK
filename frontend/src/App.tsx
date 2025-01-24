@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './css/App.css';
 import Routes from './Routes';
-import { checkAuthStatus } from './api/axiosInstance'; 
-import { Message } from './@types/types';
+import { checkAuthStatus } from './api/axiosInstance';  
 
 export interface User {
   name: string;
@@ -11,10 +10,8 @@ export interface User {
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null); 
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [username, setUsername] = useState<string>('');
-  const [nicknameChanged, setNicknameChanged] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);  
+  const [username, setUsername] = useState<string>(''); 
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -41,13 +38,9 @@ const App: React.FC = () => {
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
           user={user}
-          setUser={setUser}  
-          messages={messages}
-          setMessages={setMessages}
+          setUser={setUser}    
           username={username}
-          setUsername={setUsername}
-          nicknameChanged={nicknameChanged}
-          setNicknameChanged={setNicknameChanged}
+          setUsername={setUsername} 
         />
       </div>
     </Router>

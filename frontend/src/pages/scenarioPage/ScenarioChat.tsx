@@ -10,7 +10,7 @@ import '../../css/scenarioPage/ScenarioChat.css';
 import ScenarioHeader from './ScenarioHeader';  
 import ScenariosRecorder from '../../components/scenariosPage/ScenariosRecorder';
 import ScenariosChatList from '../../components/scenariosPage/ScenariosChatList';  
-import NewSidebar from '../../components/newSidebar/NewSidebar';
+import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import ChatResetButton from '../../utils/ChatResetButton';
 import { set_routes } from '../../Routes';
 interface VoiceChatProps {
@@ -157,10 +157,14 @@ const ScenarioChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       >
         <div className={`scenarios-chat-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
           <div className="scenarios-chat-content-container">
-            <div className="messages-container">
+            <div className="scenarios-messages-container">
               <ScenariosChatList messages={messages} />
             </div> 
-            <ScenariosRecorder onSend={handleVoiceSend} responseWait={responseWait} />  
+            <div className="scenarios-recorder-container">
+              <ScenariosRecorder 
+              onSend={handleVoiceSend} 
+              responseWait={responseWait} />  
+            </div>
           </div>
         </div>
       </ScenarioHeader>

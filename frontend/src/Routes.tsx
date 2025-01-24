@@ -17,15 +17,11 @@ import ScenarioChat from './pages/scenarioPage/ScenarioChat';
 
 interface RoutesProps {
   isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>; 
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;   
-  messages: Message[];
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;    
   username: string;
-  setUsername: React.Dispatch<React.SetStateAction<string>>;
-  nicknameChanged: boolean;
-  setNicknameChanged: React.Dispatch<React.SetStateAction<boolean>>;
+  setUsername: React.Dispatch<React.SetStateAction<string>>; 
 }
  
 export const set_routes = {
@@ -47,22 +43,14 @@ const Routes: React.FC<RoutesProps> = ({
   isLoggedIn,
   setIsLoggedIn,
   user,
-  setUser,  
-  messages,
-  setMessages,
+  setUser,    
   username,
-  setUsername,
-  nicknameChanged,
-  setNicknameChanged,
-}) => {
-  const loadMessages = useCallback(async (conversationId: string) => {
-    try {
-      const data = await fetchMessages(conversationId);
-      setMessages(data);
-    } catch (error) {
-      console.error('Error loading messages:', error);
-    }
-  }, [setMessages]);
+  setUsername, 
+}) => { 
+
+  function setNicknameChanged(changed: boolean): void {
+    throw new Error('Function not implemented.');
+  }
 
   return (
     <ReactRouterRoutes>
@@ -77,31 +65,8 @@ const Routes: React.FC<RoutesProps> = ({
       <Route path="/levelProfile" element={<LevelProfilePage />} />
       <Route path="/voiceChat" element={<VoiceChat isSidebarOpen={false} />} />
       <Route path="/voiceChat/:conversationId" element={<VoiceChat isSidebarOpen={false} />} />
-      <Route path="/textChat" element={
-        <TestChat
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          user={user} 
-          loadMessages={loadMessages}  
-          username={username}
-          setUsername={setUsername}
-          nicknameChanged={nicknameChanged}
-          setNicknameChanged={setNicknameChanged}
-        />
-      } />
-      <Route path="/textChat/:conversationId" element={
-        <TestChat
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          user={user} 
-          loadMessages={loadMessages}   
-          username={username}
-          setUsername={setUsername}
-          nicknameChanged={nicknameChanged}
-          setNicknameChanged={setNicknameChanged}
-        />
-      } />
-      {/* 추가된 리디렉션 Route */}
+      <Route path="/textChat" element={<TestChat/> } />
+      <Route path="/textChat/:conversationId" element={<TestChat/> } /> 
       <Route path="*" element={<Navigate to={set_routes.LANDING_PAGE} />} />  {/* path="*"를 추가하여 모든 경로를 "/"로 리디렉션 */}
     </ReactRouterRoutes>
   );

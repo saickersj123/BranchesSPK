@@ -52,35 +52,37 @@ interface ScenariosRecorderProps {
   };
 
   return (
-    <div className="scenarios-recorder">
-      {responseWait ? (
-        <div className="scenarios-recorder-button-wait">
-          <FontAwesomeIcon icon={faSpinner} spin />
-        </div>
-      ) : (
-        <>
-          {!isRecording && (
-            <Button
-              variant="primary"
-              onClick={startRecording}
-              className="scenarios-recorder-button-start"
-              disabled={responseWait}
-            >
-              <FontAwesomeIcon icon={faMicrophone} />
-            </Button>
-          )}
-          {isRecording && (
-            <Button
-              variant="danger"
-              onClick={stopRecording}
-              className="scenarios-recorder-button-stop"
-              disabled={responseWait}
-            >
-              <FontAwesomeIcon icon={faStop} />
-            </Button>
-          )}
-        </>
-      )}
+    <div className="scenarios-recorder-container">
+       <div className="scenarios-recorder">
+        {responseWait ? (
+          <div className="scenarios-recorder-button-wait">
+            <FontAwesomeIcon icon={faSpinner} spin />
+          </div>
+        ) : (
+          <>
+            {!isRecording && (
+              <Button
+                variant="primary"
+                onClick={startRecording}
+                className="scenarios-recorder-button-start"
+                disabled={responseWait}
+              >
+                <FontAwesomeIcon icon={faMicrophone} />
+              </Button>
+            )}
+            {isRecording && (
+              <Button
+                variant="danger"
+                onClick={stopRecording}
+                className="scenarios-recorder-button-stop"
+                disabled={responseWait}
+              >
+                <FontAwesomeIcon icon={faStop} />
+              </Button>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
