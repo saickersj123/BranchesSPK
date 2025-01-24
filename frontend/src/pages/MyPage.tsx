@@ -6,23 +6,18 @@ import { faArrowRight, faPen, faArrowLeft } from '@fortawesome/free-solid-svg-ic
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/mypage/Mypage.css';
 import { updatename, updatePassword, mypage } from '../api/UserInfo';
-import branchImage from '../img/PRlogo2.png'; 
-import { User } from '../@types/types';
+import branchImage from '../img/PRlogo2.png';  
 import { set_routes } from '../Routes';
-interface MyPageProps {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+interface MyPageProps {  
   username: string;
-  setUsername: (username: string) => void;
-  setNicknameChanged: (changed: boolean) => void;
+  setUsername: (username: string) => void; 
 }
 
 interface LocationState {
   from?: string;
 }
 
-const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username, setUsername, setNicknameChanged }) => {
+const MyPage: React.FC<MyPageProps> = ({ username, setUsername  }) => {
   const [password, setPassword] = useState('');
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
   const [newname, setNewname] = useState('');
@@ -81,8 +76,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
     if (newname.trim()) {
       try {
         await updatename(newname);
-        setUsername(newname);
-        setNicknameChanged(true);
+        setUsername(newname); 
         setIsEditingname(false);
         setNewname('');
       } catch (error) {

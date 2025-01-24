@@ -47,10 +47,7 @@ const Routes: React.FC<RoutesProps> = ({
   username,
   setUsername, 
 }) => { 
-
-  function setNicknameChanged(changed: boolean): void {
-    throw new Error('Function not implemented.');
-  }
+ 
 
   return (
     <ReactRouterRoutes>
@@ -61,13 +58,13 @@ const Routes: React.FC<RoutesProps> = ({
       <Route path="/scenariolist" element={<ScenarioList page={''} />} />
       <Route path="/scenarioChat" element={<ScenarioChat isSidebarOpen={false} />} />
       <Route path="/scenarioChat/:conversationId" element={<ScenarioChat isSidebarOpen={false} />} />
-      <Route path="/mypage" element={<MyPage user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} username={username} setUsername={setUsername} setNicknameChanged={setNicknameChanged} />} />
+      <Route path="/mypage" element={<MyPage username={username} setUsername={setUsername} />} />
       <Route path="/levelProfile" element={<LevelProfilePage />} />
       <Route path="/voiceChat" element={<VoiceChat isSidebarOpen={false} />} />
       <Route path="/voiceChat/:conversationId" element={<VoiceChat isSidebarOpen={false} />} />
       <Route path="/textChat" element={<TestChat/> } />
       <Route path="/textChat/:conversationId" element={<TestChat/> } /> 
-      <Route path="*" element={<Navigate to={set_routes.LANDING_PAGE} />} />  {/* path="*"를 추가하여 모든 경로를 "/"로 리디렉션 */}
+      <Route path="*" element={<Navigate to={set_routes.LANDING_PAGE} />} />  
     </ReactRouterRoutes>
   );
 };
