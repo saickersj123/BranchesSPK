@@ -76,7 +76,7 @@ chatRoutes.get("/g/:modelId/", verifyToken, getModelbyId);
 chatRoutes.get("/v/new", verifyToken, startNewConversationVoice);
 
 // Get all conversations (general + voice)
-chatRoutes.get("/v/all", verifyToken, getAllVoiceConversations);
+chatRoutes.get("/all-v", verifyToken, getAllVoiceConversations);
 
 // Get a specific voice conversation
 chatRoutes.get("/v/:conversationId", verifyToken, getVoiceConversation);
