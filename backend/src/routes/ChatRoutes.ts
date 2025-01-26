@@ -25,6 +25,7 @@ import {
     getAllScenarioConversations,
     deleteAllScenarioConversations,
     deleteScenarioConversation,
+    postScenario,
 } from "../controllers/ChatController.js";
 
 const chatRoutes = express.Router();
@@ -104,6 +105,9 @@ chatRoutes.delete("/s/:conversationId", verifyToken, deleteScenarioConversation)
 
 // Get all scenarios
 chatRoutes.get("/scenarios", verifyToken, getAllScenarios);
+
+// Post a scenario
+chatRoutes.post("/scenarios", postScenario);
 
 
 export default chatRoutes;

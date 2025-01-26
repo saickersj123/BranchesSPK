@@ -76,13 +76,14 @@ interface GenerateResponseOptions {
 
 export async function generateFineTunedResponse(userText: string, options: GenerateResponseOptions = {}): Promise<{ text: string }> {
     const { scenarioId = null, selectedRole = null, difficulty = null } = options;
+
     try {
         if (!userText) {
             throw new Error("User text is missing");
         }
 
-        let systemMessage: string;
-        let fineTunedModel: string = ModelName; // 기본 모델 설정
+        let systemMessage;
+        let fineTunedModel = ModelName; // 기본 모델 설정
 
         if (scenarioId) {
             const scenario = await ScenarioModel.findById(scenarioId);
@@ -92,19 +93,28 @@ export async function generateFineTunedResponse(userText: string, options: Gener
 
             const { name: scenarioName, fineTunedModel: scenarioModel, roles } = scenario;
 
-            if (selectedRole && !roles.includes(selectedRole)) {
-                throw new Error(`Invalid role '${selectedRole}'. Available roles: ${roles.join(", ")}.`);
+            // 역할 검증
+            if (selectedRole && !roles[selectedRole]) {
+                throw new Error(`Invalid role '${selectedRole}'. Available roles: ${Object.keys(roles).join(", ")}.`);
             }
 
+            // 반대 역할 가져오기
+            const oppositeRoleKey = getOppositeRole(roles, selectedRole); // role1 -> role2 또는 반대
+            const roleName = roles[oppositeRoleKey] || "guide";
+
+            // 난이도 메시지 추가
             const difficultyMessage = difficulty
                 ? `Please provide a response suitable for difficulty level ${difficulty} (1~3).`
                 : "";
 
-            systemMessage = `You are a ${selectedRole || "guide"} in the ${scenarioName} scenario. ${difficultyMessage}`;
+            // 시스템 메시지 생성
+            systemMessage = `You are a ${roleName} in the ${scenarioName} scenario. ${difficultyMessage}`;
             fineTunedModel = scenarioModel || ModelName;
         } else {
-            systemMessage = 
-                "You are an English-speaking friend helping the user improve their English skills. Your role is to correct grammar mistakes, suggest better expressions, and answer questions in a friendly and supportive way. Always explain in simple terms to make learning fun and engaging.";
+            systemMessage =
+                "You are an English-speaking friend helping the user improve their English skills. " +
+                "Your role is to correct grammar mistakes, suggest better expressions, and answer questions in a friendly and supportive way. " +
+                "Always explain in simple terms to make learning fun and engaging.";
         }
 
         // OpenAI GPT 모델 호출
@@ -127,3 +137,8 @@ export async function generateFineTunedResponse(userText: string, options: Gener
         throw new Error("Error generating response");
     }
 }
+
+// 반대 역할 계산 함수
+const getOppositeRole = (roles, selectedRole) => {
+    return Object.keys(roles).find((key) => key !== selectedRole) || "unknown role";
+};

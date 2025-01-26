@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import User from "../models/User.js";
-import ScenarioModel from "../models/Scenario.js";
+import Scenario from "../models/Scenario.js";
 import { configureOpenAI, ModelName } from "../config/openai.js";
 import OpenAI from "openai";
 import mongoose, { Types } from "mongoose";
 import { saveModel, loadModel, deleteModel } from "../utils/modelStorage.js";
 import { fineTuneModel, saveTrainingDataToFile, uploadTrainingData } from "../utils/fineTuneModel.js"
 import { transcribeAudioToText, generateFineTunedResponse, generateSpeechFromText } from "../utils/VoiceChat.js";
+import { checkKeywordInChat } from "./GameController.js";
 
 export const generateChatCompletion = async (
     req: Request, 
@@ -673,6 +674,7 @@ export const startNewConversationScenario = async (
 ) => {
     try {
         const user = await User.findById(res.locals.jwtData.id);
+
         // 유저가 존재하지 않을 경우 처리
         if (!user) {
             return res.status(401).json({
@@ -680,22 +682,28 @@ export const startNewConversationScenario = async (
                 cause: "User doesn't exist or token malfunctioned",
             });
         }
-        
+
+        // 요청에서 게임 ID 가져오기, 없으면 기본값으로 0 설정
+        const { gameId = 0 } = req.body;
+
         // 새 시나리오 대화 추가
         const newScenarioConversation = {
             chats: [],
             type: "scenario",
+            gameId, // 선택된 게임 ID (없으면 0)
         };
+
         user.conversations.push(newScenarioConversation);
+
         // 변경 사항 저장
         await user.save();
+
         // 새로 생성된 대화 반환
         return res.status(200).json({
             message: "New scenario conversation started",
             conversation: user.conversations[user.conversations.length - 1],
         });
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "ERROR", cause: err.message });
     }
@@ -889,88 +897,121 @@ export const handleScenarioConversation = async (
 ) => {
     try {
         const audioBuffer = req.file?.buffer;
-        const { scenarioId, selectedRole, difficulty } = req.body;
-        if (!audioBuffer) {
-            res.status(400).json({ error: "No audio data provided" });
-            return;
+        let { scenarioId, selectedRole, difficulty, gameId } = req.body;
+
+        // 필수 데이터 확인
+        if (!scenarioId || !selectedRole || !difficulty || !gameId) {
+            return res.status(400).json({
+                error: "Scenario ID, role, difficulty, and game ID are required.",
+            });
         }
-        if (req.file.size === 0) {
-            console.error("[ERROR] Received an empty audio file.");
-            res.status(400).json({ error: "Empty audio file received. Please try again." });
-            return;
-        }
-        if (!scenarioId || !selectedRole || !difficulty) {
-            res.status(400).json({ error: "Scenario ID, role, and difficulty are required" });
-            return;
-        }
-        const scenario = await ScenarioModel.findById(scenarioId);
+
+        // 시나리오 확인
+        const scenario = await Scenario.findById(scenarioId);
         if (!scenario) {
-            res.status(404).json({ error: "Scenario not found" });
-            return;
+            return res.status(404).json({ error: "Scenario not found" });
         }
         if (!scenario.roles.includes(selectedRole)) {
-            res.status(400).json({ error: `Invalid role. Available roles: ${scenario.roles.join(", ")}` });
-            return;
+            return res.status(400).json({
+                error: `Invalid role. Available roles: ${scenario.roles.join(", ")}`,
+            });
         }
-        // 1. 음성 -> 텍스트 변환 (STT)
-        let userText;
-        try {
-            userText = await transcribeAudioToText(audioBuffer);
+
+        // 1. GPT가 먼저 대화를 시작할지 결정
+        let userText = null;
+
+        if (selectedRole === "role2") {
+            // role1인 경우 GPT가 먼저 대화 시작
+            userText = ""; // 사용자 입력은 비어 있음
+        } else if (audioBuffer) {
+            // 음성이 있을 경우 음성을 텍스트로 변환
+            try {
+                userText = await transcribeAudioToText(audioBuffer);
+            } catch (error) {
+                return res.status(500).json({ error: "Failed to transcribe audio" });
+            }
+        } else {
+            return res.status(400).json({ error: "No audio data provided or invalid role." });
         }
-        catch (error) {
-            console.error("[ERROR] Error in STT:", error.message);
-            res.status(500).json({ error: "Failed to transcribe audio" });
-            return;
-        }
+
         // 2. GPT 응답 생성
         let gptResponse;
         try {
             gptResponse = await generateFineTunedResponse(userText, {
-                scenarioId, // scenarioId 전달
+                scenarioId,
                 selectedRole,
                 difficulty,
             });
+        } catch (error) {
+            return res.status(500).json({ error: "Failed to generate GPT response" });
         }
-        catch (error) {
-            console.error("[ERROR] Error in GPT response generation:", error.message);
-            res.status(500).json({ error: "Failed to generate GPT response" });
-            return;
+
+        // 3. 게임 로직 호출
+        let gameResult = null;
+        if (!gameId) {
+            gameId = "0";
         }
-        
-        // 3. 텍스트 -> 음성 변환 (TTS)
+
+        const games = {
+            "keyword": async (params) => {
+                const { userId, scenarioId, userResponse } = params;
+                const result = await checkKeywordInChat({
+                    userId,
+                    scenarioId,
+                    userResponse,
+                });
+                return {
+                    matchedKeywords: result.matchedKeywords,
+                    experienceGained: result.experienceGained,
+                    totalExperience: result.totalExperience,
+                };
+            },
+            "0": async () => {
+                console.log("No game selected.");
+                return { matchedKeywords: [], experienceGained: 0, totalExperience: 0 };
+            },
+        };
+
+        const game = games[gameId];
+
+        if (game) {
+            gameResult = await game({
+                userId: res.locals.jwtData.id,
+                scenarioId,
+                userResponse: userText || gptResponse.text,
+            });
+        } else {
+            console.error(`Invalid gameId: ${gameId}`);
+        }
+
+        // 4. 텍스트 -> 음성 변환 (TTS)
         let audioResponseBuffer;
         try {
             audioResponseBuffer = await generateSpeechFromText(gptResponse.text);
+        } catch (error) {
+            return res.status(500).json({ error: "Failed to generate speech from text" });
         }
-        catch (error) {
-            console.error("[ERROR] Error in TTS:", error.message);
-            res.status(500).json({ error: "Failed to generate speech from text" });
-            return;
-        }
-        
-        // 4. 대화 저장 
+
+        // 5. 대화 저장
         try {
             await saveScenarioConversation(
                 res.locals.jwtData.id,
-                userText,
-                gptResponse.text,
-            )
-        }
-        catch (error) {
-            console.error("[ERROR] Failed to save conversation:", error.message);
-            res.status(500).json({ error: "Failed to save conversation" });
-            return;
+                userText || gptResponse.text,
+                gptResponse.text
+            );
+        } catch (error) {
+            return res.status(500).json({ error: "Failed to save conversation" });
         }
 
-        // ✅ 최종 응답: 변환된 텍스트 + GPT 응답 + 음성(Base64)
-        res.json({
-            message: userText, // 변환된 사용자 음성 텍스트
+        // ✅ 최종 응답: 변환된 텍스트 + GPT 응답 + 게임 결과 + 음성(Base64)
+        return res.json({
+            message: userText,
             role: "user",
-            gptResponse: gptResponse.text, // GPT의 응답 텍스트
-            audioBuffer: audioResponseBuffer.toString("base64"), // Base64 인코딩된 음성 데이터
+            gptResponse: gptResponse.text,
+            audioBuffer: audioResponseBuffer.toString("base64"),
+            gameResult, // 경험치와 키워드 매치 결과 포함
         });
-    }
-    catch (error) {
+    } catch (error) {
         console.error("[ERROR] Error in handleScenarioConversation:", error.message);
         if (!res.headersSent) {
             res.status(500).json({ error: `Failed to process scenario conversation: ${error.message}` });
@@ -979,15 +1020,59 @@ export const handleScenarioConversation = async (
 };
 
 
+
 export const getAllScenarios = async (
     req: Request,
     res: Response
     ): Promise<void> => {
     try {
-        const scenarios = await ScenarioModel.find();
+        const scenarios = await Scenario.find();
         res.status(200).json({ scenarios });
     } catch (error) {
         console.error("Error fetching scenarios:", error);
         res.status(500).json({ error: "Failed to fetch scenarios" });
+    }
+};
+
+export const postScenario = async (req, res) => {
+    try {
+        const { name, description, roles, difficulty, fineTunedModel } = req.body;
+        
+        // 필수 데이터 검증
+        if (!name || !description || !roles || difficulty === undefined) {
+            return res.status(400).json({ error: "Missing required fields: name, description, roles, or difficulty." });
+        }
+
+        // `roles`가 배열인지 검증
+        if (!Array.isArray(roles) || roles.length === 0) {
+            return res.status(400).json({ error: "Roles must be a non-empty array." });
+        }
+
+        // `difficulty`가 1~3 범위인지 검증
+        if (difficulty < 1 || difficulty > 3) {
+            return res.status(400).json({ error: "Difficulty must be a number between 1 and 3." });
+        }
+
+        // 시나리오 중복 확인
+        const existingScenario = await Scenario.findOne({ name });
+        if (existingScenario) {
+            return res.status(400).json({ error: "Scenario already exists." });
+        }
+
+        // 새로운 시나리오 생성
+        const newScenario = new Scenario({
+            name,
+            description,
+            roles,
+            difficulty,
+            fineTunedModel,
+        });
+
+        // 데이터베이스 저장
+        await newScenario.save();
+        return res.status(201).json({ message: "Scenario created successfully", scenario: newScenario });
+    } catch (error) {
+        console.error("Error creating scenario:", error.message);
+        return res.status(500).json({ error: "Failed to create scenario." });
     }
 };
