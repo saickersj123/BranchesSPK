@@ -1,20 +1,103 @@
+/* CSS 코드 반영 */
 
-.service-main-page-start-button,
-.service-main-page-mode-button {
-  margin: 10px 0;
+.servicepage_main-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.service-main-start-button {
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  background-color: #007f3a;
-  color: white;
+.servicepage_branch-logo {
+  width: 800px;
+  height: auto;
+  margin-top: 150px;
+}
+
+.servicepage_welcome-message {
+  margin-top: 50px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+}
+
+.servicepage_welcome-description {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+.servicepage_intro-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.servicepage_intro-image {
+  width: 2000px;
+  max-width: 90%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0.1, 0.1, 0.1, 0.1);
+}
+
+.servicepage_action-buttons {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.servicepage_start-button {
+  width: 320px;
+  height: 80px;
+  font-size: 33px;
+  background-color: #007aff;
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
-.service-main-start-button:hover {
-  background-color: #006630;
+.servicepage_start-button:hover {
+  background-color: #005fcc;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.servicepage_mode-select-button {
+  width: 220px;
+  height: 55px;
+  font-size: 22px;
+  background-color: #007aff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.servicepage_mode-select-button:hover {
+  background-color: #005fcc;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.servicepage_footer-text {
+  margin-top: 30px;
+  font-size: 25px;
+  color: #999;
+  text-align: center;
 }

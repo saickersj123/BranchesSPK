@@ -1,26 +1,26 @@
+/* 메인 페이지 스타일 */
 .service-main-page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   position: relative;
-} 
+}
 
+/* 헤더 영역 */
 .service-main-page-header {
+  position: fixed; /* 스크롤 시 고정 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
-  align-items: center;  
-  position: relative;
-  height: 20vh; /* 전체 높이의 20% */
-  min-height: 100px; /* 최소 높이 설정 */
+  align-items: center;
+  height: 80px; /* 헤더 높이 */
+  box-shadow: none; /* 기본 상태에서는 그림자 없음 */
+  transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 */
 }
 
-.service-main-page-contents {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* 상단에서부터 컨텐츠 시작 */
-  width: 100%;
-  height: 80vh; /* 전체 높이의 80% */
-  flex: 1; /* 남은 공간 모두 차지 */
-  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 */
-}
+
+
