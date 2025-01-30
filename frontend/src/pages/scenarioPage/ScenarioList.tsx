@@ -54,8 +54,7 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
     const checkScenarioConversations = async () => {
       try {
         const conversations = await getAllScenarioConversations();
-        if (conversations.length > 0) {
-          //console.log("시나리오 대화 목록 : ", conversations);
+        if (conversations.length > 0) { 
           navigate(`${set_routes.SCENARIO_CHAT}/${conversations[0]._id}`);
         }
       } catch (error) {
@@ -76,10 +75,8 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
     }
   }; 
 
-  const handleStartScenario = async () => {
-   // console.log('handleStartScenario called'); // Debugging log
-    if (!selectedScenario) {
-     // console.log('Scenario not selected'); // Debugging log
+  const handleStartScenario = async () => { 
+    if (!selectedScenario) { 
       return;
     }
 

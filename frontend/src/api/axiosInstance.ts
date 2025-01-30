@@ -20,8 +20,7 @@ export const checkAuthStatus = async (): Promise<AuthResponse> => {
     const response = await axiosInstance.get('/user/auth-status');
     if (response.data && response.data.message === "OK") {  
       return { valid: true, user: { name: response.data.name }, email: response.data.email };
-    } else {
-      //console.log("인증 상태 확인 실패:", response.data);
+    } else { 
       return { valid: false };
     }
   } catch (error) {

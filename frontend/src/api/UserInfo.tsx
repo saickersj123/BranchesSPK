@@ -48,8 +48,7 @@ export const gethUserExperience = async (): Promise<{ exp: number, level: number
 // 과거에 참가한 게임의 정보를 얻어오는 API - 과거에 참가한 게임의 정보를 반환하는 함수
   export const getPastGames = async (): Promise<{ gameName: string; participationTime: string; correctAnswers: number; experienceGained: number }[]> => {
     try {
-      const response = await axiosInstance.get('/user/past-games');
-      //console.log(response.data);
+      const response = await axiosInstance.get('/user/past-games'); 
       return response.data.games.map((game: any) => ({
         gameName: game.name,
         participationTime: game.participationTime,

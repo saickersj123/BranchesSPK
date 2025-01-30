@@ -5,8 +5,7 @@ import axios from 'axios';
 // conversationId를 활용해 모든 음성대화 메시지를 가져오는 함수
 export const fetchVoiceMessages = async (conversationId: string): Promise<Message[]> => {
   const response = await axiosInstance.get(`/chat/v/${conversationId}`); 
-  try {
-      //  console.log("받은 fetchVoiceMessages" +JSON.stringify(response.data, null, 2));
+  try { 
       return response.data.conversation.chats || [];
     } catch (error) {
       console.error('메시지 가져오기 실패:', error);
@@ -17,8 +16,7 @@ export const fetchVoiceMessages = async (conversationId: string): Promise<Messag
 // 모든 conversationId를 가지고 오는 함수
 export const fetchAllConversationIds = async (): Promise<Conversation[]> => {
   try {
-    const response = await axiosInstance.get('/chat/all-v');
-    //console.log("api상 대화 아이디 가져오기 응답 : ", response.data);
+    const response = await axiosInstance.get('/chat/all-v'); 
     return response.data.voiceConversations.map((conversation: any) => ({
       _id: conversation._id,
       chats: conversation.chats,
@@ -56,8 +54,7 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-    });
-    //console.log(response.data); 
+    }); 
     return  { 
       text: response.data.message, // Mock text response
       gptResponse: response.data.gptResponse, // Corrected to use gptResponse

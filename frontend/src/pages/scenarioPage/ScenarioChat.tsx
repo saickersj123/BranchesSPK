@@ -128,16 +128,14 @@ const ScenarioChat: React.FC = ({  }) => {
   const handleReset = async () => {
     try {
       if (latestConversationId) {
-        await deleteScenarioConversation(latestConversationId);
-       //console.log(`Conversation ${latestConversationId} deleted successfully.`);
+        await deleteScenarioConversation(latestConversationId); 
       } else {
         throw new Error('No latest conversation ID available.');
       }
     } catch (error) {
       console.error('Failed to delete specific conversation, attempting to delete all:', error);
       try {
-        await deleteAllScenarioChats();
-       //console.log('All voice chats deleted successfully.');
+        await deleteAllScenarioChats(); 
       } catch (allDeleteError) {
         console.error('Failed to delete all voice chats:', allDeleteError);
       }
