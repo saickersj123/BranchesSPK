@@ -1,4 +1,4 @@
-import axiosInstance, { TEST_MODE } from './axiosInstance'; 
+import axiosInstance from './axiosInstance'; 
 import { Message, Conversation } from '../@types/types';
 import axios from 'axios';
 
@@ -50,17 +50,7 @@ export const startNewConversationVoice = async (): Promise<string> => {
 export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
   const formData = new FormData();
   formData.append('audio', audioBlob);
-  formData.append('type', 'voice');
-
-  if (TEST_MODE) {
-    // Dummy data for testing
-    return { 
-      audioUrl: 'http://example.com/path/to/mock/audio.wav', // Mock audio URL
-      text: 'This is a mock response text.', // Mock text response 
-      gptResponse: 'This is a mock GPT response.' // Mock gptResponse
-    };
-  }
-
+  formData.append('type', 'voice'); 
   try {
     const response = await axiosInstance.post(`/chat/c/${conversationId}`, formData, {
       headers: {
