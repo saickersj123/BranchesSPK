@@ -8,8 +8,7 @@ const ServicePage: React.FC = () => {
   return (
     <div className="service-main-page"> 
     
-      <div className="service-main-page-header"> 
-        {/** 헤더 영역 */}
+      <div className="service-main-page-header">  
         <ServicePageHeader /> 
       </div>
 

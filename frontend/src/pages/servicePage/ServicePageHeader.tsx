@@ -1,28 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/servicePage/ServicePageHeader.css';
+import branchImage from '../../img/PRlogo2.png';
+import { checkAuthStatus } from '../../api/axiosInstance';
 
-const ServicePageHeader = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+// API 응답 타입 정의
+interface AuthStatus {
+  user?: {
+    name?: string;
+  };
+}
+
+const ServicePageHeader: React.FC = () => { 
+  const [username, setUsername] = useState<string>('');
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+    const fetchUsername = async () => {
+      try {
+        const authStatus: AuthStatus = await checkAuthStatus();
+        if (authStatus.user?.name) {
+          setUsername(authStatus.user.name);
+        }
+      } catch (error) {
+        console.error('사용자 정보를 불러오는 중 오류 발생:', error);
       }
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    fetchUsername();
   }, []);
 
   return (
-    <div className={`servicepageheader_container ${isScrolled ? 'servicepageheader_scrolled' : ''}`}>
-      <div className="servicepageheader_title">Branches Platform</div>
-      <div className="servicepageheader_subtitle">사용자를 위한 최고의 학습 경험을 제공합니다.</div>
+    <div>
+      <div className="servicepageheader_container"> 
+        <div className="logo-container">
+          <img src={branchImage} alt="SPK BRANCHES Logo" className="servicepage_branch-logo" />
+          <p className="service-page-username-text">‘{username}’님 환영합니다!</p>
+        </div>
+        <div className="servicepageheader_text_description">
+          <p>
+            SPK BRANCHES는 영어 학습을 위한 인터랙티브 플랫폼입니다.
+            <br />
+            다양한 학습 모드를 통해 영어를 재미있게 배워보세요.
+          </p>
+        </div>  
+      </div> 
     </div>
   );
 };
