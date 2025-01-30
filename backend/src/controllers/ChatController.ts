@@ -1076,3 +1076,28 @@ export const postScenario = async (req, res) => {
         return res.status(500).json({ error: "Failed to create scenario." });
     }
 };
+
+export const deleteScenario = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // `id`가 제공되지 않은 경우
+        if (!id) {
+            return res.status(400).json({ error: "Scenario ID is required." });
+        }
+
+        // 해당 시나리오가 존재하는지 확인
+        const scenario = await Scenario.findById(id);
+        if (!scenario) {
+            return res.status(404).json({ error: "Scenario not found." });
+        }
+
+        // 데이터베이스에서 삭제
+        await Scenario.findByIdAndDelete(id);
+
+        return res.status(200).json({ message: "Scenario deleted successfully." });
+    } catch (error) {
+        console.error("Error deleting scenario:", error.message);
+        return res.status(500).json({ error: "Failed to delete scenario." });
+    }
+};

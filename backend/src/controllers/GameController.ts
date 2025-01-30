@@ -10,7 +10,7 @@ export const getGameList = async (
 ) => {
     try {
         // 데이터베이스에서 모든 게임 정보 가져오기
-        const games = await Game.find({}, "id name").lean(); // id와 name 필드만 가져오기
+        const games = await Game.find({}, "id game").lean(); // id와 game 필드만 가져오기
         return res.status(200).json(games);
     } catch (error) {
         console.error("[ERROR] Failed to fetch game list:", error.message);
@@ -30,7 +30,7 @@ export const checkKeywordInChat = async ({
         }
 
         // 시나리오 키워드 가져오기
-        const keywordDoc = await Keyword.findOne({ scenarioName: scenarioId });
+        const keywordDoc = await Keyword.findOne({ scenario: scenarioId });
         if (!keywordDoc) {
             throw new Error("No keywords found for the given scenario.");
         }

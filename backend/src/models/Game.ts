@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const GameSchema = new mongoose.Schema({
-    gameId: {
+    game: {
          type: String, required: true
          }, // 게임 이름
     description: { 
