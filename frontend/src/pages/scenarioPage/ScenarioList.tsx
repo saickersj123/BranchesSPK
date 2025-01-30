@@ -13,6 +13,11 @@ import { set_routes } from '../../Routes';
 
 interface ScenarioListProps {
   page: string | null; // Add a prop for the page to navigate to
+  scenarios: AIScenario[]; // Add a prop for the scenarios
+}
+
+interface ScenarioResponse {
+  scenarios: AIScenario[]; // scenarios 배열의 타입 정의
 }
 
 const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
@@ -29,7 +34,9 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
   useEffect(() => {
     const fetchScenarios = async () => {
       try {
-        const data = await getAllScenarioList();
+        const response  = await getAllScenarioList(); // 타입을 명시적으로 정의
+        const data = response; // scenarios 배열을 가져옵니다.
+        //console.log(" 가지고 온 시나리오 목록 = ", data);
         const sortedData = [...data].sort((a, b) => a.difficulty - b.difficulty);
         setScenarios(sortedData);
         setFilteredScenarios(sortedData);

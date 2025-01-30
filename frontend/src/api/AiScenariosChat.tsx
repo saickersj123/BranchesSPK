@@ -17,7 +17,7 @@ export const fetchScenarioMessages = async (conversationId: string): Promise<Mes
   };  
 
 // 모든 시나리오 목록을 가져오는 함수 - 모든 시나리오 목록을 반환하는 함수
-export const getAllScenarioList = async (): Promise<AIScenario[]> => {
+export const getAllScenarioList = async (): Promise<any[]> => {
     if (TEST_MODE) {
       // 더미 데이터 모드
       return Promise.resolve(DUMMY_SCENARIOS); // DUMMY_SCENARIOS는 types.ts에서 import
@@ -26,7 +26,7 @@ export const getAllScenarioList = async (): Promise<AIScenario[]> => {
       try {
         const response = await axiosInstance.get('/chat/scenarios');
         //console.log(" 가지고 온 시나리오 목록 = ", response.data); 
-        return response.data;
+        return response.data.scenarios;
       } catch (error) {
         console.error('시나리오 목록 가져오기 실패:', error);
         throw error;
@@ -150,6 +150,7 @@ export const getGameList = async (): Promise<any[]> => {
   else {
     try {
       const response = await axiosInstance.get('/game/list');
+      console.log(" 가지고 온 게임 목록 = ", response.data);
       return response.data;
     } catch (error) {
       console.error('게임 목록 가져오기 실패:', error);

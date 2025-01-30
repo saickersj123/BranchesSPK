@@ -6,6 +6,6 @@ export interface AIScenario {
     imageUrl: string;
     difficulty: 1 | 2 | 3; 
     selected_game: { true: string, false: string }; 
-    roles: { role1: string, role2: string };
+    roles: any;
   }
  

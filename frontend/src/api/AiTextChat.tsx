@@ -5,9 +5,8 @@ import { Message, Conversation } from '../@types/types';
 // 새로운 대화 시작 API - 새로운 대화를 시작하는 함수
 export const startNewConversation = async (): Promise<string> => {
   try {
-    const messageContent = "hello~"; // 메시지를 함수 내부에서 직접 설정
-    const response = await axiosInstance.post('/chat/c/new', { message: messageContent });
-    //console.log("새로운 대화 시작 응답 :", JSON.stringify(response.data, null, 2)); // 객체를 문자열로 변환하여 출력
+    const messageContent = "hello~"; // 알고리즘 수정으로 음성대화처럼 자동으로 처리하도록 할 예정
+    const response = await axiosInstance.post('/chat/c/new', { message: messageContent }); 
     return response.data.conversation._id;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
