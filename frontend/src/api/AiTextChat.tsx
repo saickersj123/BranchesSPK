@@ -4,10 +4,8 @@ import { Message, Conversation } from '../@types/types';
 
 // 새로운 대화 시작 API - 새로운 대화를 시작하는 함수
 export const startNewConversation = async (): Promise<string> => {
-  try {
-    const messageContent = "hello~"; 
-    // 알고리즘 수정으로 굳이 메시지가 없어도 되도록 수정할 예정
-    const response = await axiosInstance.post('/chat/c/new', { message: messageContent }); 
+  try {  
+    const response = await axiosInstance.get('/chat/c/new'); 
     return response.data.conversation._id;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
