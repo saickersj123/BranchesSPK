@@ -85,6 +85,7 @@ export const getAllScenarioConversations = async (): Promise<Conversation[]> => 
 export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
   const formData = new FormData();
   formData.append('audio', audioBlob);
+  formData.append('type', 'scenario');
 
   if (TEST_MODE) {
     // Dummy data for testing

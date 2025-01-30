@@ -17,7 +17,7 @@ export const fetchVoiceMessages = async (conversationId: string): Promise<Messag
 // 모든 conversationId를 가지고 오는 함수
 export const fetchAllConversationIds = async (): Promise<Conversation[]> => {
   try {
-    const response = await axiosInstance.get('/chat/v/all');
+    const response = await axiosInstance.get('/chat/all-v');
     //console.log("api상 대화 아이디 가져오기 응답 : ", response.data);
     return response.data.voiceConversations.map((conversation: any) => ({
       _id: conversation._id,
@@ -50,6 +50,7 @@ export const startNewConversationVoice = async (): Promise<string> => {
 export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
   const formData = new FormData();
   formData.append('audio', audioBlob);
+  formData.append('type', 'voice');
 
   if (TEST_MODE) {
     // Dummy data for testing
