@@ -3,14 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import LoginForm from '../../components/login/LoginForm';
 import '../../css/login/Login.css';
 import branchImage from '../../img/PRlogo2.png';
-import { set_routes } from '../../Routes';
+import { set_routes } from '../../Routes'; 
 
-interface LoginProps {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  setUser: React.Dispatch<React.SetStateAction<{ name: string } | null>>;
-}
-
-const Login: React.FC<LoginProps> = ({ setIsLoggedIn, setUser }) => {
+const Login: React.FC = ({ }) => {
   const navigate = useNavigate();
 
   return (
@@ -22,7 +17,7 @@ const Login: React.FC<LoginProps> = ({ setIsLoggedIn, setUser }) => {
           </div>
         </div> 
         <div className="login-center-box">
-          <LoginForm setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
+          <LoginForm  />
         </div>
       </div>
     </div>

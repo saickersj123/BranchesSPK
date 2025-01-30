@@ -1,6 +1,5 @@
 import React, { useState, useEffect , useCallback} from 'react';
-import { Container } from 'react-bootstrap';
-import VoiceRecorder from '../../components/voiceChat/VoiceRecorder';  
+import { Container } from 'react-bootstrap'; 
 import { getAllScenarioConversations, fetchScenarioMessages, 
         sendVoiceMessage, deleteScenarioConversation, 
         deleteAllScenarioChats } from '../../api/AiScenariosChat';
@@ -11,14 +10,11 @@ import '../../css/scenarioPage/ScenarioChat.css';
 import ScenarioHeader from './ScenarioHeader';  
 import ScenariosRecorder from '../../components/scenariosPage/ScenariosRecorder';
 import ScenariosChatList from '../../components/scenariosPage/ScenariosChatList';  
-import NewSidebar from '../../components/newSidebar/NewSidebar';
+import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import ChatResetButton from '../../utils/ChatResetButton';
-import { set_routes } from '../../Routes';
-interface VoiceChatProps {
-  isSidebarOpen: boolean;
-}
+import { set_routes } from '../../Routes'; 
 
-const ScenarioChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
+const ScenarioChat: React.FC = ({  }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>(''); 
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
@@ -65,7 +61,7 @@ const ScenarioChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
          //console.log("가장 최근 대화 아이디 : ", latestConversationId);
           await loadMessages(latestConversationId);
           setSelectedConversationId(latestConversationId); 
-          navigate(`${set_routes.VOICE_CHAT}/${latestConversationId}`);
+          navigate(`${set_routes.SCENARIO_CHAT}/${latestConversationId}`);
         } else { 
           setMessages([]);
         }
@@ -86,7 +82,7 @@ const ScenarioChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
           if (conversations.length > 0) {
             const lastConversation = conversations[conversations.length - 1];
             setConversationId(lastConversation._id);
-            navigate(`${set_routes.VOICE_CHAT}/${lastConversation._id}`, { replace: true });
+            navigate(`${set_routes.SCENARIO_CHAT}/${lastConversation._id}`, { replace: true });
           } 
         } catch (error: any) {
           console.error('대화 초기화 실패:', error);
@@ -158,10 +154,14 @@ const ScenarioChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       >
         <div className={`scenarios-chat-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
           <div className="scenarios-chat-content-container">
-            <div className="messages-container">
+            <div className="scenarios-messages-container">
               <ScenariosChatList messages={messages} />
             </div> 
-            <ScenariosRecorder onSend={handleVoiceSend} responseWait={responseWait} />  
+            <div className="scenarios-recorder-container">
+              <ScenariosRecorder 
+              onSend={handleVoiceSend} 
+              responseWait={responseWait} />  
+            </div>
           </div>
         </div>
       </ScenarioHeader>

@@ -10,14 +10,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
 import VoiceChatHeader from './VoiceChatHeader';  
 import VoisChatList from '../../components/voiceChat/VoisChatList';  
-import NewSidebar from '../../components/newSidebar/NewSidebar';
+import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import ChatResetButton from '../../utils/ChatResetButton';
-import { set_routes } from '../../Routes';
-interface VoiceChatProps {
-  isSidebarOpen: boolean;
-}
+import { set_routes } from '../../Routes'; 
 
-const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
+const VoiceChat: React.FC = ({  }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>(''); 
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
@@ -167,14 +164,22 @@ const VoiceChat: React.FC<VoiceChatProps> = ({ isSidebarOpen }) => {
       >
         <div className={`voice-chat-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
           <div className="voice-chat-content-container">
-            <div className="messages-container">
+
+            <div className="voice-messages-container">
               <VoisChatList messages={messages} />
-            </div> 
-            <VoiceRecorder onSend={handleVoiceSend} responseWait={responseWait} />  
+            </div>
+
+            <div className="voice-recorder-container">   
+              <VoiceRecorder 
+               onSend={handleVoiceSend} 
+               responseWait={responseWait}  
+              /> 
+            </div>
+            
           </div>
         </div>
       </VoiceChatHeader>
-      <NewSidebar 
+      <NewSidebar
         isOpen={sidebarOpen} 
         onToggle={() => setSidebarOpen(!sidebarOpen)}
       />

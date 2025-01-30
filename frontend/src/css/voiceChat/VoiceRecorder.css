@@ -1,10 +1,16 @@
 @import '../set/color.css';
  
+
+.voice-recorder-container {
+  position: fixed;
+  bottom: 30px;  
+}
+
+
 .voice-recorder {
   display: flex; 
   width: 60px;
-  height: 60px;
-  margin-bottom: 50px;
+  height: 60px; 
   align-items: center;
   justify-content: center;
 } 

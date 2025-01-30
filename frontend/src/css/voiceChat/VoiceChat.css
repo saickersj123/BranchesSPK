@@ -11,15 +11,12 @@
     transition: left 1.3s ease; 
 } 
 
-.voice-chat-content-container{ 
+.voice-chat-content-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px; 
-  padding-top: 10px;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
+  height: 100vh; /* 전체 화면 높이 */ 
+  box-sizing: border-box;
 }
 
 .voice-chat-container {
@@ -28,8 +25,7 @@
   margin-left: 50px;
   margin-right: 50px;
   display: flex;
-  flex-direction: column;
-  padding-top: 20px;
+  flex-direction: column;  
   height: 100vh;
 }
 
@@ -37,15 +33,26 @@
   transform: translateX(-120px); /* 사이드바 닫힘 상태 */
 }
 
-.messages-container { 
-  width: 100%; 
-  height: 100%;
+.voice-messages-container {
+  position: fixed;
+  top: 10vh; /* 헤더 아래에서 시작 */
+  bottom: 90px; /* 마이크와의 간격 포함 */ 
+  width: 100%;
   overflow-y: auto;
+  background-color: #f9f9f9;
+  box-sizing: border-box;  
+  padding: 0px 10px;  
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #f9f9f9;
-  margin-bottom: 10px;
 }
- 
+
+.voice-recorder-container {
+  position: fixed;
+  bottom: 20px; /* 화면 하단에서 20px 간격 */
+  width: 100%;
+  height: 60px; /* 마이크의 고정 높이 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff; /* 마이크의 배경색 */
+}

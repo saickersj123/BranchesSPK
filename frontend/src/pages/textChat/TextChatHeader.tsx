@@ -23,7 +23,7 @@ const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({
     <>
       <div className={`text-chat-header ${isSidebarOpen ? 'sidebar-open' : ''}`}> 
         <div className="text-chat-title-logo">
-          <span className="brand-text-text" onClick={() => navigate(set_routes.TEXT_CHAT)}>Branches-SPK</span>
+          <span className="brand-text-text" onClick={() => navigate(set_routes.TEXT_CHAT)}>BranchesSPK</span>
         </div>
         <UserSetDropdown currentPage="/textChat" />
       </div>

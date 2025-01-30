@@ -8,11 +8,11 @@ import { AIScenario } from '../../@types/scenarios';
 import DifficultyFilter from '../../components/scenariosPage/DifficultyFilter'; // 추가된 부분
 import ScenarioCard from '../../components/scenariosPage/ScenarioCard'; // 추가된 부분
 import ScenarioModal from '../../components/scenariosPage/ScenarioModal'; // 추가된 부분 
-import NewSidebar from '../../components/newSidebar/NewSidebar';
+import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import { set_routes } from '../../Routes';
 
 interface ScenarioListProps {
-  page: string; // Add a prop for the page to navigate to
+  page: string | null; // Add a prop for the page to navigate to
 }
 
 const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
@@ -50,16 +50,16 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
   }; 
 
   const handleStartScenario = async () => {
-    console.log('handleStartScenario called'); // Debugging log
+   // console.log('handleStartScenario called'); // Debugging log
     if (!selectedScenario) {
-      console.log('Scenario not selected'); // Debugging log
+     // console.log('Scenario not selected'); // Debugging log
       return;
     }
 
     const gameId = selectedGame || '0'; // Default to '0' if no game is selected
 
     try {
-      console.log('Starting scenario with game ID:', gameId); // Debugging log
+     // console.log('Starting scenario with game ID:', gameId); // Debugging log
       const conversation = await startNewScenarioConversation(
         selectedScenario._id,
         selectedRole,
@@ -67,7 +67,7 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
         selectedScenario.difficulty
       );
       if (typeof conversation === 'string') {
-        console.log('Navigating to conversation:', conversation); // Debugging log
+       // console.log('Navigating to conversation:', conversation); // Debugging log
         navigate(`${set_routes.SCENARIO_CHAT}/${conversation}`);
       } else {
         throw new Error('Invalid conversation response');

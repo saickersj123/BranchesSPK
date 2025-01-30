@@ -21,13 +21,22 @@ const calculateLevel = (exp: number): number => {
     return level;
 };
 
+const calculateNextLevelXP = (exp: number): number | null => {
+    const level = calculateLevel(exp);
+    if (level >= LEVEL_THRESHOLDS.length) {
+        return null; // 최대 레벨에 도달했을 때
+    }
+    return LEVEL_THRESHOLDS[level];
+};
+
 // 사용자 경험치를 불러오는 API - 사용자의 경험치와 계산된 레벨을 반환하는 함수
-export const gethUserExperience = async (): Promise<{ exp: number, level: number }> => {
+export const gethUserExperience = async (): Promise<{ exp: number, level: number, nextLevelXP: number | null }> => {
     if(TEST_MODE) {
         const mockExp = 300;
         return { 
             exp: mockExp, 
-            level: calculateLevel(mockExp) 
+            level: calculateLevel(mockExp),
+            nextLevelXP: calculateNextLevelXP(mockExp)
         };
     }
     else {
@@ -36,7 +45,8 @@ export const gethUserExperience = async (): Promise<{ exp: number, level: number
             const exp = response.data.exp;
             return { 
                 exp, 
-                level: calculateLevel(exp) 
+                level: calculateLevel(exp),
+                nextLevelXP: calculateNextLevelXP(exp)
             };
         } catch (error) {
             console.error('경험치 가져오기 실패:', error);

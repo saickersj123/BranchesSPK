@@ -86,12 +86,7 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({
         </div>   
         {showGameList && (
           <div className="ScenarioModal-game-list">
-            <GameList onSelect={handleGameSelect} selectedGame={selectedGame} />
-            {selectedGame && (
-              <div className="ScenarioModal-game-options">
-                <p>선택된 게임: {selectedGame}</p> 
-              </div>
-            )}
+            <GameList onSelect={handleGameSelect} selectedGame={selectedGame} /> 
           </div>
         )}
       </Modal.Body>
@@ -100,7 +95,7 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({
         <Button
           variant="primary"
           onClick={() => {
-            console.log('Start button clicked');
+           // console.log('Start button clicked');
             onStart();
           }}
           className="ScenarioModal-start-button"

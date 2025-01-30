@@ -1,28 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faPen, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/mypage/Mypage.css';
+import { checkAuthStatus } from '../api/axiosInstance';
 import { updatename, updatePassword, mypage } from '../api/UserInfo';
-import branchImage from '../img/PRlogo2.png'; 
-import { User } from '../@types/types';
-import { set_routes } from '../Routes';
-interface MyPageProps {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  username: string;
-  setUsername: (username: string) => void;
-  setNicknameChanged: (changed: boolean) => void;
-}
+import branchImage from '../img/PRlogo2.png';  
+import { set_routes } from '../Routes'; 
+import { AuthResponse } from '../@types/types';
 
 interface LocationState {
   from?: string;
 }
 
-const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username, setUsername, setNicknameChanged }) => {
+const MyPage: React.FC = ({ }) => {
   const [password, setPassword] = useState('');
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
   const [newname, setNewname] = useState('');
@@ -34,10 +27,18 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
   const [isNewnameFocused, setIsNewnameFocused] = useState(false);
   const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
   const [isConfirmNewPasswordFocused, setIsConfirmNewPasswordFocused] = useState(false);
-  
+  const [username, setUserName] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as LocationState;
+
+  useEffect(() => {
+    const fetchUserNameAndNickname = async () => {
+      const response: AuthResponse = await checkAuthStatus(); 
+      setUserName(response.user?.name || ""); 
+    };
+    fetchUserNameAndNickname();
+  }, []);
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -49,8 +50,7 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
       const response = await mypage(password);
       setPassword('');
       if (response.message === 'OK') {
-        setIsPasswordVerified(true);
-        setUsername(response.name);
+        setIsPasswordVerified(true); 
       } else if (response.cause === 'Incorrect Password') {
         alert('비밀번호가 일치하지 않습니다.');
       }
@@ -80,18 +80,18 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
   const handleSaveNewname = async () => {
     if (newname.trim()) {
       try {
-        await updatename(newname);
-        setUsername(newname);
-        setNicknameChanged(true);
+        await updatename(newname); 
         setIsEditingname(false);
         setNewname('');
+        setUserName(newname);
       } catch (error) {
         alert('닉네임 변경에 실패했습니다.');
-      }
+      } 
     } else {
       alert('새 닉네임을 입력하세요.');
     }
-  };
+  }; 
+  
 
   const handleSaveNewPassword = async () => {
     if (newPassword.trim() && confirmNewPassword.trim()) {
@@ -126,10 +126,10 @@ const MyPage: React.FC<MyPageProps> = ({ user, setUser, setIsLoggedIn, username,
 
   const handleBackClick = () => {
     if (state && state.from) {
-      if (state.from == 'textChat' || state.from == '/textChat') {
+      if (state.from == 'textChat' || state.from == '/textChat' || state.from == set_routes.TEXT_CHAT) {
         navigate(set_routes.TEXT_CHAT);
       } 
-      else if (state.from == 'voiceChat' || state.from == '/voiceChat') {
+      else if (state.from == 'voiceChat' || state.from == '/voiceChat' || state.from == set_routes.VOICE_CHAT) {
         navigate(set_routes.VOICE_CHAT);
       } 
       else {
