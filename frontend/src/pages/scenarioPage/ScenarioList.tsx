@@ -10,6 +10,8 @@ import ScenarioCard from '../../components/scenariosPage/ScenarioCard'; // 추�
 import ScenarioModal from '../../components/scenariosPage/ScenarioModal'; // 추가된 부분 
 import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import { set_routes } from '../../Routes';
+import { getAllScenarioConversations } from '../../api/AiScenariosChat';
+
 
 interface ScenarioListProps {
   page: string | null; // Add a prop for the page to navigate to
@@ -30,21 +32,39 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true); // 로딩 상태 추가
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchScenarios = async () => {
       try {
-        const response  = await getAllScenarioList(); // 타입을 명시적으로 정의
-        const data = response; // scenarios 배열을 가져옵니다.
-        //console.log(" 가지고 온 시나리오 목록 = ", data);
+        const response  = await getAllScenarioList();
+        console.log("시나리오 대화 목록 : ", response);
+        const data = response;
         const sortedData = [...data].sort((a, b) => a.difficulty - b.difficulty);
         setScenarios(sortedData);
         setFilteredScenarios(sortedData);
       } catch (error) {
         console.error('시나리오 목록을 불러오는데 실패했습니다:', error);
+      } finally {
+        setLoading(false); // 로딩 완료
       }
     };
     fetchScenarios();
+
+    const checkScenarioConversations = async () => {
+      try {
+        const conversations = await getAllScenarioConversations();
+        if (conversations.length > 0) {
+          //console.log("시나리오 대화 목록 : ", conversations);
+          navigate(`${set_routes.SCENARIO_CHAT}/${conversations[0]._id}`);
+        }
+      } catch (error) {
+        console.error('시나리오 대화 목록을 가져오는데 실패했습니다:', error);
+      } finally {
+        setLoading(false); // 로딩 완료
+      }
+    };
+    checkScenarioConversations();
   }, []);
 
   const handleDifficultyFilter = (difficulty: number | null) => {
@@ -102,31 +122,37 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
     <div className="scenarios-container"> 
       <NewSidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} /> 
       <h1>시나리오 선택</h1> 
-      <DifficultyFilter selectedDifficulty={selectedDifficulty} onDifficultyChange={handleDifficultyFilter} />  
-      <div className="scenarios-grid">
-        {filteredScenarios.length === 0 ? (
-          <div className="scenarios-notfound">시나리오가 없습니다.</div>
-        ) : (
-          filteredScenarios.map((scenario) => (
-            <ScenarioCard 
-              key={scenario._id} 
-              scenario={scenario} 
-              onClick={handleScenarioClick} 
-              onImageError={handleImageError} 
-            /> 
-          ))
-        )}
-      </div>
-      <ScenarioModal 
-        show={showModal} 
-        selectedScenario={selectedScenario} 
-        onHide={() => setShowModal(false)} 
-        onStart={handleStartScenario} 
-        selectedRole={selectedRole} 
-        onRoleChange={setSelectedRole} 
-        selectedGame={selectedGame} 
-        onGameChange={setSelectedGame} 
-      />
+      {loading ? ( // 로딩 상태에 따라 메시지 표시
+        <div className="loading">로딩 중...</div>
+      ) : (
+        <>
+          <DifficultyFilter selectedDifficulty={selectedDifficulty} onDifficultyChange={handleDifficultyFilter} />  
+          <div className="scenarios-grid">
+            {filteredScenarios.length === 0 ? (
+              <div className="scenarios-notfound">시나리오가 없습니다.</div>
+            ) : (
+              filteredScenarios.map((scenario) => (
+                <ScenarioCard 
+                  key={scenario._id} 
+                  scenario={scenario} 
+                  onClick={handleScenarioClick} 
+                  onImageError={handleImageError} 
+                /> 
+              ))
+            )}
+          </div>
+          <ScenarioModal 
+            show={showModal} 
+            selectedScenario={selectedScenario} 
+            onHide={() => setShowModal(false)} 
+            onStart={handleStartScenario} 
+            selectedRole={selectedRole} 
+            onRoleChange={setSelectedRole} 
+            selectedGame={selectedGame} 
+            onGameChange={setSelectedGame} 
+          />
+        </>
+      )}
     </div>
   );
 };

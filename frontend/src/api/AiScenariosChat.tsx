@@ -1,7 +1,7 @@
 import axiosInstance, { TEST_MODE } from "./axiosInstance";
 import { AIScenario } from "../@types/scenarios";
 import { DUMMY_SCENARIOS } from "../data/dummy_scenarios_types"; 
-import { Message, Conversation } from '../@types/types';
+import { Message, Conversation } from '../@types/types'; 
 
 
 // conversationId를 활용해 모든 음성대화 메시지를 가져오는 함수
@@ -68,7 +68,7 @@ export const startNewScenarioConversation = async (
 // 모든 시나리오 컨버세이션을 가지고 오는 함수
 export const getAllScenarioConversations = async (): Promise<Conversation[]> => {
   try {
-    const response = await axiosInstance.get('/chat/all-c/scenario');
+    const response = await axiosInstance.get('/chat/all-s');
     //console.log("api상 대화 아이디 가져오기 응답 : ", response.data);
     return response.data.scenarioConversations.map((conversation: any) => ({
       _id: conversation._id,
@@ -80,12 +80,13 @@ export const getAllScenarioConversations = async (): Promise<Conversation[]> => 
     return [];
   }
 }; 
-   
-// 음성 메시지 전송 함수
+
+ // 음성 메시지 전송 함수
 export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
   const formData = new FormData();
   formData.append('audio', audioBlob);
   formData.append('type', 'scenario');
+  
 
   if (TEST_MODE) {
     // Dummy data for testing
@@ -113,7 +114,6 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
     throw error;
   }
 };
-
   
 // 대화 삭제 API - 대화를 삭제하는 함수
 export const deleteScenarioConversation = async (conversationId: string): Promise<any> => {

@@ -96,7 +96,7 @@ const ScenarioChat: React.FC = ({  }) => {
 
   const handleVoiceSend = async (audioBlob: Blob) => { 
     try {
-      setResponseWait(true); // Set responseWait to true when sending a message
+      setResponseWait(true); // Set responseWait to true when sending a message 
       const response = await sendVoiceMessage(conversationId, audioBlob);
       const newMessage: Message = { 
         role: 'user',
