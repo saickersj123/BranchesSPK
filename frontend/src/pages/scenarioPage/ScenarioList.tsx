@@ -14,13 +14,8 @@ import { getAllScenarioConversations } from '../../api/AiScenariosChat';
 
 
 interface ScenarioListProps {
-  page: string | null; // Add a prop for the page to navigate to
-  scenarios: AIScenario[]; // Add a prop for the scenarios
-}
-
-interface ScenarioResponse {
-  scenarios: AIScenario[]; // scenarios 배열의 타입 정의
-}
+  page: string | null; // Add a prop for the page to navigate to 
+} 
 
 const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
   const [scenarios, setScenarios] = useState<AIScenario[]>([]);

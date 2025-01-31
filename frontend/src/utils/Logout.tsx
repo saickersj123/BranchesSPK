@@ -12,6 +12,7 @@ const useLogout = () => {
                 navigate(set_routes.LANDING_PAGE); // 홈으로 이동
             } else {
                 console.error('로그아웃 실패');
+                navigate(set_routes.LANDING_PAGE);
             }
         } catch (error) {
             console.error('로그아웃 처리 중 오류 발생:', error);
