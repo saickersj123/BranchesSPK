@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAllScenarioList, startNewScenarioConversation, getGameList } from '../../api/AiScenariosChat';  
 import '../../css/scenarioPage/ScenarioList.css';
 import '../../css/set/color.css';  
-import IMAGE_NOT_FOUND from '../../img/ErrorIMG.png';
+import IMAGE_NOT_FOUND from '../../img/ErrorIMG.png'; 
 import { AIScenario } from '../../@types/scenarios';
 import DifficultyFilter from '../../components/scenariosPage/DifficultyFilter'; // 추가된 부분
 import ScenarioCard from '../../components/scenariosPage/ScenarioCard'; // 추가된 부분
