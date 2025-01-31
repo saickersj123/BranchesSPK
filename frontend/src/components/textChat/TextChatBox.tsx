@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useState, useRef, useEffect } from 'react'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import '../../css/textChat/TextChatBox.css';
@@ -11,7 +10,7 @@ interface VoiceRecorderProps {
 
 const TextInput: React.FC<VoiceRecorderProps> = ({ onSend, responseWait }) => {
   const [message, setMessage] = useState<string>('');
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSend = () => {
     if (message.trim()) {
@@ -20,9 +19,27 @@ const TextInput: React.FC<VoiceRecorderProps> = ({ onSend, responseWait }) => {
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && !responseWait && message.trim()) {
-      handleSend();
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !responseWait) {
+      event.preventDefault();
+      if (event.shiftKey) {
+        setMessage((prev) => prev + '\n');
+      } else if (message.trim()) {
+        handleSend();
+      }
+    }
+    adjustHeight();
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(event.target.value);
+    adjustHeight();
+  };
+
+  const adjustHeight = () => {
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
     }
   };
 
@@ -31,6 +48,10 @@ const TextInput: React.FC<VoiceRecorderProps> = ({ onSend, responseWait }) => {
       inputRef.current?.focus();
     }
   }, [responseWait]);
+
+  useEffect(() => {
+    adjustHeight();
+  }, [message]);
 
   return (
     <div className="text-input-container">
@@ -41,14 +62,14 @@ const TextInput: React.FC<VoiceRecorderProps> = ({ onSend, responseWait }) => {
           </div>
         ) : (
           <>
-            <input
-              type="text"
+            <textarea
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={handleChange}
               onKeyDown={handleKeyDown}
               className="text-input-field"
               disabled={responseWait}
               ref={inputRef}
+              rows={1}
             />
             <button
               onClick={handleSend}
