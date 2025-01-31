@@ -32,8 +32,7 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
   useEffect(() => { 
     const fetchScenarios = async () => {
       try {
-        const response  = await getAllScenarioList();
-        console.log("시나리오 대화 목록 : ", response);
+        const response  = await getAllScenarioList(); 
         const data = response;
         const sortedData = [...data].sort((a, b) => a.difficulty - b.difficulty);
         setScenarios(sortedData);
