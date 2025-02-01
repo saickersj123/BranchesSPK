@@ -100,7 +100,7 @@ export const getAllConversations = async (
             .status(401)
             .json({ message: "ERROR", cause: "Permissions didn't match" });
       }
-      const generalConversations = user.conversations.filter(convo => convo.type !== "voice");
+      const generalConversations = user.conversations.filter(convo => convo.type !== "voice" && convo.type !== "scenario");
         return res.status(200).json({ message: "OK", conversations: generalConversations });
    } catch (err) {
       console.log(err);
@@ -675,7 +675,7 @@ export const startNewConversationScenario = async (
     try {
         const user = await User.findById(res.locals.jwtData.id);
 
-        // 유저가 존재하지 않을 경우 처리
+        // 유저 검증
         if (!user) {
             return res.status(401).json({
                 message: "ERROR",
@@ -683,19 +683,29 @@ export const startNewConversationScenario = async (
             });
         }
 
-        // 요청에서 게임 ID 가져오기, 없으면 기본값으로 0 설정
-        const { gameId = 0 } = req.body;
+        // 요청에서 시나리오 정보 가져오기
+        const { scenarioId, selectedRole, difficulty, gameId = 0 } = req.body;
 
-        // 새 시나리오 대화 추가
+        // 필수 데이터 확인
+        if (!scenarioId || !selectedRole || !difficulty) {
+            return res.status(400).json({
+                error: "Scenario ID, role, and difficulty are required.",
+            });
+        }
+
+        // 새 시나리오 대화 생성
         const newScenarioConversation = {
-            chats: [],
             type: "scenario",
-            gameId, // 선택된 게임 ID (없으면 0)
+            scenarioData: { // 🔹 시나리오 전용 데이터 저장
+                scenarioId,
+                selectedRole,
+                difficulty,
+                gameId
+            }, // 게임 ID (없으면 0)
+            chats: [],
         };
 
         user.conversations.push(newScenarioConversation);
-
-        // 변경 사항 저장
         await user.save();
 
         // 새로 생성된 대화 반환
@@ -708,6 +718,7 @@ export const startNewConversationScenario = async (
         return res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
+
 
 export const getAllScenarioConversations = async (
     req: Request,
@@ -896,37 +907,51 @@ export const handleScenarioConversation = async (
     res: Response
 ) => {
     try {
-        const audioBuffer = req.file?.buffer;
-        let { scenarioId, selectedRole, difficulty, gameId } = req.body;
+        const { conversationId } = req.params;
 
         // 필수 데이터 확인
-        if (!scenarioId || !selectedRole || !difficulty || !gameId) {
-            return res.status(400).json({
-                error: "Scenario ID, role, difficulty, and game ID are required.",
+        if (!conversationId) {
+            return res.status(400).json({ error: "Conversation ID is required." });
+        }
+
+        // 유저 조회
+        const user = await User.findById(res.locals.jwtData.id);
+        if (!user) {
+            return res.status(401).json({
+                message: "ERROR",
+                cause: "User doesn't exist or token malfunctioned",
             });
         }
 
-        // 시나리오 확인
-        const scenario = await Scenario.findById(scenarioId);
+        // ✅ 유저의 `conversations` 배열에서 `conversationId`와 일치하는 대화 찾기
+        const conversation = user.conversations.find(conv => conv._id.toString() === conversationId);
+
+        if (!conversation) {
+            return res.status(404).json({ error: "Conversation not found." });
+        }
+
+        // ✅ 기존 대화에서 시나리오 데이터 가져오기
+        const { scenarioId, selectedRole, difficulty, gameId } = conversation.scenarioData;
+        console.log("Loaded scenarioData from conversation:", { scenarioId: scenarioId.toString(), selectedRole, difficulty, gameId });
+
+        // ✅ 전체 시나리오 목록에서 `scenarioId`와 일치하는 시나리오 찾기
+        const allScenarios = await Scenario.find();
+        const scenario = allScenarios.find(conv => conv._id.toString() === scenarioId.toString());
+
         if (!scenario) {
-            return res.status(404).json({ error: "Scenario not found" });
-        }
-        if (!scenario.roles.includes(selectedRole)) {
-            return res.status(400).json({
-                error: `Invalid role. Available roles: ${scenario.roles.join(", ")}`,
-            });
+            return res.status(404).json({ error: "Scenario not found in database." });
         }
 
-        // 1. GPT가 먼저 대화를 시작할지 결정
+        // ✅ 사용자 입력 처리 (프론트에서 보낸 음성 데이터 유지)
         let userText = null;
+        let userAudioBuffer = null; // 프론트에서 보낸 음성 데이터 저장
 
         if (selectedRole === "role2") {
-            // role1인 경우 GPT가 먼저 대화 시작
-            userText = ""; // 사용자 입력은 비어 있음
-        } else if (audioBuffer) {
-            // 음성이 있을 경우 음성을 텍스트로 변환
+            userText = ""; // GPT가 먼저 시작
+        } else if (req.file?.buffer) {
             try {
-                userText = await transcribeAudioToText(audioBuffer);
+                userAudioBuffer = req.file.buffer; // 🔹 프론트에서 보낸 음성 데이터 유지
+                userText = await transcribeAudioToText(userAudioBuffer);
             } catch (error) {
                 return res.status(500).json({ error: "Failed to transcribe audio" });
             }
@@ -934,11 +959,11 @@ export const handleScenarioConversation = async (
             return res.status(400).json({ error: "No audio data provided or invalid role." });
         }
 
-        // 2. GPT 응답 생성
+        // GPT 응답 생성
         let gptResponse;
         try {
             gptResponse = await generateFineTunedResponse(userText, {
-                scenarioId,
+                scenarioId: scenarioId.toString(),
                 selectedRole,
                 difficulty,
             });
@@ -946,53 +971,37 @@ export const handleScenarioConversation = async (
             return res.status(500).json({ error: "Failed to generate GPT response" });
         }
 
-        // 3. 게임 로직 호출
+        // 게임 로직 실행
         let gameResult = null;
-        if (!gameId) {
-            gameId = "0";
-        }
-
         const games = {
             "keyword": async (params) => {
-                const { userId, scenarioId, userResponse } = params;
-                const result = await checkKeywordInChat({
-                    userId,
-                    scenarioId,
-                    userResponse,
-                });
+                const result = await checkKeywordInChat(params);
                 return {
                     matchedKeywords: result.matchedKeywords,
                     experienceGained: result.experienceGained,
                     totalExperience: result.totalExperience,
                 };
             },
-            "0": async () => {
-                console.log("No game selected.");
-                return { matchedKeywords: [], experienceGained: 0, totalExperience: 0 };
-            },
+            "0": async () => ({ matchedKeywords: [], experienceGained: 0, totalExperience: 0 }),
         };
 
-        const game = games[gameId];
-
-        if (game) {
-            gameResult = await game({
+        if (games[gameId]) {
+            gameResult = await games[gameId]({
                 userId: res.locals.jwtData.id,
                 scenarioId,
                 userResponse: userText || gptResponse.text,
             });
-        } else {
-            console.error(`Invalid gameId: ${gameId}`);
         }
 
-        // 4. 텍스트 -> 음성 변환 (TTS)
-        let audioResponseBuffer;
+        // ✅ GPT 응답을 TTS 변환하여 별도 저장 (gptAudioBuffer)
+        let gptAudioBuffer = null;
         try {
-            audioResponseBuffer = await generateSpeechFromText(gptResponse.text);
+            gptAudioBuffer = await generateSpeechFromText(gptResponse.text);
         } catch (error) {
-            return res.status(500).json({ error: "Failed to generate speech from text" });
+            console.error("TTS generation failed:", error);
         }
 
-        // 5. 대화 저장
+        // 대화 기록 저장
         try {
             await saveScenarioConversation(
                 res.locals.jwtData.id,
@@ -1003,13 +1012,14 @@ export const handleScenarioConversation = async (
             return res.status(500).json({ error: "Failed to save conversation" });
         }
 
-        // ✅ 최종 응답: 변환된 텍스트 + GPT 응답 + 게임 결과 + 음성(Base64)
+        // ✅ 최종 응답 반환 (프론트에서 보낸 `audioBuffer` + GPT TTS `gptAudioBuffer`)
         return res.json({
             message: userText,
             role: "user",
             gptResponse: gptResponse.text,
-            audioBuffer: audioResponseBuffer.toString("base64"),
-            gameResult, // 경험치와 키워드 매치 결과 포함
+            userAudioBuffer: userAudioBuffer ? userAudioBuffer.toString("base64") : null, // 프론트에서 보낸 음성 데이터 포함
+            gptAudioBuffer: gptAudioBuffer ? gptAudioBuffer.toString("base64") : null, // GPT 응답 TTS 변환 데이터 포함
+            gameResult,
         });
     } catch (error) {
         console.error("[ERROR] Error in handleScenarioConversation:", error.message);
@@ -1018,6 +1028,8 @@ export const handleScenarioConversation = async (
         }
     }
 };
+
+
 
 
 

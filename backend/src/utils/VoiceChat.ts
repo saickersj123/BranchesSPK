@@ -94,7 +94,7 @@ export async function generateFineTunedResponse(userText: string, options: Gener
             const { name: scenarioName, fineTunedModel: scenarioModel, roles } = scenario;
 
             // 역할 검증
-            if (selectedRole && !roles[selectedRole]) {
+            if (selectedRole && !roles.includes[selectedRole]) {
                 throw new Error(`Invalid role '${selectedRole}'. Available roles: ${Object.keys(roles).join(", ")}.`);
             }
 
@@ -140,5 +140,5 @@ export async function generateFineTunedResponse(userText: string, options: Gener
 
 // 반대 역할 계산 함수
 const getOppositeRole = (roles, selectedRole) => {
-    return Object.keys(roles).find((key) => key !== selectedRole) || "unknown role";
+    return roles.find((role) => role !== selectedRole) || "guide";
 };
