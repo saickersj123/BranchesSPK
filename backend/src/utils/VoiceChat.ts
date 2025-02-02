@@ -86,21 +86,16 @@ export async function generateFineTunedResponse(userText: string, options: Gener
         let fineTunedModel = ModelName; // 기본 모델 설정
 
         if (scenarioId) {
-            const scenario = await ScenarioModel.findById(scenarioId);
+            const scenario = await ScenarioModel.findById(scenarioId.toString());
             if (!scenario) {
                 throw new Error(`Scenario with ID '${scenarioId}' not found.`);
             }
 
             const { name: scenarioName, fineTunedModel: scenarioModel, roles } = scenario;
 
-            // 역할 검증
-            if (selectedRole && !roles.includes[selectedRole]) {
-                throw new Error(`Invalid role '${selectedRole}'. Available roles: ${Object.keys(roles).join(", ")}.`);
-            }
-
             // 반대 역할 가져오기
-            const oppositeRoleKey = getOppositeRole(roles, selectedRole); // role1 -> role2 또는 반대
-            const roleName = roles[oppositeRoleKey] || "guide";
+            const oppositeRole = getOppositeRole(roles, selectedRole); // role1 -> role2 또는 반대
+            const roleName = oppositeRole || "guide";
 
             // 난이도 메시지 추가
             const difficultyMessage = difficulty
@@ -109,7 +104,7 @@ export async function generateFineTunedResponse(userText: string, options: Gener
 
             // 시스템 메시지 생성
             systemMessage = `You are a ${roleName} in the ${scenarioName} scenario. ${difficultyMessage}`;
-            fineTunedModel = scenarioModel || ModelName;
+            fineTunedModel = fineTunedModel = scenarioModel && scenarioModel.trim() ? scenarioModel : ModelName;
         } else {
             systemMessage =
                 "You are an English-speaking friend helping the user improve their English skills. " +
@@ -138,7 +133,8 @@ export async function generateFineTunedResponse(userText: string, options: Gener
     }
 }
 
-// 반대 역할 계산 함수
-const getOppositeRole = (roles, selectedRole) => {
-    return roles.find((role) => role !== selectedRole) || "guide";
+// ✅ 반대 역할을 찾는 함수 (배열 기반)
+const getOppositeRole = (roles: string[], selectedRole: string): string => {
+    if (!roles.includes(selectedRole)) return "guide"; // 역할이 없으면 기본값 설정
+    return roles.find((role) => role !== selectedRole) || "guide"; // 사용자가 선택한 역할이 아닌 나머지 역할 반환
 };

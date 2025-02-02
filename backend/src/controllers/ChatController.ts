@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import User from "../models/User.js";
 import Scenario from "../models/Scenario.js";
+import Game from "../models/Game.js";
 import { configureOpenAI, ModelName } from "../config/openai.js";
 import OpenAI from "openai";
 import mongoose, { Types } from "mongoose";
 import { saveModel, loadModel, deleteModel } from "../utils/modelStorage.js";
 import { fineTuneModel, saveTrainingDataToFile, uploadTrainingData } from "../utils/fineTuneModel.js"
 import { transcribeAudioToText, generateFineTunedResponse, generateSpeechFromText } from "../utils/VoiceChat.js";
-import { checkKeywordInChat } from "./GameController.js";
+import { checkKeywordInChat, executeGameLogic } from "./GameController.js";
 
 export const generateChatCompletion = async (
     req: Request, 
@@ -942,11 +943,21 @@ export const handleScenarioConversation = async (
             return res.status(404).json({ error: "Scenario not found in database." });
         }
 
+        // ✅ 시나리오에서 역할 정보 가져오기
+        const roles = scenario.roles;
+
+        if (gameId == 0) {
+            return res.status(200).json({ message: "No game selecte"});
+        }
+
+        // ✅ GPT가 먼저 시작해야 하는지 확인 (사용자가 roles[1]을 선택했을 때 GPT 먼저 시작)
+        const gptStarts = selectedRole === roles[1];
+
         // ✅ 사용자 입력 처리 (프론트에서 보낸 음성 데이터 유지)
         let userText = null;
         let userAudioBuffer = null; // 프론트에서 보낸 음성 데이터 저장
 
-        if (selectedRole === "role2") {
+        if (gptStarts) {
             userText = ""; // GPT가 먼저 시작
         } else if (req.file?.buffer) {
             try {
@@ -971,27 +982,6 @@ export const handleScenarioConversation = async (
             return res.status(500).json({ error: "Failed to generate GPT response" });
         }
 
-        // 게임 로직 실행
-        let gameResult = null;
-        const games = {
-            "keyword": async (params) => {
-                const result = await checkKeywordInChat(params);
-                return {
-                    matchedKeywords: result.matchedKeywords,
-                    experienceGained: result.experienceGained,
-                    totalExperience: result.totalExperience,
-                };
-            },
-            "0": async () => ({ matchedKeywords: [], experienceGained: 0, totalExperience: 0 }),
-        };
-
-        if (games[gameId]) {
-            gameResult = await games[gameId]({
-                userId: res.locals.jwtData.id,
-                scenarioId,
-                userResponse: userText || gptResponse.text,
-            });
-        }
 
         // ✅ GPT 응답을 TTS 변환하여 별도 저장 (gptAudioBuffer)
         let gptAudioBuffer = null;
@@ -1005,11 +995,17 @@ export const handleScenarioConversation = async (
         try {
             await saveScenarioConversation(
                 res.locals.jwtData.id,
-                userText || gptResponse.text,
+                userText,
                 gptResponse.text
             );
         } catch (error) {
             return res.status(500).json({ error: "Failed to save conversation" });
+        }
+        
+        let gameResult = null;
+        // ✅ 대화가 저장된 후 게임 로직 실행
+        if (gameId !== 0) {
+            gameResult = await executeGameLogic({ gameId: gameId.toString(), conversation});
         }
 
         // ✅ 최종 응답 반환 (프론트에서 보낸 `audioBuffer` + GPT TTS `gptAudioBuffer`)
@@ -1017,7 +1013,6 @@ export const handleScenarioConversation = async (
             message: userText,
             role: "user",
             gptResponse: gptResponse.text,
-            userAudioBuffer: userAudioBuffer ? userAudioBuffer.toString("base64") : null, // 프론트에서 보낸 음성 데이터 포함
             gptAudioBuffer: gptAudioBuffer ? gptAudioBuffer.toString("base64") : null, // GPT 응답 TTS 변환 데이터 포함
             gameResult,
         });
@@ -1028,10 +1023,6 @@ export const handleScenarioConversation = async (
         }
     }
 };
-
-
-
-
 
 export const getAllScenarios = async (
     req: Request,
