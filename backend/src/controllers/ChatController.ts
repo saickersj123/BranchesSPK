@@ -685,7 +685,7 @@ export const startNewConversationScenario = async (
         }
 
         // 요청에서 시나리오 정보 가져오기
-        const { scenarioId, selectedRole, difficulty, gameId = 0 } = req.body;
+        const { scenarioId, selectedRole, difficulty, gameId = null } = req.body;
 
         // 필수 데이터 확인
         if (!scenarioId || !selectedRole || !difficulty) {
@@ -702,7 +702,7 @@ export const startNewConversationScenario = async (
                 selectedRole,
                 difficulty,
                 gameId
-            }, // 게임 ID (없으면 0)
+            }, // 게임 ID (없으면 null)
             chats: [],
         };
 
@@ -946,7 +946,7 @@ export const handleScenarioConversation = async (
         // ✅ 시나리오에서 역할 정보 가져오기
         const roles = scenario.roles;
 
-        if (gameId == 0) {
+        if (gameId == null) {
             return res.status(200).json({ message: "No game selecte"});
         }
 
@@ -1004,7 +1004,7 @@ export const handleScenarioConversation = async (
         
         let gameResult = null;
         // ✅ 대화가 저장된 후 게임 로직 실행
-        if (gameId !== 0) {
+        if (gameId) {
             gameResult = await executeGameLogic({ gameId: gameId.toString(), conversation});
         }
 

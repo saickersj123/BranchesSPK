@@ -17,8 +17,9 @@ const scenarioSchema = new mongoose.Schema({
         required: function() { return this.type === 'scenario'; }
     },
     gameId: {
-        type: Number,
-        default: 0, // 기본 게임 ID (없으면 0)
+        type: String,
+        ref: "Game",
+        default: null, // 기본 게임 ID (없으면 0)
     }
 });
 
