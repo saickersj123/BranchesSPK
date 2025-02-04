@@ -97,14 +97,10 @@ export async function generateFineTunedResponse(userText: string, options: Gener
             const oppositeRole = getOppositeRole(roles, selectedRole); // role1 -> role2 또는 반대
             const roleName = oppositeRole || "guide";
 
-            // 난이도 메시지 추가
-            const difficultyMessage = difficulty
-                ? `Please provide a response suitable for difficulty level ${difficulty} (1~3).`
-                : "";
-
             // 시스템 메시지 생성
-            systemMessage = `You are a ${roleName} in the ${scenarioName} scenario. ${difficultyMessage}`;
-            fineTunedModel = fineTunedModel = scenarioModel && scenarioModel.trim() ? scenarioModel : ModelName;
+            systemMessage = `You are playing the role of a '${roleName}' in the '${scenarioName}' scenario. Your task is to engage in a natural and realistic conversation based on this scenario. Always stay in character and respond as a '${roleName}', ensuring that your answers are relevant to the given context. If the user asks unexpected questions, try to guide them back to the scenario naturally. Please provide a response suitable for difficulty level ${difficulty} (1~3).`;
+
+            fineTunedModel = scenarioModel && scenarioModel.trim() ? scenarioModel : ModelName;
         } else {
             systemMessage =
                 "You are an English-speaking friend helping the user improve their English skills. " +
