@@ -77,12 +77,12 @@ const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
     const gameId = selectedGame || '0'; // Default to '0' if no game is selected
 
     try {
-     // console.log('Starting scenario with game ID:', gameId); // Debugging log
+     //console.log('Starting scenario with game ID:', gameId); // Debugging log
       const conversation = await startNewScenarioConversation(
         selectedScenario._id,
         selectedRole,
-        gameId, // Use the default or selected game ID
-        selectedScenario.difficulty
+        selectedScenario.difficulty,
+        gameId // Use the default or selected game ID
       );
       if (typeof conversation === 'string') {
        // console.log('Navigating to conversation:', conversation); // Debugging log

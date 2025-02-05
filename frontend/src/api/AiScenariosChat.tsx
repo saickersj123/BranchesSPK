@@ -30,14 +30,15 @@ export const getAllScenarioList = async (): Promise<any[]> => {
 export const startNewScenarioConversation = async (
   scenarioId: string, 
   selectedRole: 'role1' | 'role2',
-  game_id: string,
-  difficulty: number 
+  difficulty: number, 
+  gameId: string
 ): Promise<string> => { 
   try {
     const response = await axiosInstance.post('/chat/s/new', {
       scenarioId,
       selectedRole, 
-      difficulty
+      difficulty,
+      gameId
     });
     return response.data.conversation._id; // Return the conversation ID
   } catch (error) {
@@ -73,7 +74,7 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
         'Content-Type': 'multipart/form-data',
       },
     });
-    //console.log(response.data); 
+    console.log("음성 메시지 전송 응답 : ", response.data);
     return  { 
       text: response.data.message, // Mock text response
       gptResponse: response.data.gptResponse, // Corrected to use gptResponse
@@ -112,7 +113,7 @@ export const deleteAllScenarioChats = async (): Promise<any> => {
 export const getGameList = async (): Promise<any[]> => { 
   try {
     const response = await axiosInstance.get('/game/list');
-    console.log(" 가지고 온 게임 목록 = ", response.data);
+    //console.log(" 가지고 온 게임 목록 = ", response.data);
     return response.data;
   } catch (error) {
     console.error('게임 목록 가져오기 실패:', error);

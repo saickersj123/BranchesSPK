@@ -96,32 +96,35 @@ const ScenarioChat: React.FC = ({  }) => {
 
   const handleVoiceSend = async (audioBlob: Blob) => { 
     try {
-      setResponseWait(true); // Set responseWait to true when sending a message 
+      setResponseWait(true);
       const response = await sendVoiceMessage(conversationId, audioBlob);
-      const newMessage: Message = { 
-        role: 'user',
-        content: response.text, 
-        audioUrl: '', 
-        createdAt: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, newMessage]); 
       
-      const aiMessage: Message = { 
-        role: 'assistant',
-        content: response.gptResponse,
-        audioUrl: response.audioUrl, 
-        createdAt: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, aiMessage]);
-
-      // 음성 파일 자동 재생
-      const audio = new Audio(response.audioUrl);
-      audio.play();
-      
+      if (response && response.text) {
+        const newMessage: Message = { 
+          role: 'user',
+          content: response.text, 
+          audioUrl: '', 
+          createdAt: new Date().toISOString(),
+        };
+        setMessages((prev) => [...prev, newMessage]); 
+        
+        const aiMessage: Message = { 
+          role: 'assistant',
+          content: response.gptResponse,
+          audioUrl: response.audioUrl, 
+          createdAt: new Date().toISOString(),
+        };
+        setMessages((prev) => [...prev, aiMessage]);
+        
+        const audio = new Audio(response.audioUrl);
+        audio.play();
+      } else {
+        console.error('Invalid response received:', response);
+      }
     } catch (error) {
       console.error('음성 메시지 전송 실패:', error);
     } finally {
-      setResponseWait(false); // Reset responseWait to false after message is sent
+      setResponseWait(false);
     }
   };
 

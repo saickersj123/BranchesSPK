@@ -37,43 +37,50 @@ const ScenariosChatList: React.FC<ScenariosChatListProps> = ({ messages }) => {
           🎤 음성 대화를 시작해보세요! 마이크를 사용하여 메시지를 보내보세요.
         </div>
       ) : ( 
-        messages.map((msg, index) => ( 
-          <div 
-            key={index}
-            className={`scenarios-message-container ${msg.role}`}
-          >
-            {msg.role === 'assistant' && (
-              <div className="scenarios-chatbot-icon">AI</div>
-            )}
-            <div className={`scenarios-message ${msg.role}`}>
-              {msg.content.split('\n').map((line, index) => (
-                <span key={index}>{line}<br /></span>
-              ))}
-              {msg.role === 'user' ? (
-                <span className="scenarios-user-time">
-                  {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
-                </span>
-              ) : (
-                <>
-                  <span className="scenarios-ai-time">
-                    {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
-                  </span>
-                  <button 
-                    onClick={() => navigator.clipboard.writeText(msg.content)}
-                    className="scenarios-copy-button"
-                  >
-                    <CopyButton />
-                  </button>
-                </>
-              )}
-              {msg.audioUrl && (
-                <button onClick={() => handlePlayAudio(msg.audioUrl)} className="scenarios-chat-play-button">
-                  <SoundButton />
-                </button>
-              )}
-            </div>
-          </div>
-        ))
+        messages.map((msg, index) => {
+          if (msg.content) {
+            return (
+              <div 
+                key={index}
+                className={`scenarios-message-container ${msg.role}`}
+              >
+                {msg.role === 'assistant' && (
+                  <div className="scenarios-chatbot-icon">AI</div>
+                )}
+                <div className={`scenarios-message ${msg.role}`}>
+                  {msg.content.split('\n').map((line, index) => (
+                    <span key={index}>{line}<br /></span>
+                  ))}
+                  {msg.role === 'user' ? (
+                    <span className="scenarios-user-time">
+                      {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                    </span>
+                  ) : (
+                    <>
+                      <span className="scenarios-ai-time">
+                        {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                      </span>
+                      <button 
+                        onClick={() => navigator.clipboard.writeText(msg.content)}
+                        className="scenarios-copy-button"
+                      >
+                        <CopyButton />
+                      </button>
+                    </>
+                  )}
+                  {msg.audioUrl && (
+                    <button onClick={() => handlePlayAudio(msg.audioUrl)} className="scenarios-chat-play-button">
+                      <SoundButton />
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          } else {
+            console.warn(`Message at index ${index} is invalid:`, msg);
+            return null; // Skip rendering for invalid messages
+          }
+        })
       )}
       <div ref={endOfMessagesRef} />
     </div>
