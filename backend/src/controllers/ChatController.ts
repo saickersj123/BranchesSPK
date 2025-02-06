@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import User from "../models/User.js";
-import ScenarioModel from "../models/Scenario.js";
+import Scenario from "../models/Scenario.js";
 import { configureOpenAI, ModelName } from "../config/openai.js";
 import OpenAI from "openai";
 import { saveModel, loadModel, deleteModel } from "../utils/modelStorage.js";
 import { fineTuneModel, saveTrainingDataToFile, uploadTrainingData } from "../utils/fineTuneModel.js"
 import { transcribeAudioToText, generateFineTunedResponse, generateSpeechFromText } from "../utils/VoiceChat.js";
+import mongoose from 'mongoose';
+import { v4 as uuidv4 } from "uuid";
 
 export const generateChatCompletion = async (
     req: Request, 
@@ -487,16 +489,33 @@ const saveVoiceConversation = async (
         // 마지막 대화 가져오기
         let conversation = user.conversations[user.conversations.length - 1];
 
-        // 대화가 없으면 새 대화 생성
-        if (!conversation || !conversation.chats) {
-            conversation = { id: generateUniqueId(), type: "voice", chats: [], createdAt: new Date(), updatedAt: new Date() };
-            user.conversations.push(conversation);
+        // ✅ 대화가 없으면 새 대화 생성 (Mongoose 모델 유지)
+        if (!conversation) {
+            const newConversation = new (user.conversations as any).constructor({
+                id: uuidv4(),
+                type: "voice",
+                chats: [],
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            });
+
+
+            user.conversations.push(newConversation);
+            conversation = newConversation;
         }
 
-        // 메시지 추가
+        // ✅ chats가 undefined라면 빈 DocumentArray로 변환
+        if (!conversation.chats) {
+            conversation.chats = new mongoose.Types.DocumentArray([]);
+        }
+
+        // ✅ chats가 항상 배열이므로 TypeScript 오류 방지됨
         conversation.chats.push({ content: userMessage, role: "user", createdAt: new Date() });
         conversation.chats.push({ content: gptMessage, role: "assistant", createdAt: new Date() });
         conversation.updatedAt = new Date();
+
+        await user.save();
+
 
         // 사용자 저장
         await user.save();
@@ -695,5 +714,29 @@ export const getAllScenarioConversations = async (req: Request, res: Response) =
     } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "ERROR", cause: err.message });
+    }
+};
+
+// ✅ palceholder 처리
+// ✅ 시나리오 기반 응답 처리 (자동 변환 적용)
+export const getScenarioChatResponse = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { scenarioName, ...userInput } = req.body;
+
+        // ✅ MongoDB에서 시나리오 조회
+        const scenario = await Scenario.findOne({ name: scenarioName });
+
+        if (!scenario) {
+            return res.status(404).json({ error: "Scenario not found" });
+        }
+
+        // ✅ 자동 변환된 응답 반환 (Scenario.ts에서 변환 처리)
+        return res.json({ message: scenario.getFormattedResponse(userInput) });
+    } catch (error) {
+        next(error);
     }
 };
