@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/UserRoutes.js";
 import chatRoutes from "./routes/ChatRoutes.js";
 import Routes from "./routes/Routes.js"
+import scenarioRoutes from "./routes/scenarioRoutes.js";
 
 import { config } from "dotenv";
 
@@ -27,6 +28,7 @@ app.use(morgan("dev")); // for development
 app.use("/api/user/", userRoutes);
 app.use("/api/chat/", chatRoutes);
 app.use("/api/", Routes);
+app.use("/api/scenario/", scenarioRoutes);
 
 // Connections and Listeners
 mongoose
