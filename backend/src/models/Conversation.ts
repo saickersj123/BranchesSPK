@@ -7,12 +7,16 @@ const conversationSchema = new mongoose.Schema({
         type: String,
         default: randomUUID(),
     },
-    type:{
+    type: {
         type: String,
         default: undefined,
         enum: ['voice', 'scenario'],
     },
-    chats: [chatSchema],
+    chats: {
+        type: [chatSchema],
+        default: [], // 🚀 기본값 추가
+    },
+
     createdAt: {
         type: Date,
         default: Date.now,
@@ -22,7 +26,7 @@ const conversationSchema = new mongoose.Schema({
         default: Date.now,
     },
 },
-{timestamps: true},
+    { timestamps: true },
 );
 
 export default conversationSchema;
