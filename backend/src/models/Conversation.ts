@@ -19,7 +19,7 @@ const scenarioSchema = new mongoose.Schema({
     gameId: {
         type: String,
         ref: "Game",
-        default: null, // 기본 게임 ID (없으면 0)
+        default: null, // 기본 게임 ID (없으면 null)
     }
 });
 

@@ -917,6 +917,7 @@ export const handleScenarioConversation = async (
 
         // 유저 조회
         const user = await User.findById(res.locals.jwtData.id);
+
         if (!user) {
             return res.status(401).json({
                 message: "ERROR",
@@ -926,7 +927,7 @@ export const handleScenarioConversation = async (
 
         // ✅ 유저의 `conversations` 배열에서 `conversationId`와 일치하는 대화 찾기
         const conversation = user.conversations.find(conv => conv._id.toString() === conversationId);
-
+        
         if (!conversation) {
             return res.status(404).json({ error: "Conversation not found." });
         }
@@ -934,42 +935,32 @@ export const handleScenarioConversation = async (
         // ✅ 기존 대화에서 시나리오 데이터 가져오기
         const { scenarioId, selectedRole, difficulty, gameId } = conversation.scenarioData;
         console.log("Loaded scenarioData from conversation:", { scenarioId: scenarioId.toString(), selectedRole, difficulty, gameId });
-
+        
         // ✅ 전체 시나리오 목록에서 `scenarioId`와 일치하는 시나리오 찾기
         const allScenarios = await Scenario.find();
         const scenario = allScenarios.find(conv => conv._id.toString() === scenarioId.toString());
-
+        
         if (!scenario) {
             return res.status(404).json({ error: "Scenario not found in database." });
         }
-
-        // ✅ 시나리오에서 역할 정보 가져오기
-        const roles = scenario.roles;
-
-        if (gameId == null) {
-            return res.status(200).json({ message: "No game selecte"});
-        }
-
-        // ✅ GPT가 먼저 시작해야 하는지 확인 (사용자가 roles[1]을 선택했을 때 GPT 먼저 시작)
-        const gptStarts = selectedRole === roles[1];
-
+    
         // ✅ 사용자 입력 처리 (프론트에서 보낸 음성 데이터 유지)
         let userText = null;
         let userAudioBuffer = null; // 프론트에서 보낸 음성 데이터 저장
-
-        if (gptStarts) {
-            userText = ""; // GPT가 먼저 시작
-        } else if (req.file?.buffer) {
+        
+        if (req.file?.buffer) {
             try {
                 userAudioBuffer = req.file.buffer; // 🔹 프론트에서 보낸 음성 데이터 유지
                 userText = await transcribeAudioToText(userAudioBuffer);
-            } catch (error) {
+            }
+            catch (error) {
                 return res.status(500).json({ error: "Failed to transcribe audio" });
             }
-        } else {
-            return res.status(400).json({ error: "No audio data provided or invalid role." });
         }
-
+        else {
+            return res.status(400).json({ error: "No audio data provided." });
+        }
+        
         // GPT 응답 생성
         let gptResponse;
         try {
@@ -978,34 +969,35 @@ export const handleScenarioConversation = async (
                 selectedRole,
                 difficulty,
             });
-        } catch (error) {
+        }
+        
+        catch (error) {
             return res.status(500).json({ error: "Failed to generate GPT response" });
         }
-
-
+        
         // ✅ GPT 응답을 TTS 변환하여 별도 저장 (gptAudioBuffer)
         let gptAudioBuffer = null;
+        
         try {
             gptAudioBuffer = await generateSpeechFromText(gptResponse.text);
-        } catch (error) {
+        }
+        catch (error) {
             console.error("TTS generation failed:", error);
         }
-
+        
         // 대화 기록 저장
         try {
-            await saveScenarioConversation(
-                res.locals.jwtData.id,
-                userText,
-                gptResponse.text
-            );
-        } catch (error) {
+            await saveScenarioConversation(res.locals.jwtData.id, userText, gptResponse.text);
+        }
+        catch (error) {
             return res.status(500).json({ error: "Failed to save conversation" });
         }
         
-        let gameResult = null;
         // ✅ 대화가 저장된 후 게임 로직 실행
+        let gameResult = null;
+        
         if (gameId) {
-            gameResult = await executeGameLogic({ gameId: gameId.toString(), conversation});
+            gameResult = await executeGameLogic({ gameId: gameId.toString(), conversation });
         }
 
         // ✅ 최종 응답 반환 (프론트에서 보낸 `audioBuffer` + GPT TTS `gptAudioBuffer`)
@@ -1016,7 +1008,9 @@ export const handleScenarioConversation = async (
             gptAudioBuffer: gptAudioBuffer ? gptAudioBuffer.toString("base64") : null, // GPT 응답 TTS 변환 데이터 포함
             gameResult,
         });
-    } catch (error) {
+    }
+    
+    catch (error) {
         console.error("[ERROR] Error in handleScenarioConversation:", error.message);
         if (!res.headersSent) {
             res.status(500).json({ error: `Failed to process scenario conversation: ${error.message}` });
