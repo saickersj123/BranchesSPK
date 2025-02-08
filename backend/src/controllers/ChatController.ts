@@ -6,8 +6,7 @@ import OpenAI from "openai";
 import { saveModel, loadModel, deleteModel } from "../utils/modelStorage.js";
 import { fineTuneModel, saveTrainingDataToFile, uploadTrainingData } from "../utils/fineTuneModel.js"
 import { transcribeAudioToText, generateFineTunedResponse, generateSpeechFromText } from "../utils/VoiceChat.js";
-import mongoose from 'mongoose';
-import { v4 as uuidv4 } from "uuid";
+
 
 export const generateChatCompletion = async (
     req: Request, 
@@ -492,7 +491,6 @@ const saveVoiceConversation = async (
         // ✅ 대화가 없으면 새 대화 생성 (Mongoose 모델 유지)
         if (!conversation) {
             const newConversation = new (user.conversations as any).constructor({
-                id: uuidv4(),
                 type: "voice",
                 chats: [],
                 createdAt: new Date(),
@@ -504,9 +502,7 @@ const saveVoiceConversation = async (
             conversation = newConversation;
         }
 
-        // ✅ chats가 undefined라면 빈 DocumentArray로 변환
-        if (!conversation.chats) {
-            conversation.chats = new mongoose.Types.DocumentArray([]);
+        conversation.chats = (conversation.chats as any) || [];
         }
 
         // ✅ chats가 항상 배열이므로 TypeScript 오류 방지됨
@@ -514,7 +510,7 @@ const saveVoiceConversation = async (
         conversation.chats.push({ content: gptMessage, role: "assistant", createdAt: new Date() });
         conversation.updatedAt = new Date();
 
-        await user.save();
+        
 
 
         // 사용자 저장
