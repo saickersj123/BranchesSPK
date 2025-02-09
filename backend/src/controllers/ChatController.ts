@@ -591,7 +591,6 @@ export const saveVoiceConversation = async (
         }
 
         conversation.chats = (conversation.chats as any) || [];
-        }
 
         // ✅ chats가 항상 배열이므로 TypeScript 오류 방지됨
         conversation.chats.push({ content: userMessage, role: "user", createdAt: new Date() });
@@ -599,10 +598,6 @@ export const saveVoiceConversation = async (
         conversation.updatedAt = new Date();
 
         
-
-
-        // 사용자 저장
-        await user.save();
     } catch (error) {
         console.error(`[ERROR] Failed to save conversation for user ${userId}:`, error.message);
         throw new Error("Failed to save conversation");
