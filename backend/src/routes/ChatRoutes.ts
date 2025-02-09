@@ -7,20 +7,26 @@ import {
     deleteConversation, 
     getConversation, 
     deleteAllConversations, 
-    getAllConversations, 
-    getAllScenarioConversations, 
+    getAllConversations,  
     generateChatCompletion, 
     createCustomModel, 
     deleteCustomModel, 
     getCustomModels, 
     getModelbyId, 
-    startNewConversationwith, 
+    startNewConversationwith,
+    startNewConversationVoice, 
     getVoiceConversation, 
     getAllVoiceConversations, 
-    getAllScenarios, 
-    handleScenarioConversation, 
-    handleGeneralConversation, 
-    startNewConversationVoice 
+    deleteVoiceConversation,
+    deleteAllVoiceConversations,
+    getAllScenarios,  
+    startNewConversationScenario,
+    getScenarioConversation,
+    getAllScenarioConversations,
+    deleteAllScenarioConversations,
+    deleteScenarioConversation,
+    postScenario,
+    deleteScenario
 } from "../controllers/ChatController.js";
 
 const chatRoutes = express.Router();
@@ -72,15 +78,38 @@ chatRoutes.get("/g/:modelId/", verifyToken, getModelbyId);
 chatRoutes.get("/v/new", verifyToken, startNewConversationVoice);
 
 // Get all conversations (general + voice)
-chatRoutes.get("/v/all", verifyToken, getAllVoiceConversations);
+chatRoutes.get("/all-v", verifyToken, getAllVoiceConversations);
 
 // Get a specific voice conversation
 chatRoutes.get("/v/:conversationId", verifyToken, getVoiceConversation);
 
+// Delete all voice conversations
+chatRoutes.delete("/all-v", verifyToken, deleteAllVoiceConversations);
+
+// Delete a specific voice conversation
+chatRoutes.delete("/v/:conversationId", verifyToken, deleteVoiceConversation);
+
 // New scenario conversation
-chatRoutes.post("/s/new", verifyToken, upload.single("audio"), handleScenarioConversation);
+chatRoutes.post("/s/new", verifyToken, startNewConversationScenario);
+
+// Get all scenario conversations
+chatRoutes.get("/all-s", verifyToken, getAllScenarioConversations);
+
+// Get a specific secnario conversation
+chatRoutes.get("/s/:conversationId", verifyToken, getScenarioConversation);
+
+// Delete all scenario conversations
+chatRoutes.delete("/all-s", verifyToken, deleteAllScenarioConversations);
+
+// Delete a specific scenario conversation
+chatRoutes.delete("/s/:conversationId", verifyToken, deleteScenarioConversation);
 
 // Get all scenarios
 chatRoutes.get("/scenarios", verifyToken, getAllScenarios);
 
+// Post a scenario
+chatRoutes.post("/scenarios", postScenario);
+
+// Delete a scenario
+chatRoutes.delete("/scenarios/:id", deleteScenario);
 export default chatRoutes;

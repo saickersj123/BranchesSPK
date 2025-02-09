@@ -38,7 +38,7 @@ export const getAllScenarioList = async (): Promise<AIScenario[]> => {
 export const startNewScenarioConversation = async (
   scenarioId: string, 
   selectedRole: 'role1' | 'role2',
-  game_id: string,
+  gameId: string,
   difficulty: number 
 ): Promise<string> => {
   if (TEST_MODE) { 
@@ -84,6 +84,7 @@ export const getAllScenarioConversations = async (): Promise<Conversation[]> => 
 // 음성 메시지 전송 함수
 export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
   const formData = new FormData();
+  formData.append("type", "scenario");
   formData.append('audio', audioBlob);
 
   if (TEST_MODE) {
