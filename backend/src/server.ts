@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import gameRoutes from "./routes/GameRoutes.js";
 import userRoutes from "./routes/UserRoutes.js";
 import chatRoutes from "./routes/ChatRoutes.js";
 import Routes from "./routes/Routes.js"
@@ -27,6 +27,7 @@ app.use(morgan("dev")); // for development
 // routes
 app.use("/api/user/", userRoutes);
 app.use("/api/chat/", chatRoutes);
+app.use("/api/game/", gameRoutes);
 app.use("/api/", Routes);
 app.use("/api/scenario/", scenarioRoutes);
 
