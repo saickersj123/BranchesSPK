@@ -33,6 +33,7 @@ const conversationSchema = new mongoose.Schema({
         default: undefined,
         enum: ['voice', 'scenario'],
     },
+
     scenarioData: {
         type: scenarioSchema,
         default: null,
@@ -46,6 +47,7 @@ const conversationSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-}, { timestamps: true });
+},
+    { timestamps: true },
+);
 export default conversationSchema;
-//# sourceMappingURL=Conversation.js.map
