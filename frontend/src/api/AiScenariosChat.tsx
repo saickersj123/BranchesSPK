@@ -67,7 +67,7 @@ export const getAllScenarioConversations = async (): Promise<Conversation[]> => 
 }; 
 
  // 음성 메시지 전송 함수
-export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
+export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string; gameResult: any }> => {
   const formData = new FormData();
   formData.append('audio', audioBlob);
   formData.append('type', 'scenario'); 
@@ -81,7 +81,8 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
     return  { 
       text: response.data.message, // Mock text response
       gptResponse: response.data.gptResponse, // Corrected to use gptResponse
-      audioUrl: response.data.audioBuffer // Mock audio URL 
+      audioUrl: response.data.gptAudioBuffer, // Mock audio URL 
+      gameResult: response.data.gameResult // Mock game result
     }; 
   } catch (error) {
     console.error('Error sending voice message:', error);
