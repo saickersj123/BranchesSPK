@@ -31,8 +31,11 @@ export const startNewScenarioConversation = async (
   scenarioId: string, 
   selectedRole: 'role1' | 'role2',
   difficulty: number, 
-  gameId: string
+  gameId: string | null
 ): Promise<string> => { 
+  if(gameId === '0'){
+    gameId = null;
+  } 
   try {
     const response = await axiosInstance.post('/chat/s/new', {
       scenarioId,
