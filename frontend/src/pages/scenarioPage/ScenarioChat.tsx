@@ -13,6 +13,7 @@ import ScenariosChatList from '../../components/scenariosPage/ScenariosChatList'
 import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import ChatResetButton from '../../utils/ChatResetButton';
 import { set_routes } from '../../Routes'; 
+import { threadId } from 'worker_threads';
 
 const ScenarioChat: React.FC = ({  }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -98,7 +99,7 @@ const ScenarioChat: React.FC = ({  }) => {
     try {
       setResponseWait(true);
       const response = await sendVoiceMessage(conversationId, audioBlob); 
-      let gameResult = false;
+      let gameResult = true;
       if(response.gameResult) {
         gameResult = true;
       }
