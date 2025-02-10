@@ -181,21 +181,4 @@
   border-radius: 8px; /* Rounded corners for a softer look */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
-
-.scenarios-chat-congrats-message {
-  position: fixed; /* 고정 위치 */
-  top: 20px; /* 상단에서 20px 떨어진 위치 */
-  left: 50%; /* 왼쪽에서 50% */
-  transform: translateX(-50%); /* 수평 중앙 정렬 */
-  background-color: #4caf50; /* 배경색 */
-  color: white; /* 글자색 */
-  padding: 10px; /* 패딩 */
-  border-radius: 5px; /* 모서리 둥글게 */
-  z-index: 1000; /* 다른 요소 위에 표시되도록 */
-  animation: fadeIn 0.5s; /* 애니메이션 추가 */
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+ 

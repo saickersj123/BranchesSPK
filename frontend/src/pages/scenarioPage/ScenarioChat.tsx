@@ -12,8 +12,7 @@ import ScenariosRecorder from '../../components/scenariosPage/ScenariosRecorder'
 import ScenariosChatList from '../../components/scenariosPage/ScenariosChatList';  
 import NewSidebar from '../../components/newSidebar/NewSIdebar';
 import ChatResetButton from '../../utils/ChatResetButton';
-import { set_routes } from '../../Routes'; 
-import { threadId } from 'worker_threads';
+import { set_routes } from '../../Routes';  
 
 const ScenarioChat: React.FC = ({  }) => {
   const [messages, setMessages] = useState<Message[]>([]);
