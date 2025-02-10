@@ -1,6 +1,5 @@
-import axiosInstance from "./axiosInstance";
-import { AIScenario } from "../@types/scenarios"; 
-import { Message, Conversation } from '../@types/types';
+import axiosInstance from "./axiosInstance";  
+import { Message, Conversation } from '../@types/types'; 
 
 
 // conversationId를 활용해 모든 음성대화 메시지를 가져오는 함수
@@ -16,41 +15,42 @@ export const fetchScenarioMessages = async (conversationId: string): Promise<Mes
   };  
 
 // 모든 시나리오 목록을 가져오는 함수 - 모든 시나리오 목록을 반환하는 함수
-export const getAllScenarioList = async (): Promise<AIScenario[]> => {
+export const getAllScenarioList = async (): Promise<any[]> => {  
   try {
     const response = await axiosInstance.get('/chat/scenarios');
     //console.log(" 가지고 온 시나리오 목록 = ", response.data); 
-    return response.data;
+    return response.data.scenarios;
   } catch (error) {
     console.error('시나리오 목록 가져오기 실패:', error);
     throw error;
-  }
+  } 
   };
   
 // 시나리오 기반 대화 시작 API - 시나리오 기반 대화를 시작하는 함수
 export const startNewScenarioConversation = async (
   scenarioId: string, 
   selectedRole: 'role1' | 'role2',
-  game_id: string,
-  difficulty: number 
-): Promise<string> => {
+  difficulty: number, 
+  gameId: string
+): Promise<string> => { 
   try {
     const response = await axiosInstance.post('/chat/s/new', {
       scenarioId,
       selectedRole, 
-      difficulty
+      difficulty,
+      gameId
     });
     return response.data.conversation._id; // Return the conversation ID
   } catch (error) {
     console.error('시나리오 기반 대화 시작 실패:', error);
     throw error;
-  }
+  } 
 };
  
 // 모든 시나리오 컨버세이션을 가지고 오는 함수
 export const getAllScenarioConversations = async (): Promise<Conversation[]> => {
   try {
-    const response = await axiosInstance.get('/chat/all-c/scenario');
+    const response = await axiosInstance.get('/chat/all-s');
     //console.log("api상 대화 아이디 가져오기 응답 : ", response.data);
     return response.data.scenarioConversations.map((conversation: any) => ({
       _id: conversation._id,
@@ -62,20 +62,19 @@ export const getAllScenarioConversations = async (): Promise<Conversation[]> => 
     return [];
   }
 }; 
-   
-// 음성 메시지 전송 함수
+
+ // 음성 메시지 전송 함수
 export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob): Promise<{ audioUrl: string; text: string; gptResponse: string }> => {
   const formData = new FormData();
-  formData.append("type", "scenario");
-  formData.append('audio', audioBlob); 
-
+  formData.append('audio', audioBlob);
+  formData.append('type', 'scenario'); 
   try {
     const response = await axiosInstance.post(`/chat/c/${conversationId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    //console.log(response.data); 
+    console.log("음성 메시지 전송 응답 : ", response.data);
     return  { 
       text: response.data.message, // Mock text response
       gptResponse: response.data.gptResponse, // Corrected to use gptResponse
@@ -86,7 +85,6 @@ export const sendVoiceMessage = async (conversationId: string, audioBlob: Blob):
     throw error;
   }
 };
-
   
 // 대화 삭제 API - 대화를 삭제하는 함수
 export const deleteScenarioConversation = async (conversationId: string): Promise<any> => {
@@ -115,9 +113,10 @@ export const deleteAllScenarioChats = async (): Promise<any> => {
 export const getGameList = async (): Promise<any[]> => { 
   try {
     const response = await axiosInstance.get('/game/list');
+    //console.log(" 가지고 온 게임 목록 = ", response.data);
     return response.data;
   } catch (error) {
     console.error('게임 목록 가져오기 실패:', error);
     throw error;
-  }
+  } 
 };
