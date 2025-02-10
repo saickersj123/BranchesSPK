@@ -97,14 +97,18 @@ const ScenarioChat: React.FC = ({  }) => {
   const handleVoiceSend = async (audioBlob: Blob) => { 
     try {
       setResponseWait(true);
-      const response = await sendVoiceMessage(conversationId, audioBlob);
-      
+      const response = await sendVoiceMessage(conversationId, audioBlob); 
+      let gameResult = false;
+      if(response.gameResult) {
+        gameResult = true;
+      }
       if (response && response.text) {
         const newMessage: Message = { 
           role: 'user',
           content: response.text, 
           audioUrl: '', 
-          createdAt: new Date().toISOString(),
+          createdAt: new Date().toISOString(), 
+          gameResult: gameResult,
         };
         setMessages((prev) => [...prev, newMessage]); 
         
@@ -113,9 +117,10 @@ const ScenarioChat: React.FC = ({  }) => {
           content: response.gptResponse,
           audioUrl: response.audioUrl, 
           createdAt: new Date().toISOString(),
+          gameResult: "",
         };
-        setMessages((prev) => [...prev, aiMessage]);
-        
+        setMessages((prev) => [...prev, aiMessage]); 
+        console.log("게임 결과 : ", gameResult);
         const audio = new Audio(response.audioUrl);
         audio.play();
       } else {
