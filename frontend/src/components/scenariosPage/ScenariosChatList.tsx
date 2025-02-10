@@ -34,6 +34,13 @@ const ScenariosChatList: React.FC<ScenariosChatListProps> = ({ messages }) => {
     }
   }, [messages]); 
 
+  useEffect(() => {
+    if (showCongrats) {
+      console.log("축하 메시지 표시 !!! : ", showCongrats); 
+      //분명 값 탐지는 되는데 밑에서 scenarios-chat-congrats-message가 렌더링이 안되는 이유가 뭘까?
+    }
+  }, [showCongrats]);
+
   const handlePlayAudio = (audioBuffer: string) => {
     const audio = new Audio(`data:audio/wav;base64,${audioBuffer}`);
     audio.play().catch(error => {
@@ -42,7 +49,10 @@ const ScenariosChatList: React.FC<ScenariosChatListProps> = ({ messages }) => {
   };
 
   return (
-    <div className="scenarios-chat-list"> 
+    <div className="scenarios-chat-list">
+      {showCongrats && (
+        <div className="scenarios-chat-congrats-message">축하합니다! 🎉</div>
+      )}
       {messages.length === 0 ? (
         <div className="scenarios-no-messages"> 
           🎤 음성 대화를 시작해보세요! 마이크를 사용하여 메시지를 보내보세요.
