@@ -31,7 +31,7 @@ export const fetchAllConversationIds = async (): Promise<Conversation[]> => {
 // 새로운 음성대화를 시작하는 함수
 export const startNewConversationVoice = async (): Promise<string> => {
   try {
-    const response = await axiosInstance.get('/chat/v/new'); 
+    const response = await axiosInstance.post('/chat/v/new'); 
     return response.data.conversation._id;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
