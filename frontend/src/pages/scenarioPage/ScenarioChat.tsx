@@ -10,7 +10,7 @@ import '../../css/scenarioPage/ScenarioChat.css';
 import ScenarioHeader from './ScenarioHeader';  
 import ScenariosRecorder from '../../components/scenariosPage/ScenariosRecorder';
 import ScenariosChatList from '../../components/scenariosPage/ScenariosChatList';  
-import NewSidebar from '../../components/newSidebar/NewSIdebar';
+import NewSidebar from '../../components/newSidebar/NewSidebar';
 import ChatResetButton from '../../utils/ChatResetButton';
 import { set_routes } from '../../Routes';  
 

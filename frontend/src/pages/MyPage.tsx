@@ -131,6 +131,9 @@ const MyPage: React.FC = ({ }) => {
       } 
       else if (state.from == 'voiceChat' || state.from == '/voiceChat' || state.from == set_routes.VOICE_CHAT) {
         navigate(set_routes.VOICE_CHAT);
+      }  
+      else if (state.from == 'scenarioChat' || state.from == '/scenarioChat' || state.from == set_routes.SCENARIO_CHAT) {
+        navigate(set_routes.SCENARIO_CHAT);
       } 
       else {
         navigate(state.from);

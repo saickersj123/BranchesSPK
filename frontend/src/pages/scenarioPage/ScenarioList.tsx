@@ -8,7 +8,7 @@ import { AIScenario } from '../../@types/scenarios';
 import DifficultyFilter from '../../components/scenariosPage/DifficultyFilter'; // 추가된 부분
 import ScenarioCard from '../../components/scenariosPage/ScenarioCard'; // 추가된 부분
 import ScenarioModal from '../../components/scenariosPage/ScenarioModal'; // 추가된 부분 
-import NewSidebar from '../../components/newSidebar/NewSIdebar';
+import NewSidebar from '../../components/newSidebar/NewSidebar';
 import { set_routes } from '../../Routes';
 import { getAllScenarioConversations } from '../../api/AiScenariosChat';
 
