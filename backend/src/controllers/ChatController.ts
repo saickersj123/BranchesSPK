@@ -597,7 +597,7 @@ export const saveVoiceConversation = async (
         conversation.chats.push({ content: gptMessage, role: "assistant", createdAt: new Date() });
         conversation.updatedAt = new Date();
 
-        
+        await user.save();
     } catch (error) {
         console.error(`[ERROR] Failed to save conversation for user ${userId}:`, error.message);
         throw new Error("Failed to save conversation");
@@ -1082,30 +1082,6 @@ export const postScenario = async (req, res) => {
     } catch (error) {
         console.error("Error creating scenario:", error.message);
         return res.status(500).json({ error: "Failed to create scenario." });
-    }
-};
-
-// ✅ palceholder 처리
-// ✅ 시나리오 기반 응답 처리 (자동 변환 적용)
-export const getScenarioChatResponse = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const { scenarioName, ...userInput } = req.body;
-
-        // ✅ MongoDB에서 시나리오 조회
-        const scenario = await Scenario.findOne({ name: scenarioName });
-
-        if (!scenario) {
-            return res.status(404).json({ error: "Scenario not found" });
-        }
-
-        // ✅ 자동 변환된 응답 반환 (Scenario.ts에서 변환 처리)
-        return res.json({ message: scenario.getFormattedResponse(userInput) });
-    } catch (error) {
-        next(error);
     }
 };
 
