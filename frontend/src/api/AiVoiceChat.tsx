@@ -17,7 +17,7 @@ export const fetchVoiceMessages = async (conversationId: string): Promise<Messag
 // 모든 conversationId를 가지고 오는 함수
 export const fetchAllConversationIds = async (): Promise<Conversation[]> => {
   try {
-    const response = await axiosInstance.get('/chat/v/all');
+    const response = await axiosInstance.get('/chat/all-v');
     //console.log("api상 대화 아이디 가져오기 응답 : ", response.data);
     return response.data.voiceConversations.map((conversation: any) => ({
       _id: conversation._id,
@@ -33,7 +33,7 @@ export const fetchAllConversationIds = async (): Promise<Conversation[]> => {
 // 새로운 음성대화를 시작하는 함수
 export const startNewConversationVoice = async (): Promise<string> => {
   try {
-    const response = await axiosInstance.get('/chat/v/new'); 
+    const response = await axiosInstance.post('/chat/v/new'); 
     return response.data.conversation._id;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -93,7 +93,7 @@ export const deleteVoiceConversation = async (conversationId: string): Promise<a
 // 모든 채팅 기록 삭제 API - 모든 채팅 기록을 삭제하는 함수
 export const deleteAllVoiceChats = async (): Promise<any> => { 
   try {
-    const response = await axiosInstance.delete('/chat/v/all');
+    const response = await axiosInstance.delete('/chat/all-v');
     return response.status;
   } catch (error) {
     console.error('모든 음성대화 기록 삭제 실패:', error);
