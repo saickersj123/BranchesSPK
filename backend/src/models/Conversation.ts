@@ -20,6 +20,11 @@ const scenarioSchema = new mongoose.Schema({
         type: String,
         ref: "Game",
         default: null, // 기본 게임 ID (없으면 null)
+    },
+    // ✅ 시나리오 대화 종료 플래그 추가
+    isEnded: {
+        type: Boolean,
+        default: false, // 기본값: false (대화 진행 중)
     }
 });
 
