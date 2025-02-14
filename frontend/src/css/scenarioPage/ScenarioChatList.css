@@ -181,17 +181,43 @@
   border-radius: 8px; /* Rounded corners for a softer look */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
+/* 🎉 축하 메시지 박스 스타일 */
 .scenarios-chat-congrats-message {
+  /* 화면에 고정 위치 설정 */
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #28a745;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: 18px;
-  text-align: center;
-  z-index: 1000; /* 요소가 다른 UI 위에 표시되도록 설정 */
+  top: 20%; /* 화면 상단에서 20% 위치 */
+  left: 50%; /* 화면 가로 중앙 */
+  transform: translateX(-50%); /* X축 기준으로 정확히 중앙 정렬 */
+  
+  /* 화면 최상단에 표시되도록 설정 */
+  z-index: 999;
+
+  /* 텍스트 스타일 */
+  color: #fff; /* 텍스트 색상: 흰색 */
+  font-size: 1.8rem; /* 폰트 크기: 2rem (약 32px) */
+  font-weight: bold; /* 폰트 굵기: 굵게 */
+
+  /* 배경 스타일 */
+  background: linear-gradient(135deg, #6e45e2, #88d3ce); /* 파란색-청록색 그라디언트 배경 */
+  padding: 0.1rem 1rem; /* 상하 0.5rem, 좌우 1rem 패딩 */
+  border-radius: 15px; /* 둥근 모서리 15px */
+  text-align: center; /* 텍스트 가운데 정렬 */
+
+  /* 박스 그림자 효과 */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* 검은색 반투명 그림자 */
+  
+  /* 애니메이션 설정 */
+  animation: fadeOut 10s forwards; /* fadeOut 애니메이션을 10초 동안 실행 후 유지 */
+}
+
+/* 🎬 fadeOut 애니메이션 정의 */
+@keyframes fadeOut {
+  0% {
+    opacity: 1; /* 시작 시 완전 불투명 */
+    transform: translateX(-50%) translateY(0); /* 원래 위치 */
+  }
+  100% {
+    opacity: 0; /* 끝날 때 완전히 투명 */
+    transform: translateX(-50%) translateY(-20px); /* Y축으로 20px 위로 이동 */
+  }
 }

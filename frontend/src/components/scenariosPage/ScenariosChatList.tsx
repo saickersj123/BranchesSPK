@@ -3,6 +3,7 @@ import { Message } from '../../@types/types';
 import '../../css/scenarioPage/ScenarioChatList.css'; 
 import SoundButton from '../../utils/SoundButton';
 import CopyButton from '../../utils/CopyButton';
+import Confetti from 'react-confetti';
 
 interface ScenariosChatListProps {
   messages: Message[];
@@ -11,6 +12,7 @@ interface ScenariosChatListProps {
 const ScenariosChatList: React.FC<ScenariosChatListProps> = ({ messages }) => {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const [showCongrats, setShowCongrats] = useState(false);
+  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
     // 메시지가 업데이트된 후 스크롤을 아래로 내리기
@@ -30,16 +32,17 @@ const ScenariosChatList: React.FC<ScenariosChatListProps> = ({ messages }) => {
           setTimeout(() => setShowCongrats(false), 3000); // 3초 후에 사라지게
         }
       } 
-       
     }
   }, [messages]); 
 
+  // 창 크기 변경 시 Confetti 위치 조정
   useEffect(() => {
-    if (showCongrats) {
-      console.log("축하 메시지 표시 !!! : ", showCongrats); 
-      //분명 값 탐지는 되는데 밑에서 scenarios-chat-congrats-message가 렌더링이 안되는 이유가 뭘까?
-    }
-  }, [showCongrats]);
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handlePlayAudio = (audioBuffer: string) => {
     const audio = new Audio(`data:audio/wav;base64,${audioBuffer}`);
@@ -51,7 +54,10 @@ const ScenariosChatList: React.FC<ScenariosChatListProps> = ({ messages }) => {
   return (
     <div className="scenarios-chat-list">
       {showCongrats && (
-        <div className="scenarios-chat-congrats-message">축하합니다! 🎉</div>
+        <>
+          <div className="scenarios-chat-congrats-message">🎉 축하합니다! 🎉</div>
+          <Confetti width={windowSize.width} height={windowSize.height} />
+        </>
       )}
       {messages.length === 0 ? (
         <div className="scenarios-no-messages"> 
