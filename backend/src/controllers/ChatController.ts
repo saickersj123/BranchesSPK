@@ -977,13 +977,18 @@ export const handleScenarioConversation = async (
 
             const goodbyeText = "Goodbye! The conversation has ended.";
             const goodbyeAudioBuffer = await generateSpeechFromText(goodbyeText);
+            
+            let gameResult = null;
+            if (gameId) {
+                gameResult = await executeGameLogic({ gameId: gameId.toString(), conversation, res});
+            }
 
             return res.json({
                 message: userText,
                 role: "user",
                 gptResponse: goodbyeText,
                 gptAudioBuffer: goodbyeAudioBuffer?.toString("base64") || null,
-                gameResult: null,
+                gameResult,
                 conversationEnded: true,
             });
         }
@@ -1015,19 +1020,12 @@ export const handleScenarioConversation = async (
             return res.status(500).json({ error: "Failed to save conversation" });
         }
 
-        // 대화가 저장된 후 게임 로직 실행
-        let gameResult = null;
-        if (gameId) {
-            gameResult = await executeGameLogic({ gameId: gameId.toString(), conversation });
-        }
-
         // 최종 응답 반환
         return res.json({
             message: userText,
             role: "user",
             gptResponse: gptResponse.text,
             gptAudioBuffer: gptAudioBuffer ? gptAudioBuffer.toString("base64") : null,
-            gameResult,
         });
     } catch (error) {
         console.error("[ERROR] Error in handleScenarioConversation:", error.message);
