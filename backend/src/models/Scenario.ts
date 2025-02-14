@@ -27,4 +27,3 @@ const ScenarioSchema = new mongoose.Schema({
     timestamps: true, // 자동으로 createdAt, updatedAt 생성
 });
 export default mongoose.model("Scenario", ScenarioSchema);
-//# sourceMappingURL=Scenario.js.map
