@@ -34,6 +34,7 @@
     "react-bootstrap-icons": "^1.11.4",
     "react-bootstrap-range-slider": "^3.0.8",
     "react-color": "^2.19.3",
+    "react-confetti": "^6.2.2",
     "react-dnd": "^14.0.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",

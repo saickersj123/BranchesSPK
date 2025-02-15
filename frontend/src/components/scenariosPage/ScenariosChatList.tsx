@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Message } from '../../@types/types';
 import '../../css/scenarioPage/ScenarioChatList.css'; 
 import SoundButton from '../../utils/SoundButton';
-import CopyButton from '../../utils/CopyButton';
+import CopyButton from '../../utils/CopyButton'; 
 import Confetti from 'react-confetti';
 
 interface ScenariosChatListProps {
