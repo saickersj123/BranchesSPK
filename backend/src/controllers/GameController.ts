@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import Keyword from "../models/Keyword.js";
 import Game from "../models/Game.js";
 import Scenario from "../models/Scenario.js";
+import Record from "../models/GameRecord.js";
 
 // Return gamelist
 export const getAllGameList = async (
@@ -40,87 +41,113 @@ export const postGame = async (req: Request, res: Response) => {
     }
 };
 
-export const checkKeywordInChat = async ({
-    userId,
-    scenarioId,
-    userResponse,
+export const checkKeywordInChat = async ({ 
+    userId, 
+    scenarioId, 
+    userResponses 
 }) => {
     try {
+        // 사용자 조회
         const user = await User.findById(userId);
-        if (!user) {
-            throw new Error("User not found.");
-        }
+        if (!user) throw new Error("User not found.");
 
         // 시나리오 키워드 가져오기
         const keywordDoc = await Keyword.findOne({ scenario: scenarioId });
-        if (!keywordDoc) {
-            throw new Error("No keywords found for the given scenario.");
-        }
+        if (!keywordDoc) throw new Error("No keywords found for the given scenario.");
 
         // 키워드 매칭
+        const combinedResponse = userResponses.join(' ').toLowerCase();
         const matchedKeywords = keywordDoc.keywords.filter((keyword) =>
-            userResponse.toLowerCase().includes(keyword.toLowerCase())
+            combinedResponse.includes(keyword.toLowerCase())
         );
 
         // 경험치 계산 및 업데이트
-        let experienceGained = 0;
-        if (matchedKeywords.length > 0) {
-            experienceGained = matchedKeywords.length * 10;
+        const experienceGained = matchedKeywords.length * 10;
+        if (experienceGained > 0) {
             user.exp += experienceGained;
             await user.save();
         }
 
-        // 결과 반환
-        return {
-            matchedKeywords,
-            experienceGained,
-            totalExperience: user.exp,
-        };
+        // 최종 경험치 반환
+        return { matchedKeywords, experienceGained };
+
     } catch (error) {
         console.error("[ERROR] Error in checkKeywordInChat:", error.message);
         throw new Error("An error occurred while processing the keyword matching game.");
     }
 };
 
-export const executeGameLogic = async ({
-    gameId,
-    conversation,
+export const executeGameLogic = async ({ 
+    gameId, 
+    conversation, 
+    res 
 }) => {
     if (!gameId) {
         console.log("No game selected. Skipping game logic.");
-        return;
+        return null;
     }
 
+    const userId = await User.findById(res.locals.jwtData.id);
+
     try {
+        const scenarioId = conversation?.scenarioData?.scenarioId;
+
         // ✅ 게임 정보 조회 (gameId 기반)
         const gameData = await Game.findById(gameId);
         if (!gameData) {
             console.log(`Game with ID ${gameId} not found.`);
-            return;
+            return null;
         }
-
         const gameType = gameData.game; // 🔹 게임 타입 ("keyword", "score" 등)
         console.log(`Loaded game data: ${gameType}`);
 
         // 🔹 게임 타입별 컨트롤러 매핑 (향후 확장을 고려)
-        const gameControllerMap: Record<string, Function> = {
+        const gameControllerMap = {
             keyword: checkKeywordInChat,
             // score: checkScoreInChat, // 추후 추가 가능
             // trivia: checkTriviaAnswer, // 추후 추가 가능
         };
+        
 
         // ✅ 저장된 대화 점검 후 게임 로직 실행
-        if (gameType in gameControllerMap) {
-            console.log(`Executing game logic for: ${gameType}`);
-            const gameResult = await gameControllerMap[gameType](conversation); // 대화 기록을 활용하여 게임 처리
-            return gameResult;
+        const gameLogic = gameControllerMap[gameType];
+        if (gameLogic) {
+            console.log(`🎯 Executing game logic for scenarioId=${scenarioId}`);
+            // 🔹 chats 배열에서 userResponses 추출
+            const userResponses = conversation.chats
+                .filter(chat => chat.role === 'user') // 사용자 발화만
+                .map(chat => chat.content);
+
+            const gameResult = await gameLogic({
+                userId,
+                scenarioId,
+                userResponses
+            });
+
+            // Record 생성 및 저장
+            if (gameResult) {
+                const newRecord = new Record ({
+                    date: new Date(),
+                    experience: gameResult.experienceGained,
+                    matched: gameResult.matchedKeywords.length,
+                    userId,
+                    scenarioId,
+                    gameId,
+                });
+
+                await newRecord.save();
+            }
+
+            return gameResult ?? null;
         } else {
-            console.log(`No handler for game type: ${gameType}`);
+            console.warn(`⚠️ No handler for game type: ${gameType}`);
+            return null;
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error in executeGameLogic:", error);
-    }   
-}
+    }
+};
 
 export const postKeywords = async (
     req: Request, 
