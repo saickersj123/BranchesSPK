@@ -32,7 +32,7 @@ app.use("/api/", Routes);
 // Connections and Listeners
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.z3bws8s.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@thebranches.13d6s.mongodb.net/?retryWrites=true&w=majority&appName=theBranches`
   )
   .then(() => {
     app.listen(process.env.PORT || 5000);
