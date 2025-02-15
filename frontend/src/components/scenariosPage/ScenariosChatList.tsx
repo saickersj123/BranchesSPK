@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Message } from '../../@types/types';
 import '../../css/scenarioPage/ScenarioChatList.css'; 
 import SoundButton from '../../utils/SoundButton';
-import CopyButton from '../../utils/CopyButton'; 
+import CopyButton from '../../utils/CopyButton';
 import Confetti from 'react-confetti';
 
 interface ScenariosChatListProps {
@@ -54,10 +54,10 @@ const ScenariosChatList: React.FC<ScenariosChatListProps> = ({ messages }) => {
   return (
     <div className="scenarios-chat-list">
       {showCongrats && (
-        <>
+        <div className="scenarios-chat-congrats-container">
           <div className="scenarios-chat-congrats-message">🎉 축하합니다! 🎉</div>
           <Confetti width={windowSize.width} height={windowSize.height} />
-        </>
+        </div>
       )}
       {messages.length === 0 ? (
         <div className="scenarios-no-messages"> 
