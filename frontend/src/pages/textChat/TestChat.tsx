@@ -8,9 +8,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/textChat/TextChat.css';
 import TextChatHeader from './TextChatHeader';  
 import TextChatList from '../../components/textChat/TextChatList';  
-import NewSidebar from '../../components/newSidebar/NewSidebar';
 import ChatResetButton from '../../utils/ChatResetButton';
 import { set_routes } from '../../Routes'; 
+import NewSidebar from '../../components/Sidebar/NewSidebar';
 
 const textChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -19,7 +19,7 @@ const textChat: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const navigate = useNavigate();
-  const { conversationId: routeConversationId } = useParams<{ conversationId: string }>();
+  const { conversationId: routeConversationId } = useParams<{ conversationId:  string }>();
   const [responseWait, setResponseWait] = useState(false);
   let latestConversationId: string | null = null;
   const loadMessages = useCallback(async (conversationId: string) => {

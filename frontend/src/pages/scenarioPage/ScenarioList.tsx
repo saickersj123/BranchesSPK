@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllScenarioList, startNewScenarioConversation, getGameList } from '../../api/AiScenariosChat';  
+import { getAllScenarioList, startNewScenarioConversation } from '../../api/AiScenariosChat';  
 import '../../css/scenarioPage/ScenarioList.css';
 import '../../css/set/color.css';  
 import IMAGE_NOT_FOUND from '../../img/ErrorIMG.png'; 
@@ -8,7 +8,7 @@ import { AIScenario } from '../../@types/scenarios';
 import DifficultyFilter from '../../components/scenariosPage/DifficultyFilter'; // 추가된 부분
 import ScenarioCard from '../../components/scenariosPage/ScenarioCard'; // 추가된 부분
 import ScenarioModal from '../../components/scenariosPage/ScenarioModal'; // 추가된 부분 
-import NewSidebar from '../../components/newSidebar/NewSidebar';
+import NewSidebar from '../../components/Sidebar/NewSidebar';
 import { set_routes } from '../../Routes';
 import { getAllScenarioConversations } from '../../api/AiScenariosChat';
 
@@ -17,7 +17,7 @@ interface ScenarioListProps {
   page: string | null; // Add a prop for the page to navigate to 
 } 
 
-const ScenarioList: React.FC<ScenarioListProps> = ({ page }) => {
+const ScenarioList: React.FC<ScenarioListProps> = ({  }) => {
   const [scenarios, setScenarios] = useState<AIScenario[]>([]);
   const [filteredScenarios, setFilteredScenarios] = useState<AIScenario[]>([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState<number | null>(null);

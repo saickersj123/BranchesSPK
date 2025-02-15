@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
 import VoiceChatHeader from './VoiceChatHeader';  
 import VoisChatList from '../../components/voiceChat/VoisChatList';  
-import NewSidebar from '../../components/newSidebar/NewSidebar';
+import NewSidebar from '../../components/Sidebar/NewSidebar';
 import ChatResetButton from '../../utils/ChatResetButton';
 import { set_routes } from '../../Routes'; 
 
