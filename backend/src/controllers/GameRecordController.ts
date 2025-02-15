@@ -1,5 +1,4 @@
-import { Request, Response, NextFunction } from "express";
-import User from "../models/User.js";
+import { Request, Response } from "express";
 import Record from '../models/GameRecord.js';
 
 
