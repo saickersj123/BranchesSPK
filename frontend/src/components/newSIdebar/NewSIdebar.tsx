@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/newsidebar/NewSidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUser, faTrophy, faComments, faMicrophone, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faComments, faMicrophone, faBook } from '@fortawesome/free-solid-svg-icons';
 import SidebarIcon from '../../utils/SidebarIcon'; 
 import { set_routes } from '../../Routes';
 interface NewSidebarProps {
