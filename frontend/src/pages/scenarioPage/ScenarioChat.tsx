@@ -98,7 +98,7 @@ const ScenarioChat: React.FC = ({  }) => {
     try {
       setResponseWait(true);
       const response = await sendVoiceMessage(conversationId, audioBlob); 
-      let gameResult = true;
+      let gameResult = false;
       if(response.gameResult) {
         gameResult = true;
       }
