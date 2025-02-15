@@ -15,7 +15,7 @@ import NewSidebar from '../../components/Sidebar/NewSidebar';
 const textChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>(''); 
-  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
+  const [, setSelectedConversationId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const navigate = useNavigate();

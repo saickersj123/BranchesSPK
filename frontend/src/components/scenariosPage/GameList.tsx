@@ -55,7 +55,7 @@ const GameList: React.FC<GameListProps> = ({ onSelect, selectedGame }) => {
         &lt;
       </button>
       <ul className="gameList-ul" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-        {gameList.map((game, index) => (
+        {gameList.map((game, _index) => (
           <li key={game.id} className={`gameList-li ${selectedGame === game.id ? 'gameList-selected' : ''}`}>
             <span className="gameList-text">{game.name}</span>
           </li>

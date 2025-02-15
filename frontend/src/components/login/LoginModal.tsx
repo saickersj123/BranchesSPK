@@ -11,7 +11,7 @@ interface LoginModalProps {
   handleLogin: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ show, handleClose, handleLogin }) => {
+const LoginModal: React.FC<LoginModalProps> = ({ show, handleClose }) => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {

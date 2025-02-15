@@ -13,9 +13,7 @@ interface VoiceChatHeaderProps {
 
 const VoiceChatHeader: React.FC<VoiceChatHeaderProps> = ({ 
     children, 
-    isSidebarOpen, 
-    setIsSidebarOpen,
-    onReset
+    isSidebarOpen
 }) => {
   const navigate = useNavigate(); 
 

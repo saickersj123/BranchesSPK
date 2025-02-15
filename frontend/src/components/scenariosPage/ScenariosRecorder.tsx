@@ -11,7 +11,7 @@ interface ScenariosRecorderProps {
 
   const ScenariosRecorder: React.FC<ScenariosRecorderProps> = ({ onSend, responseWait }) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [audioURL, setAudioURL] = useState<string>('');
+  const [, setAudioURL] = useState<string>('');
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
@@ -44,12 +44,6 @@ interface ScenariosRecorderProps {
     setIsRecording(false);
   };
 
-  const playAudio = () => {
-    if (audioURL) {
-      const audio = new Audio(audioURL);
-      audio.play();
-    }
-  };
 
   return (
     <div className="scenarios-recorder-container">

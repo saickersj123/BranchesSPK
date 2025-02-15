@@ -26,7 +26,7 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({
   onGameChange,
 }) => {
   const [showGameList, setShowGameList] = useState<boolean>(false);
-  const [showGameConfirmation, setShowGameConfirmation] = useState<boolean>(false);
+  const [, setShowGameConfirmation] = useState<boolean>(false);
 
   if (!selectedScenario) return null;
 

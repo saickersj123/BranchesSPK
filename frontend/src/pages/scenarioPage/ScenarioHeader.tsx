@@ -12,9 +12,7 @@ interface ScenarioHeaderProps {
 
 const ScenarioHeader: React.FC<ScenarioHeaderProps> = ({ 
     children, 
-    isSidebarOpen, 
-    setIsSidebarOpen,
-    onReset
+    isSidebarOpen
 }) => {
   const navigate = useNavigate(); 
 

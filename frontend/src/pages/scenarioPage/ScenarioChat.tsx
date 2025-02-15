@@ -17,13 +17,12 @@ import { set_routes } from '../../Routes';
 const ScenarioChat: React.FC = ({  }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversationId, setConversationId] = useState<string>(''); 
-  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
+  const [, setSelectedConversationId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>(); 
   const navigate = useNavigate();
   const { conversationId: routeConversationId } = useParams<{ conversationId: string }>();
   const [responseWait, setResponseWait] = useState(false); 
-  let originUrl = set_routes.SCENARIO_LIST;
 
   let latestConversationId: string | null = null;
   const loadMessages = useCallback(async (conversationId: string) => {

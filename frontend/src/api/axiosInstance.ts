@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 
 // axios 인스턴스 생성. 모든 요청에 이걸 사용하여 처리.
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:5001/api', // API 요청의 기본 URL 설정
+  baseURL: import.meta.env.VITE_API_URL, // API 요청의 기본 URL 설정
   headers: {
     'Content-Type': 'application/json', // 요청 헤더에 Content-Type을 application/json으로 설정
   },

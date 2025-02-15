@@ -1,6 +1,5 @@
 import axios from 'axios';
 import axiosInstance from './axiosInstance';
-import exp from 'constants';
 
 // 레벨별 필요 경험치 배열
 const LEVEL_THRESHOLDS = [

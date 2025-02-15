@@ -11,7 +11,7 @@ interface VoiceRecorderProps {
 
 const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onSend, responseWait }) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [audioURL, setAudioURL] = useState<string>('');
+  const [, setAudioURL] = useState<string>('');
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
@@ -42,13 +42,6 @@ const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onSend, responseWait }) =
   const stopRecording = () => {
     mediaRecorderRef.current?.stop();
     setIsRecording(false);
-  };
-
-  const playAudio = () => {
-    if (audioURL) {
-      const audio = new Audio(audioURL);
-      audio.play();
-    }
   };
 
   return (

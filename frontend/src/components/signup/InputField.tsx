@@ -12,7 +12,7 @@ interface InputFieldProps {
   icon?: React.ReactNode;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ id, label, type, placeholder, value, onChange, isValid, icon }) => {
+const InputField: React.FC<InputFieldProps> = ({ id, label, type, placeholder, value, onChange, icon }) => {
   return (
     <div className="signupInputGroup">
       <label htmlFor={id} className="signupLabel">{label}</label>
