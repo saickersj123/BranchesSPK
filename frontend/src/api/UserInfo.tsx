@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosInstance, { TEST_MODE } from './axiosInstance';
+import axiosInstance from './axiosInstance';
 import exp from 'constants';
 
 // 레벨별 필요 경험치 배열
@@ -31,76 +31,34 @@ const calculateNextLevelXP = (exp: number): number | null => {
 
 // 사용자 경험치를 불러오는 API - 사용자의 경험치와 계산된 레벨을 반환하는 함수
 export const gethUserExperience = async (): Promise<{ exp: number, level: number, nextLevelXP: number | null }> => {
-    if(TEST_MODE) {
-        const mockExp = 300;
-        return { 
-            exp: mockExp, 
-            level: calculateLevel(mockExp),
-            nextLevelXP: calculateNextLevelXP(mockExp)
-        };
-    }
-    else {
-        try {
-            const response = await axiosInstance.get('/user/exp');
-            const exp = response.data.exp;
-            return { 
-                exp, 
-                level: calculateLevel(exp),
-                nextLevelXP: calculateNextLevelXP(exp)
-            };
-        } catch (error) {
-            console.error('경험치 가져오기 실패:', error);
-            throw error;
-        }
-    }
+  try {
+    const response = await axiosInstance.get('/user/exp');
+    const exp = response.data.exp;
+    return { 
+        exp, 
+        level: calculateLevel(exp),
+        nextLevelXP: calculateNextLevelXP(exp)
+    };
+} catch (error) {
+    console.error('경험치 가져오기 실패:', error);
+    throw error;
+}
 };
   
 // 과거에 참가한 게임의 정보를 얻어오는 API - 과거에 참가한 게임의 정보를 반환하는 함수
   export const getPastGames = async (): Promise<{ gameName: string; participationTime: string; correctAnswers: number; experienceGained: number }[]> => {
-    if(TEST_MODE) {
-      return [
-        {
-          gameName: "키워드 맞추기",
-          participationTime: "2024-01-01",
-          correctAnswers: 10,
-          experienceGained: 100,
-        },
-        {
-          gameName: "키워드 맞추기",
-          participationTime: "2024-11-02",
-          correctAnswers: 8,
-          experienceGained: 80,
-        },
-        {
-          gameName: "키워드 맞추기",
-          participationTime: "2025-01-02",
-          correctAnswers: 7,
-          experienceGained: 70,
-        },
-        {
-          gameName: "키워드 맞추기",
-          participationTime: "2025-03-02",
-          correctAnswers: 4,
-          experienceGained: 40,
-        },
-      ];
-    }
-    else{
-      try {
-        const response = await axiosInstance.get('/user/past-games');
-        //console.log(response.data);
-        return response.data.games.map((game: any) => ({
-          gameName: game.name,
-          participationTime: game.participationTime,
-          correctAnswers: game.correctAnswers,
-          experienceGained: game.experienceGained,
-        })) || [];
-      } catch (error) {
-        console.error('과거 게임 정보 가져오기 실패:', error);
-        return [];
-      }
-    }
- 
+    try {
+      const response = await axiosInstance.get('/user/past-games'); 
+      return response.data.games.map((game: any) => ({
+        gameName: game.name,
+        participationTime: game.participationTime,
+        correctAnswers: game.correctAnswers,
+        experienceGained: game.experienceGained,
+      })) || [];
+    } catch (error) {
+      console.error('과거 게임 정보 가져오기 실패:', error);
+      return [];
+    } 
   };
   
   

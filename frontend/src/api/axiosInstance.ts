@@ -1,8 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { AuthResponse } from '../@types/types';  // types.ts에서 Message와 Conversation을 import 
-
-// 시나리오, 음성처리의 API 모드 설정 (true: 더미 데이터 모드, false: 실제 서버 통신 모드)
-export let TEST_MODE = false;
+import { AuthResponse } from '../@types/types';  // types.ts에서 Message와 Conversation을 import  
 
 // 모든 요청에 withCredentials 옵션을 설정
 axios.defaults.withCredentials = true;
@@ -23,8 +20,7 @@ export const checkAuthStatus = async (): Promise<AuthResponse> => {
     const response = await axiosInstance.get('/user/auth-status');
     if (response.data && response.data.message === "OK") {  
       return { valid: true, user: { name: response.data.name }, email: response.data.email };
-    } else {
-      //console.log("인증 상태 확인 실패:", response.data);
+    } else { 
       return { valid: false };
     }
   } catch (error) {

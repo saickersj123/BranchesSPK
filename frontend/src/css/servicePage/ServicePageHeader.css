@@ -1,0 +1,34 @@
+.servicepageheader_container { 
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;  
+  height: 30vh; 
+} 
+
+.servicepage_branch-logo {
+  width: 35rem;
+  max-width: 100%;
+  height: auto;
+  margin-top: 5vh;
+  margin-left: 10.5rem;
+}
+
+.service-page-username-text {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  text-align: center;
+  letter-spacing: 0.02em;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.servicepageheader_text_description {
+  margin-left: 2rem;
+  margin-top: 10vh;
+  color: #B8B8B8;
+  font-size: 1.5rem; 
+}

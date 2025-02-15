@@ -4,10 +4,8 @@ import { Message, Conversation } from '../@types/types';
 
 // 새로운 대화 시작 API - 새로운 대화를 시작하는 함수
 export const startNewConversation = async (): Promise<string> => {
-  try {
-    const messageContent = "hello~"; // 메시지를 함수 내부에서 직접 설정
-    const response = await axiosInstance.post('/chat/c/new', { message: messageContent });
-    //console.log("새로운 대화 시작 응답 :", JSON.stringify(response.data, null, 2)); // 객체를 문자열로 변환하여 출력
+  try {  
+    const response = await axiosInstance.get('/chat/c/new'); 
     return response.data.conversation._id;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -92,8 +90,7 @@ export const starNewConversationwithmsg = async (messageContent: string, role: s
       audioUrl: ''
     };
     try {
-      const response = await axiosInstance.post('/chat/c/new', {message: message.content});
-      //console.log("response.data : s" + response.data);
+      const response = await axiosInstance.post('/chat/c/new', {message: message.content}); 
       return response.data.conversation;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -109,8 +106,7 @@ export const starNewConversationwithmsg = async (messageContent: string, role: s
 // 대화 목록 가져오기 API - 대화 목록을 가져오는 함수
 export const fetchConversations = async (): Promise<Conversation[]> => {
   try {
-    const response = await axiosInstance.get('/chat/all-c');
-    //console.log("대화 목록 가져오기 응답 : ", response.data);
+    const response = await axiosInstance.get('/chat/all-c'); 
     return response.data.conversations.map((conv: any) => ({
       _id: conv._id,
       chats: conv.chats,
@@ -125,8 +121,7 @@ export const fetchConversations = async (): Promise<Conversation[]> => {
 // 메시지 가져오기 API - 메시지를 가져오는 함수
 export const fetchMessages = async (conversationId: string): Promise<Message[]> => {
   try {
-    const response = await axiosInstance.get(`/chat/c/${conversationId}`);
-    //console.log("" + response.data);
+    const response = await axiosInstance.get(`/chat/c/${conversationId}`); 
     return response.data.conversation.chats || [];
   } catch (error) {
     console.error('메시지 가져오기 실패:', error);

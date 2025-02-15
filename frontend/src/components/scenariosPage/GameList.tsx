@@ -20,8 +20,8 @@ const GameList: React.FC<GameListProps> = ({ onSelect, selectedGame }) => {
   useEffect(() => {
     const fetchGameList = async () => {
       try {
-        const games: Game[] = await getGameList();
-        setGameList([{ id: '', name: '게임 미선택' }, ...games]);
+        const games: { _id: string; game: string; description: string; __v: number }[] = await getGameList();
+        setGameList([{ id: '', name: '게임 미선택' }, ...games.map(g => ({ id: g._id, name: g.game }))]);
       } catch (error) {
         console.error('게임 목록을 가져오는 중 오류 발생:', error);
         setError('게임 목록을 불러오는 데 실패했습니다.');

@@ -46,7 +46,9 @@ const VoisChatList: React.FC<VoisChatListProps> = ({ messages }) => {
               <div className="chatbot-icon">AI</div>
             )}
             <div className={`voice-message ${msg.role}`}>
-              {msg.content}
+              {msg.content.split('\n').map((line, index) => (
+                <span key={index}>{line}<br /></span>
+              ))}
               {msg.role === 'user' ? (
                 <span className="user-time">
                   {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}

@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/voiceChat/VoiceChat.css';
 import VoiceChatHeader from './VoiceChatHeader';  
 import VoisChatList from '../../components/voiceChat/VoisChatList';  
-import NewSidebar from '../../components/newSidebar/NewSIdebar';
+import NewSidebar from '../../components/newSidebar/NewSidebar';
 import ChatResetButton from '../../utils/ChatResetButton';
 import { set_routes } from '../../Routes'; 
 
@@ -106,6 +106,7 @@ const VoiceChat: React.FC = ({  }) => {
         content: response.text, 
         audioUrl: '', 
         createdAt: new Date().toISOString(),
+        gameResult: null,
       };
       setMessages((prev) => [...prev, newMessage]); 
       
@@ -114,6 +115,7 @@ const VoiceChat: React.FC = ({  }) => {
         content: response.gptResponse,
         audioUrl: response.audioUrl, 
         createdAt: new Date().toISOString(),
+        gameResult: null,
       };
       setMessages((prev) => [...prev, aiMessage]);
 

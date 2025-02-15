@@ -56,14 +56,14 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({
             onClick={() => handleRoleChange('role1')}
             className="ScenarioModal-role-button"
           >
-            {selectedScenario.roles.role1}
+            {selectedScenario.roles[0]}
           </Button>
           <Button 
             variant={selectedRole === 'role2' ? 'primary' : 'secondary'} 
             onClick={() => handleRoleChange('role2')}
             className="ScenarioModal-role-button"
           >
-            {selectedScenario.roles.role2}
+            {selectedScenario.roles[1]}
           </Button> 
         </div>  
 

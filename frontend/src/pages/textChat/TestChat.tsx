@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../css/textChat/TextChat.css';
 import TextChatHeader from './TextChatHeader';  
 import TextChatList from '../../components/textChat/TextChatList';  
-import NewSidebar from '../../components/newSidebar/NewSIdebar';
+import NewSidebar from '../../components/newSidebar/NewSidebar';
 import ChatResetButton from '../../utils/ChatResetButton';
 import { set_routes } from '../../Routes'; 
 
@@ -106,6 +106,7 @@ const textChat: React.FC = () => {
         content: messageContent, 
         audioUrl: '', 
         createdAt: new Date().toISOString(),
+        gameResult: null,
       };
       setMessages((prev) => [...prev, newMessage]); 
 
@@ -118,6 +119,7 @@ const textChat: React.FC = () => {
           content: latestAiResponse.content, // Use the content from the latest response
           audioUrl: '', 
           createdAt: latestAiResponse.createdAt, // Use the createdAt from the response
+          gameResult: null,
         };
         setMessages((prev) => [...prev, aiMessage]);
       } else {

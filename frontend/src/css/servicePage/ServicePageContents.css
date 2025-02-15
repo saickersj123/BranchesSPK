@@ -1,20 +1,73 @@
+@import '../set/color.css';
 
-.service-main-page-start-button,
-.service-main-page-mode-button {
-  margin: 10px 0;
+/* CSS 코드 반영 */ 
+ 
+.servicepage_intro-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
-.service-main-start-button {
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  background-color: #007f3a;
-  color: white;
+.servicepage_intro-image {
+  width: 2000px;
+  max-width: 90%;
+  height: auto;
+  border-radius: 10px; 
+}
+
+.servicepage_action-buttons {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.servicepage_start-button,
+.servicepage_mode-select-button {
+  width: 320px;
+  height: 80px;
+  font-size: 1.5rem;
+  background-color: var(--button-color);
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
-.service-main-start-button:hover {
-  background-color: #006630;
+.servicepage_start-button:hover,
+.servicepage_mode-select-button:hover {
+  background-color: var(--button-hover-color);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
+
+.servicepage_mode-select-button {
+  width: 250px;
+  height: 60px;
+  font-size: 1.2rem;
+  background-color: var(--button-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.servicepage_mode-select-button:hover {
+  background-color: var(--button-hover-color);
+  transform: translateY(-3px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.servicepage_footer-text {
+  text-align: left;
+  margin-left: 1rem;
+  color: #B8B8B8;
+  font-size: 1rem;
+  white-space: pre-line;
+} 

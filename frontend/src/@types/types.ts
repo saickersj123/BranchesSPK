@@ -3,6 +3,7 @@ export interface Message {
   role: string;
   createdAt: string; 
   audioUrl : string;
+  gameResult: any | null;
 } 
 export interface Conversation {
   _id: string;

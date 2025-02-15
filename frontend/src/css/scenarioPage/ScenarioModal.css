@@ -1,3 +1,5 @@
+@import '../../css/set/color.css';
+
 /* ScenarioModal.css */
 .ScenarioModal-modal-title {
     font-size: 1.5rem; /* 제목 크기 */
@@ -41,7 +43,7 @@
   .ScenarioModal-role-button:hover {
       font-weight: bold;
       color: white;
-      background-color: #005f2a; /* 호버 시 색상 */
+      background-color: var( --button-color-2-hover); /* 호버 시 색상 */
   }
   
   .ScenarioModal-footer-buttons { 
@@ -64,6 +66,6 @@
   .ScenarioModal-back-button:hover, .ScenarioModal-start-button:hover {
       font-weight: bold;
       color: white;
-      background-color: #005f2a; /* 호버 시 색상 */
+      background-color: var( --button-color-2-hover); /* 호버 시 색상 */
   }
  

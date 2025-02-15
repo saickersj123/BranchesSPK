@@ -1,3 +1,5 @@
+@import '../set/color.css';
+
 .service-modal-overlay {
     position: fixed;
     top: 0;
@@ -31,7 +33,7 @@
   .service-title {
     text-align: center;
     font-size: 2rem;
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 30px;
   }
   
@@ -52,7 +54,7 @@
   .service-start-button {
     padding: 12px 30px;
     font-size: 1.1rem;
-    background-color: #007f3a;
+    background-color: var(--button-color);
     color: white;
     border: none;
     border-radius: 8px;
@@ -66,7 +68,7 @@
   }
   
   .service-start-button:hover:not(:disabled) {
-    background-color: #006630;
+    background-color: var(--button-hover-color);
   }
   
   .service-close-button {
