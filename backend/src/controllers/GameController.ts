@@ -9,18 +9,18 @@ import Record from "../models/GameRecord.js";
 export const getAllGameList = async (
     req: Request, 
     res: Response
-) => {
+): Promise<void> => {
     try {
         // 데이터베이스에서 모든 게임 정보 가져오기
         const games = await Game.find(); 
-        return res.status(200).json(games);
+        res.status(200).json(games);
     } catch (error) {
         console.error("[ERROR] Failed to fetch game list:", error.message);
-        return res.status(500).json({ error: "Failed to fetch game list." });
+        res.status(500).json({ error: "Failed to fetch game list." });
     }
 };
 
-export const postGame = async (req: Request, res: Response) => {
+export const postGame = async (req: Request, res: Response): Promise<void> => {
     try {
         const { gameName, description } = req.body; // 요청에서 게임 데이터 추출
 
@@ -152,19 +152,21 @@ export const executeGameLogic = async ({
 export const postKeywords = async (
     req: Request, 
     res: Response
-) => {
+): Promise<void> => {
     try {
         const { scenarioId, newKeywords } = req.body;
 
         // ✅ 필수 데이터 검증
         if (!scenarioId || !newKeywords || !Array.isArray(newKeywords) || newKeywords.length === 0) {
-            return res.status(400).json({ error: "Missing required fields: scenarioId or non-empty newKeywords array." });
+            res.status(400).json({ error: "Missing required fields: scenarioId or non-empty newKeywords array." });
+            return;
         }
 
         // ✅ 시나리오 존재 여부 확인
         const scenarioExists = await Scenario.findById(scenarioId);
         if (!scenarioExists) {
-            return res.status(404).json({ error: `Scenario with ID '${scenarioId}' not found.` });
+            res.status(404).json({ error: `Scenario with ID '${scenarioId}' not found.` });
+            return;
         }
 
         // ✅ 기존 키워드 문서 찾기
@@ -186,29 +188,29 @@ export const postKeywords = async (
         await keywordDoc.save();
 
         // ✅ 성공 응답 반환
-        return res.status(201).json({
+        res.status(201).json({
             message: "Keywords added successfully",
             keywords: keywordDoc.keywords,
         });
 
     } catch (error) {
         console.error("Error adding keywords:", error.message);
-        return res.status(500).json({ error: "Failed to add keywords." });
+        res.status(500).json({ error: "Failed to add keywords." });
     }
 };
 
 export const getKeywords = async (
     req: Request, 
     res:Response
-) => {
+): Promise<void> => {
     try {
         // 데이터베이스에서 모든 키워드 가져오기
         const keywords = await Keyword.find();
-        return res.status(200).json(keywords);
+        res.status(200).json(keywords);
     }
     catch (error) {
         console.error("[ERROR] Failed to fetch game list:", error.message);
-        return res.status(500).json({ error: "Failed to fetch game list." });
+        res.status(500).json({ error: "Failed to fetch game list." });
     }
 };
 

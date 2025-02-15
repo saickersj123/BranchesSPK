@@ -1,7 +1,7 @@
 import express from "express";
 import { verifyToken } from "../utils/Token.js";
 import { getAllGameList, getKeywords, postGame, postKeywords } from "../controllers/GameController.js";
-import{ getRecords } from "../controllers/GameRecordController.js";
+import { getRecords } from "../controllers/GameRecordController.js";
 
 const gameRoutes = express.Router();
 

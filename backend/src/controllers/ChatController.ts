@@ -15,13 +15,14 @@ export const generateChatCompletion = async (
     req: Request, 
     res: Response, 
     next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const { conversationId } = req.params;
         const user = await User.findById(res.locals.jwtData.id);
 
         if (!user) {
-            return res.status(401).json({ message: "ERROR", cause: "User not registered / token malfunctioned" });
+            res.status(401).json({ message: "ERROR", cause: "User not registered / token malfunctioned" });
+            return;
         }
 
         // 특정 대화 가져오기
@@ -31,7 +32,8 @@ export const generateChatCompletion = async (
         );
         if (!conversation) {
             console.log("User Conversations:", user.conversations);
-            return res.status(404).json({ message: "ERROR", cause: "Conversation not found" });
+            res.status(404).json({ message: "ERROR", cause: "Conversation not found" });
+            return;
         }
 
         // 🔹 대화 타입 확인
@@ -53,7 +55,8 @@ export const generateChatCompletion = async (
         // 일반 텍스트 메시지 처리
         const { message } = req.body;
         if (!message || message.trim() === "") {
-            return res.status(400).json({ message: "ERROR", cause: "Empty message received" });
+            res.status(400).json({ message: "ERROR", cause: "Empty message received" });
+            return;
         }
 
         // 🔹 OpenAI API 호출을 위한 메시지 준비
@@ -75,10 +78,10 @@ export const generateChatCompletion = async (
         conversation.chats.push(chatResponse.choices[0].message);
         await user.save();
 
-        return res.status(200).json({ chats: conversation.chats });
+        res.status(200).json({ chats: conversation.chats });
     } catch (error: unknown) {
         console.error(error);
-        return res.status(500).json({ message: (error as Error).message });
+        res.status(500).json({ message: (error as Error).message });
     }
 };
 
@@ -87,26 +90,27 @@ export const getAllConversations = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
    try {
       const user = await User.findById(res.locals.jwtData.id); // get variable stored in previous middleware
         
-      if (!user)
-         return res.status(401).json({
+      if (!user) {
+         res.status(401).json({
             message: "ERROR",
             cause: "User doesn't exist or token malfunctioned",
          });
+         return;
+      }
 
       if (user._id.toString() !== res.locals.jwtData.id) {
-         return res
-            .status(401)
-            .json({ message: "ERROR", cause: "Permissions didn't match" });
+         res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+         return;
       }
       const generalConversations = user.conversations.filter(convo => convo.type !== "voice" && convo.type !== "scenario");
-        return res.status(200).json({ message: "OK", conversations: generalConversations });
+      res.status(200).json({ message: "OK", conversations: generalConversations });
    } catch (err) {
       console.log(err);
-      return res.status(200).json({ message: "ERROR", cause: err.message });
+      res.status(200).json({ message: "ERROR", cause: err.message });
    }
 };
 
@@ -114,29 +118,30 @@ export const deleteAllConversations = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
    try {
       const user = await User.findById(res.locals.jwtData.id); // get variable stored in previous middleware
         
-      if (!user)
-         return res.status(401).json({
+      if (!user) {
+         res.status(401).json({
             message: "ERROR",
             cause: "User doesn't exist or token malfunctioned",
          });
+         return;
+      }
 
       if (user._id.toString() !== res.locals.jwtData.id) {
-         return res
-            .status(401)
-            .json({ message: "ERROR", cause: "Permissions didn't match" });
+         res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+         return;
       }
 
         //@ts-ignore
         user.conversations = [];
         await user.save()
-      return res.status(200).json({ message: "OK", conversations: user.conversations });
+      res.status(200).json({ message: "OK", conversations: user.conversations });
    } catch (err) {
       console.log(err);
-      return res.status(200).json({ message: "ERROR", cause: err.message });
+      res.status(200).json({ message: "ERROR", cause: err.message });
    }
 };
 
@@ -144,33 +149,36 @@ export const startNewConversation = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
    try {
       const user = await User.findById(res.locals.jwtData.id);
 
-      if (!user)
-         return res.status(401).json({
+      if (!user) {
+         res.status(401).json({
             message: "ERROR",
             cause: "User doesn't exist or token malfunctioned",
          });
+         return;
+      }
       
       // Validate if the last conversation is empty
       const lastConversation = user.conversations[user.conversations.length - 1];
       if (lastConversation && lastConversation.chats.length === 0) {
-         return res.status(400).json({
+         res.status(400).json({
             message: "ERROR",
             cause: "The last conversation is still empty. Please add messages before creating a new conversation.",
          });
+         return;
       }
 
       user.conversations.push({ chats: [] });
       await user.save();
 
-      return res.status(200).json({ message: "New conversation started", 
+      res.status(200).json({ message: "New conversation started", 
                conversation: user.conversations[user.conversations.length - 1]  });
    } catch (err) {
       console.log(err);
-      return res.status(500).json({ message: "ERROR", cause: err.message });
+      res.status(500).json({ message: "ERROR", cause: err.message });
    }
 };
 
@@ -178,21 +186,23 @@ export const startNewConversationwith = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
    try {
       const { message } = req.body;
 
       const user = await User.findById(res.locals.jwtData.id);
       if (!user) {
-         return res.status(401).json("User not registered / token malfunctioned");
+         res.status(401).json("User not registered / token malfunctioned");
+         return;
       }
       // Validate if the last conversation is empty
          const lastConversation = user.conversations[user.conversations.length - 1];
          if (lastConversation && lastConversation.chats.length === 0) {
-            return res.status(400).json({
+            res.status(400).json({
                message: "ERROR",
                cause: "The last conversation is still empty. Please add messages before creating a new conversation.",
             });
+            return;
          }
       user.conversations.push({ chats: [] });
       // Add the user's message to the conversation
@@ -219,10 +229,10 @@ export const startNewConversationwith = async (
       conversation.chats.push(chatResponse.choices[0].message);
       await user.save();
 
-      return res.status(200).json({ conversation: conversation });
+      res.status(200).json({ conversation: conversation });
    } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
    }
 };
 
@@ -231,31 +241,33 @@ export const getConversation = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
    try {
       const user = await User.findById(res.locals.jwtData.id);
       const { conversationId } = req.params;
 
       if (!user) {
-         return res.status(401).json({
+         res.status(401).json({
             message: "ERROR",
             cause: "User doesn't exist or token malfunctioned",
          });
+         return;
       }
 
       const conversation = user.conversations.id(conversationId);
       if (!conversation) {
-         return res.status(404).json({
+         res.status(404).json({
             message: "ERROR",
             cause: "Conversation not found",
          });
+         return;
       }
       await user.save();
 
-      return res.status(200).json({ message: "OK", conversation });
+      res.status(200).json({ message: "OK", conversation });
    } catch (err) {
       console.log(err);
-      return res.status(500).json({ message: "ERROR", cause: err.message });
+      res.status(500).json({ message: "ERROR", cause: err.message });
    }
 };
 
@@ -263,41 +275,44 @@ export const deleteConversation = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
    try {
       const user = await User.findById(res.locals.jwtData.id);
       const { conversationId } = req.params;
 
       if (!user) {
-         return res.status(401).json({
+         res.status(401).json({
             message: "ERROR",
             cause: "User doesn't exist or token malfunctioned",
          });
+         return;
       }
 
       const conversation = user.conversations.id(conversationId);
       if (!conversation) {
-         return res.status(404).json({
+         res.status(404).json({
             message: "ERROR",
             cause: "Conversation not found",
          });
+         return;
       }
 
       // Remove the conversation
       user.conversations.pull(conversationId);
       await user.save();
 
-      return res.status(200).json({ message: "OK", conversations: user.conversations });
+      res.status(200).json({ message: "OK", conversations: user.conversations });
    } catch (err) {
       console.log(err);
-      return res.status(500).json({ message: "ERROR", cause: err.message });
+      res.status(500).json({ message: "ERROR", cause: err.message });
    }
 };
 
 export const createCustomModel = async (
    req: Request,
    res: Response,
-   next: NextFunction) => {
+   next: NextFunction
+): Promise<void> => {
    try {
       const userId = res.locals.jwtData.id;
       const { trainingData, modelName } = req.body;
@@ -310,13 +325,15 @@ export const createCustomModel = async (
         res.status(201).json({ message: "Model fine-tuned and saved", model: fineTunedModel, trainingFileId });
    } catch (err) {
         res.status(500).json({ error: err.message });
+        return;
    }
   };
 
 export const deleteCustomModel = async (
    req: Request,
    res: Response,
-   next: NextFunction) => {
+   next: NextFunction
+): Promise<void> => {
    try {
       const userId = res.locals.jwtData.id;
         const { modelId } = req.params;
@@ -332,25 +349,26 @@ export const getCustomModels = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
    try {
       const user = await User.findById(res.locals.jwtData.id); // get variable stored in previous middleware
         
-      if (!user)
-         return res.status(401).json({
+      if (!user) {
+         res.status(401).json({
             message: "ERROR",
             cause: "User doesn't exist or token malfunctioned",
          });
+         return;
+      }
 
       if (user._id.toString() !== res.locals.jwtData.id) {
-         return res
-            .status(401)
-            .json({ message: "ERROR", cause: "Permissions didn't match" });
+         res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+         return;
       }
-      return res.status(200).json({ message: "OK", CustomModels: user.CustomModels });
+      res.status(200).json({ message: "OK", CustomModels: user.CustomModels });
    } catch (err) {
       console.log(err);
-      return res.status(200).json({ message: "ERROR", cause: err.message });
+      res.status(200).json({ message: "ERROR", cause: err.message });
    }
 };
 
@@ -358,16 +376,16 @@ export const getModelbyId = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
    try {
       const userId = res.locals.jwtData.id;
       const { modelId } = req.params;
       const model = await loadModel(userId, modelId);
 
-      return res.status(200).json({ message: "OK", model });
+      res.status(200).json({ message: "OK", model });
    } catch (err) {
       console.log(err);
-      return res.status(500).json({ message: "ERROR", cause: err.message });
+      res.status(500).json({ message: "ERROR", cause: err.message });
    }
 };
 
@@ -375,16 +393,17 @@ export const startNewConversationVoice = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id);
 
         // 유저가 존재하지 않을 경우 처리
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
         
         // 새 음성 대화 추가
@@ -398,13 +417,13 @@ export const startNewConversationVoice = async (
         await user.save();
 
         // 새로 생성된 대화 반환
-        return res.status(200).json({
+        res.status(200).json({
             message: "New voice conversation started",
             conversation: user.conversations[user.conversations.length - 1],
         });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -412,31 +431,33 @@ export const getAllVoiceConversations = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id); // 이전 미들웨어에서 저장된 JWT 데이터 사용
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         // 권한 확인
         if (user._id.toString() !== res.locals.jwtData.id) {
-            return res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+            res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+            return;
         }
 
         // 음성 대화만 필터링
         const voiceConversations = user.conversations.filter(conversation => conversation.type === "voice");
 
-        return res.status(200).json({
+        res.status(200).json({
             message: "OK",
             voiceConversations,
         });
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -444,16 +465,17 @@ export const getVoiceConversation = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id); // 현재 사용자를 가져옵니다.
         const { conversationId } = req.params; // URL 파라미터에서 conversationId를 가져옵니다.
         
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         // 음성 대화만 필터링
@@ -464,19 +486,20 @@ export const getVoiceConversation = async (
         const conversation = voiceConversations.find(conv => conv._id.toString() === conversationId);
 
         if (!conversation) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: "ERROR",
                 cause: "Voice conversation not found",
             });
+            return;
         }
 
         await user.save(); // 사용자가 수정되었다면 저장합니다.
         
-        return res.status(200).json({ message: "OK", conversation });
+        res.status(200).json({ message: "OK", conversation });
     }
     catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -484,18 +507,20 @@ export const deleteAllVoiceConversations = async (
     req: Request, 
     res: Response, 
     next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id); // get variable stored in previous middleware
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         if (user._id.toString() !== res.locals.jwtData.id) {
-            return res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+            res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+            return;
         }
 
         // 음성 대화만 필터링하여 삭제
@@ -506,10 +531,10 @@ export const deleteAllVoiceConversations = async (
 
         await user.save();
 
-        return res.status(200).json({ message: "OK", conversations: user.conversations });
+        res.status(200).json({ message: "OK", conversations: user.conversations });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -517,44 +542,47 @@ export const deleteVoiceConversation = async (
     req: Request, 
     res: Response, 
     next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id);
         const { conversationId } = req.params;
 
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         // 특정 conversationId에 해당하는 대화 가져오기
         const conversation = user.conversations.id(conversationId);
 
         if (!conversation) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: "ERROR",
                 cause: "Conversation not found",
             });
+            return;
         }
 
         // 삭제하려는 대화가 음성 대화인지 확인
         if (conversation.type !== "voice") {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "ERROR",
                 cause: "The conversation is not a voice type",
             });
+            return;
         }
 
         // 음성 대화 삭제
         user.conversations.pull(conversationId);
         await user.save();
 
-        return res.status(200).json({ message: "OK", conversations: user.conversations });
+        res.status(200).json({ message: "OK", conversations: user.conversations });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -562,7 +590,7 @@ export const saveVoiceConversation = async (
     userId: string,
     userMessage: string,
     gptMessage: string,
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(userId);
         if (!user) throw new Error("User not found");
@@ -607,7 +635,7 @@ export const saveVoiceConversation = async (
 export const handleGeneralConversation = async (
    req: Request,
    res: Response,
-) => {
+): Promise<void> => {
     try {
         const audioBuffer: Buffer | undefined = req.file?.buffer;
         if (!audioBuffer) {
@@ -683,16 +711,17 @@ export const startNewConversationScenario = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id);
 
         // 유저 검증
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         // 요청에서 시나리오 정보 가져오기
@@ -700,9 +729,10 @@ export const startNewConversationScenario = async (
 
         // 필수 데이터 확인
         if (!scenarioId || !selectedRole || !difficulty) {
-            return res.status(400).json({
+            res.status(400).json({
                 error: "Scenario ID, role, and difficulty are required.",
             });
+            return;
         }
 
         // 새 시나리오 대화 생성
@@ -721,13 +751,13 @@ export const startNewConversationScenario = async (
         await user.save();
 
         // 새로 생성된 대화 반환
-        return res.status(200).json({
+        res.status(200).json({
             message: "New scenario conversation started",
             conversation: user.conversations[user.conversations.length - 1],
         });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -736,29 +766,31 @@ export const getAllScenarioConversations = async (
     req: Request,
     res: Response, 
     next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id); // 이전 미들웨어에서 저장된 JWT 데이터 사용
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
         // 권한 확인
         if (user._id.toString() !== res.locals.jwtData.id) {
-            return res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+            res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+            return;
         }
         // 시나리오 대화만 필터링
         const scenarioConversations = user.conversations.filter(conversation => conversation.type === "scenario");
-        return res.status(200).json({
+        res.status(200).json({
             message: "OK",
             scenarioConversations,
         });
     }
     catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -766,16 +798,17 @@ export const getScenarioConversation = async (
    req: Request,
    res: Response,
    next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id); // 현재 사용자를 가져옵니다.
         const { conversationId } = req.params; // URL 파라미터에서 conversationId를 가져옵니다.
         
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         // 시나리오 대화만 필터링
@@ -786,19 +819,20 @@ export const getScenarioConversation = async (
         const conversation = scenarioConversations.find(conv => conv._id.toString() === conversationId);
 
         if (!conversation) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: "ERROR",
                 cause: "Scenario conversation not found",
             });
+            return;
         }
 
         await user.save(); // 사용자가 수정되었다면 저장합니다.
         
-        return res.status(200).json({ message: "OK", conversation });
+        res.status(200).json({ message: "OK", conversation });
     }
     catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -806,18 +840,20 @@ export const deleteAllScenarioConversations = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id); // get variable stored in previous middleware
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         if (user._id.toString() !== res.locals.jwtData.id) {
-            return res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+            res.status(401).json({ message: "ERROR", cause: "Permissions didn't match" });
+            return;
         }
 
         // 시나리오 대화만 필터링하여 삭제
@@ -828,10 +864,10 @@ export const deleteAllScenarioConversations = async (
 
         await user.save();
 
-        return res.status(200).json({ message: "OK", conversations: user.conversations });
+        res.status(200).json({ message: "OK", conversations: user.conversations });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -839,44 +875,47 @@ export const deleteScenarioConversation = async (
     req: Request,
     res: Response, 
     next: NextFunction,
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(res.locals.jwtData.id);
         const { conversationId } = req.params;
 
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         // 특정 conversationId에 해당하는 대화 가져오기
         const conversation = user.conversations.id(conversationId);
 
         if (!conversation) {
-            return res.status(404).json({
+            res.status(404).json({
                 message: "ERROR",
                 cause: "Conversation not found",
             });
+            return;
         }
 
         // 삭제하려는 대화가 시나리오 대화인지 확인
         if (conversation.type !== "scenario") {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "ERROR",
                 cause: "The conversation is not a voice type",
             });
+            return;
         }
 
         // 시나리오 대화 삭제
         user.conversations.pull(conversationId);
         await user.save();
 
-        return res.status(200).json({ message: "OK", conversations: user.conversations });
+        res.status(200).json({ message: "OK", conversations: user.conversations });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "ERROR", cause: err.message });
+        res.status(500).json({ message: "ERROR", cause: err.message });
     }
 };
 
@@ -884,7 +923,7 @@ export const saveScenarioConversation = async (
     userId,
     userMessage,
     gptMessage,
-) => {
+): Promise<void> => {
     try {
         const user = await User.findById(userId);
         if (!user)
@@ -917,33 +956,37 @@ export const saveScenarioConversation = async (
 export const handleScenarioConversation = async (
     req: Request,
     res: Response
-) => {
+): Promise<void> => {
     try {
         const { conversationId } = req.params;
 
         // 필수 데이터 확인
         if (!conversationId) {
-            return res.status(400).json({ error: "Conversation ID is required." });
+            res.status(400).json({ error: "Conversation ID is required." });
+            return;
         }
 
         // 유저 조회
         const user = await User.findById(res.locals.jwtData.id);
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: "ERROR",
                 cause: "User doesn't exist or token malfunctioned",
             });
+            return;
         }
 
         // ✅ 대화 조회
         const conversation = user.conversations.find(conv => conv._id.toString() === conversationId);
         if (!conversation) {
-            return res.status(404).json({ error: "Conversation not found." });
+            res.status(404).json({ error: "Conversation not found." });
+            return;
         }
 
         // ✅ 시나리오 대화 종료 여부 확인
         if (conversation.scenarioData?.isEnded) {
-            return res.status(403).json({ error: "Conversation has already ended." });
+            res.status(403).json({ error: "Conversation has already ended." });
+            return;
         }
 
         // ✅ 기존 시나리오 데이터 가져오기
@@ -958,10 +1001,10 @@ export const handleScenarioConversation = async (
                 userAudioBuffer = req.file.buffer;
                 userText = await transcribeAudioToText(userAudioBuffer);
             } catch (error) {
-                return res.status(500).json({ error: "Failed to transcribe audio" });
+                res.status(500).json({ error: "Failed to transcribe audio" });
             }
         } else {
-            return res.status(400).json({ error: "No audio data provided." });
+            res.status(400).json({ error: "No audio data provided." });
         }
 
         // ✅ 작별 인사 감지 후 시나리오 종료
@@ -983,7 +1026,7 @@ export const handleScenarioConversation = async (
                 gameResult = await executeGameLogic({ gameId: gameId.toString(), conversation, res});
             }
 
-            return res.json({
+            res.json({
                 message: userText,
                 role: "user",
                 gptResponse: goodbyeText,
@@ -1002,7 +1045,7 @@ export const handleScenarioConversation = async (
                 difficulty,
             });
         } catch (error) {
-            return res.status(500).json({ error: "Failed to generate GPT response" });
+            res.status(500).json({ error: "Failed to generate GPT response" });
         }
 
         // GPT 응답을 TTS 변환하여 별도 저장
@@ -1017,11 +1060,11 @@ export const handleScenarioConversation = async (
         try {
             await saveScenarioConversation(res.locals.jwtData.id, userText, gptResponse.text);
         } catch (error) {
-            return res.status(500).json({ error: "Failed to save conversation" });
+            res.status(500).json({ error: "Failed to save conversation" });
         }
 
         // 최종 응답 반환
-        return res.json({
+        res.json({
             message: userText,
             role: "user",
             gptResponse: gptResponse.text,
@@ -1049,29 +1092,36 @@ export const getAllScenarios = async (
     }
 };
 
-export const postScenario = async (req, res) => {
+export const postScenario = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
     try {
         const { name, description, roles, difficulty, fineTunedModel } = req.body;
         
         // 필수 데이터 검증
         if (!name || !description || !roles || difficulty === undefined) {
-            return res.status(400).json({ error: "Missing required fields: name, description, roles, or difficulty." });
+            res.status(400).json({ error: "Missing required fields: name, description, roles, or difficulty." });
+            return;
         }
 
         // `roles`가 배열인지 검증
         if (!Array.isArray(roles) || roles.length === 0) {
-            return res.status(400).json({ error: "Roles must be a non-empty array." });
+            res.status(400).json({ error: "Roles must be a non-empty array." });
+            return;
         }
 
         // `difficulty`가 1~3 범위인지 검증
         if (difficulty < 1 || difficulty > 3) {
-            return res.status(400).json({ error: "Difficulty must be a number between 1 and 3." });
+            res.status(400).json({ error: "Difficulty must be a number between 1 and 3." });
+            return;
         }
 
         // 시나리오 중복 확인
         const existingScenario = await Scenario.findOne({ name });
         if (existingScenario) {
-            return res.status(400).json({ error: "Scenario already exists." });
+            res.status(400).json({ error: "Scenario already exists." });
+            return;
         }
 
         // 새로운 시나리오 생성
@@ -1085,34 +1135,39 @@ export const postScenario = async (req, res) => {
 
         // 데이터베이스 저장
         await newScenario.save();
-        return res.status(201).json({ message: "Scenario created successfully", scenario: newScenario });
+        res.status(201).json({ message: "Scenario created successfully", scenario: newScenario });
     } catch (error) {
         console.error("Error creating scenario:", error.message);
-        return res.status(500).json({ error: "Failed to create scenario." });
+        res.status(500).json({ error: "Failed to create scenario." });
     }
 };
 
-export const deleteScenario = async (req, res) => {
+export const deleteScenario = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
     try {
         const { id } = req.params;
 
         // `id`가 제공되지 않은 경우
         if (!id) {
-            return res.status(400).json({ error: "Scenario ID is required." });
+            res.status(400).json({ error: "Scenario ID is required." });
+            return;
         }
 
         // 해당 시나리오가 존재하는지 확인
         const scenario = await Scenario.findById(id);
         if (!scenario) {
-            return res.status(404).json({ error: "Scenario not found." });
+            res.status(404).json({ error: "Scenario not found." });
+            return;
         }
 
         // 데이터베이스에서 삭제
         await Scenario.findByIdAndDelete(id);
 
-        return res.status(200).json({ message: "Scenario deleted successfully." });
+        res.status(200).json({ message: "Scenario deleted successfully." });
     } catch (error) {
         console.error("Error deleting scenario:", error.message);
-        return res.status(500).json({ error: "Failed to delete scenario." });
+        res.status(500).json({ error: "Failed to delete scenario." });
     }
 };

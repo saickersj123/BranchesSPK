@@ -25,17 +25,19 @@ router.post('/register', async (req: Request, res: Response) => {
 });
 
 // 키워드 평가 API
-router.post('/evaluate', async (req: Request, res: Response) => {
+router.post('/evaluate', async (req: Request, res: Response): Promise<void> => {
     const { stageId, inputKeywords, userId } = req.body;
 
     try {
         const stage = await Stage.findById(stageId);
         if (!stage) {
-            return res.status(404).json({ message: 'Stage not found' });
+            res.status(404).json({ message: 'Stage not found' });
+            return;
         }
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({ msg: "유저를 찾을 수 없습니다." });
+            res.status(404).json({ msg: "유저를 찾을 수 없습니다." });
+            return;
         }
 
         const matchedKeywords = stage.keywords.filter(keyword => inputKeywords.includes(keyword));

@@ -24,7 +24,8 @@ export const startNewConversationwithmsg = async (messageContent: string, role: 
     role: role,
     content: messageContent,
     createdAt: new Date().toISOString(), // 현재 시간을 ISO 문자열로 추가
-    audioUrl: ''
+    audioUrl: '',
+    gameResult: ''
   };
   try {
     const response = await axiosInstance.post('/chat/c/new', {message: message.content}); 
@@ -47,7 +48,8 @@ export const sendMessage = async (conversationId: string, messageContent: string
     role: role,
     content: messageContent,
     createdAt: new Date().toISOString(), // 현재 시간을 ISO 문자열로 추가
-    audioUrl: ''
+    audioUrl: '',
+    gameResult: ''
   };
 
   try {
@@ -87,7 +89,8 @@ export const starNewConversationwithmsg = async (messageContent: string, role: s
       role: role,
       content: messageContent,
       createdAt: new Date().toISOString(), // 현재 시간을 ISO 문자열로 추가
-      audioUrl: ''
+      audioUrl: '',
+      gameResult: ''
     };
     try {
       const response = await axiosInstance.post('/chat/c/new', {message: message.content}); 

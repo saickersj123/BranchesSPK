@@ -6,11 +6,12 @@ import Record from '../models/GameRecord.js';
 export const getRecords = async (
     req: Request, 
     res: Response
-) => {
+): Promise<void> => {
     try {
         const userId = res.locals?.jwtData?.id;
         if (!userId) {
-            return res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            return;
         }
 
         const records = await Record.find({ userId }).sort({ date: -1 });
@@ -25,11 +26,12 @@ export const getRecords = async (
 export const addRecord = async (
     req: Request, 
     res: Response
-) => {
+): Promise<void> => {
     try {
         const userId = res.locals?.jwtData?.id;
         if (!userId) {
-            return res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            return;
         }
 
         const { date, experience, matched, scenarioId, gameId } = req.body;
@@ -54,17 +56,19 @@ export const addRecord = async (
 export const getRecordById = async (
     req: Request, 
     res: Response
-) => {
+): Promise<void> => {
     try {
         const userId = res.locals?.jwtData?.id;
         if (!userId) {
-            return res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            return;
         }
 
         const { id } = req.params;
         const record = await Record.findById(id);
         if (!record) {
-            return res.status(404).json({ message: '기록을 찾을 수 없습니다.' });
+            res.status(404).json({ message: '기록을 찾을 수 없습니다.' });
+            return;
         }
         res.status(200).json(record);
     } catch (error) {
@@ -77,11 +81,12 @@ export const getRecordById = async (
 export const deleteAllRecords = async (
     req: Request,
     res: Response
-) => {
+): Promise<void> => {
     try {
         const userId = res.locals?.jwtData?.id;
         if (!userId) {
-            return res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            return;
         }
 
         await Record.deleteMany({ userId });
@@ -96,11 +101,12 @@ export const deleteAllRecords = async (
 export const updateRecord = async (
     req: Request, 
     res: Response
-) => {
+): Promise<void> => {
     try {
         const userId = res.locals?.jwtData?.id;
         if (!userId) {
-            return res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            return;
         }
 
         const { id } = req.params;
@@ -113,7 +119,8 @@ export const updateRecord = async (
         );
 
         if (!updatedRecord) {
-            return res.status(404).json({ message: '기록을 찾을 수 없습니다.' });
+            res.status(404).json({ message: '기록을 찾을 수 없습니다.' });
+            return;
         }
 
         res.status(200).json(updatedRecord);
@@ -127,17 +134,19 @@ export const updateRecord = async (
 export const deleteRecordById = async (
     req: Request, 
     res: Response
-) => {
+): Promise<void> => {
     try {
         const userId = res.locals?.jwtData?.id;
         if (!userId) {
-            return res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            res.status(403).json({ message: "🚨 사용자 인증 정보가 없습니다." });
+            return;
         }
 
         const { id } = req.params;
         const deletedRecord = await Record.findByIdAndDelete(id);
         if (!deletedRecord) {
-            return res.status(404).json({ message: '기록을 찾을 수 없습니다.' });
+            res.status(404).json({ message: '기록을 찾을 수 없습니다.' });
+            return;
         }
 
         res.status(204).send();
