@@ -75,23 +75,23 @@ npm run start-client
 
 ```
 BranchesSPK/
-¦§¦¡¦¡ frontend/           # React frontend application
-¦¢   ¦§¦¡¦¡ src/
-¦¢   ¦¢   ¦§¦¡¦¡ components/ # Reusable UI components
-¦¢   ¦¢   ¦§¦¡¦¡ pages/     # Page components
-¦¢   ¦¢   ¦§¦¡¦¡ api/       # API integration
-¦¢   ¦¢   ¦¦¦¡¦¡ utils/     # Utility functions
-¦¢   ¦¦¦¡¦¡ public/        # Static assets
-¦¢
-¦§¦¡¦¡ backend/           # Node.js backend server
-¦¢   ¦§¦¡¦¡ src/
-¦¢   ¦¢   ¦§¦¡¦¡ controllers/ # Request handlers
-¦¢   ¦¢   ¦§¦¡¦¡ models/     # Data models
-¦¢   ¦¢   ¦§¦¡¦¡ routes/     # API routes
-¦¢   ¦¢   ¦¦¦¡¦¡ utils/      # Utility functions
-¦¢   ¦¦¦¡¦¡ Dataset/       # Training data and resources
-¦¢
-¦¦¦¡¦¡ package.json       # Project configuration
+â”œâ”€â”€ frontend/           # React frontend application
+â”‚   â”œâ”€â”€ src/
+â”‚   â”‚   â”œâ”€â”€ components/ # Reusable UI components
+â”‚   â”‚   â”œâ”€â”€ pages/     # Page components
+â”‚   â”‚   â”œâ”€â”€ api/       # API integration
+â”‚   â”‚   â””â”€â”€ utils/     # Utility functions
+â”‚   â””â”€â”€ public/        # Static assets
+â”‚
+â”œâ”€â”€ backend/           # Node.js backend server
+â”‚   â”œâ”€â”€ src/
+â”‚   â”‚   â”œâ”€â”€ controllers/ # Request handlers
+â”‚   â”‚   â”œâ”€â”€ models/     # Data models
+â”‚   â”‚   â”œâ”€â”€ routes/     # API routes
+â”‚   â”‚   â””â”€â”€ utils/      # Utility functions
+â”‚   â””â”€â”€ Dataset/       # Training data and resources
+â”‚
+â””â”€â”€ package.json       # Project configuration
 ```
 
 ## Contributing
@@ -109,4 +109,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Thanks to all contributors who have helped shape this project
-- Special thanks to the open-source community for their invaluable tools and libraries 
+- Special thanks to the open-source community for their invaluable tools and libraries
