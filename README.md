@@ -38,6 +38,33 @@ BranchesSPK is an advanced AI-powered voice chatbot platform that offers multipl
 ### Prerequisites
 - Node.js (Latest LTS version recommended)
 - npm or yarn package manager
+- MongoDB database
+- OpenAI API key
+
+### Environment Variables
+
+Create the following environment files in your project:
+
+1. Backend (`.env` in root directory):
+```env
+# Server Configuration
+PORT=5000
+ORIGIN_URL=http://localhost:5173
+COOKIE_SECRET=your_cookie_secret
+
+# Database Configuration
+MONGO_USER=your_mongodb_username
+MONGO_PASSWORD=your_mongodb_password
+
+# OpenAI Configuration
+OPEN_AI_SECRET_KEY=your_openai_api_key
+OPEN_AI_ORG=your_openai_organization_id
+```
+
+2. Frontend (`.env` in frontend directory):
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
 ### Installation
 
