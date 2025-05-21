@@ -109,4 +109,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Thanks to all contributors who have helped shape this project
-- Special thanks to the member of the Branches, Developer Club of AI Dept. SCNU
+- Special thanks to the members of the Branches, Developer Club of AI Dept. SCNU
